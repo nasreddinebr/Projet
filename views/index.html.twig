@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<link href="blogStyle.css" rel="stylesheet" />
+	<title>Blog Ecrivain - Home</title>
+</head>
+
+<body>
+    <header>
+    	<h1>Jean Forteroche</h1>
+    	<h2>Billet simple pour L'Alaska</h2>
+    </header>
+    
+    {% for post in posts %}
+    <article>
+    	<h2>{{ post.title }} <span class="date_size">{{ post.date }}</span></h2>
+    	<p>{{ post.content }}</p>
+    </article>
+    {% endfor %}
+    			
+    <footer class="footer">
+    	<a href="https://github.com/nasreddinebr/Projet.git">Blog Ecrivain</a> et le projet numéro 3 pour la formation Chef de projet Multimedia - Dev sur OpenClassRooms.
+    </footer>
+		
+</body>
+</html>
