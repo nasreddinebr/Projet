@@ -14,8 +14,8 @@
 
 			<?php foreach ($posts as $post): //Add all post?>
 			<article>
-				<h2><?php echo $post['title'] . ' <span class="date_size">' . $post['p_date'] . '</span>' ?></h2>
-				<p><?php echo $post['content'] ?></p>
+				<h2><?php echo $post->getTitle(). ' <span class="date_size">' . $post->getDate() . '</span>' ?></h2>
+				<p><?php echo $post->getContent()?></p>
 			</article>
 			<?php endforeach ?>
 			

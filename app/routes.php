@@ -1,8 +1,8 @@
 <?php
 // Home page
-$app->get('/', function() {
-	require '../src/model.php';
-	$posts = getPosts();
+$app->get('/', function() use ($app) {
+	$posts = $app['dao.post']->recoverAllPost();
+	
 	ob_start();		//start buffering HTML output
 	require '../views/view.php';
 	$view = ob_get_clean();		//Assign HTML output to $view
