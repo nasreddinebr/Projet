@@ -28,7 +28,7 @@ class PostDAO {
 	 * @return array A list of all posts
 	 */
 	public function recoverAllPost() {
-		$req = "select * from post order by id_post desc";
+		$req = "select * from posts order by id_post desc";
 		$response= $this->db->fetchAll($req);
 		
 		// Convert query result to a array of domain objects

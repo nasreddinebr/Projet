@@ -21,11 +21,13 @@
                 <div class="nav-wrapper container">
                 	<a id="logo-container" href="#" class="brand-logo">Jean Forteroche</a>
                 	<ul class="right hide-on-med-and-down">
-                	<li><a href="#"></a>Acceuil</li>
+                		<li><a href="#"><strong> Acceuil </strong></a></li>
+                		<li><a href="#"><strong> Blog </strong></a></li>
                   	</ul>
             
                   	<ul id="nav-mobile" class="side-nav">
-                    <li><a href="#">Acceuil</a></li>
+                    	<li><a href="#"><strong> Acceuil </strong></a></li>
+                		<li><a href="#"><strong> Blog </strong></a></li>
                   	</ul>
                   <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
                 </div>
@@ -41,7 +43,7 @@
         				<h4 class="header col s12 light">Les nouvelles technologies au service de la littérature</h4>
         			</div>
         			<div class="row center">
-        				<a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Get Started</a>
+        				<a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Commencer</a>
         			</div>
         			<br><br>
         
@@ -50,45 +52,53 @@
         	<div class="parallax"><img src="{{ asset('/img/background6.jpg') }}" alt="Unsplashed background img 1"></div>
         </div>
         
-        {% for post in posts|slice(0, 3) %}		{# #}
-        <article>
-        	<h3>
-        		<p>- {{ post.title }} <span class="date_size">{{ post.date }}</span></p>
-        	</h3>
-        	<p>{{ post.content }}</p>
-        </article>
-        {% endfor %}
+        <div class="container">
+      		<div class="section">
+                {% for post in posts|slice(0, 3) %}		{# #}
+                <article>
+                	<h3>
+                		<p>- {{ post.title }} <span class="date_size">{{ post.date }}</span></p>
+                	</h3>
+                	<p>{{ post.content }}</p>
+                </article>
+                {% endfor %}
+            </div>
+        </div>
         
         <div class="parallax-container valign-wrapper">
             <div class="section no-pad-bot">
              	<div class="container">
                 	<div class="row center">
-                  		<h2 class="header col s12 light">Souvenir d'un voyage exceptionnelle</h2>
+                  		<h2 class="header col s12 light">Souvenir d'un voyage exceptionnel</h2>
                 	</div>
               	</div>
             </div>
             <div class="parallax"><img src="{{ asset('/img/background9.jpg') }}" alt="Unsplashed background img 2"></div>
   		</div>
   		
-  		<div class="row">
-        	<div class="col s12 center">
-            	<h3><i class="mdi-content-send brown-text"></i></h3>
-            	<h4>Biographie</h4>
-            	<p class="left-align light">Jean Forteroche: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id nunc nec volutpat. Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies eros. Maecenas eros justo, ullamcorper a sapien id, viverra ultrices eros. Morbi sem neque, posuere et pretium eget, bibendum sollicitudin lacus. Aliquam eleifend sollicitudin diam, eu mattis nisl maximus sed. Nulla imperdiet semper molestie. Morbi massa odio, condimentum sed ipsum ac, gravida ultrices erat. Nullam eget dignissim mauris, non tristique erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
-            </div>
-      	</div>
-      	
-      	<div class="parallax-container valign-wrapper">
-            <div class="section no-pad-bot">
-            	<div class="container">
-                	<div class="row center">
-                  		<h2 class="header col s12 light">L'Alaska un univer mysterieu</h2>
-                	</div>
+  		<div class="container">
+      		<div class="section">
+          		<div class="row">
+                	<div class="col s12 center">
+                    	<h3><i class="mdi-content-send brown-text"></i></h3>
+                    	<h4>Biographie</h4>
+                    	<p class="left-align light">Jean Forteroche: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id nunc nec volutpat. Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies eros. Maecenas eros justo, ullamcorper a sapien id, viverra ultrices eros. Morbi sem neque, posuere et pretium eget, bibendum sollicitudin lacus. Aliquam eleifend sollicitudin diam, eu mattis nisl maximus sed. Nulla imperdiet semper molestie. Morbi massa odio, condimentum sed ipsum ac, gravida ultrices erat. Nullam eget dignissim mauris, non tristique erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
+                    </div>
               	</div>
+          	</div>
+        </div>
+      	
+        <div class="parallax-container valign-wrapper">
+        	<div class="section no-pad-bot">
+        		<div class="container">
+                	<div class="row center">
+                    	<h2 class="header col s12 light">L'Alaska un univers mysterieux</h2>
+                    </div>
+                </div>
             </div>
             <div class="parallax"><img src="{{ asset('/img/background3.jpg') }}" alt="Unsplashed background img 3"></div>
-  		</div>
-        			
+        </div>
+       	
         <footer class="page-footer teal">
     		<div class="container">
       			<div class="row">
