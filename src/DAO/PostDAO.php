@@ -1,41 +1,25 @@
 <?php 
 
 namespace BlogEcrivain\DAO;
-use Doctrine\DBAL\Connection;
+
 use BlogEcrivain\Domain\Post;
 
-class PostDAO {
+class PostDAO extends DAO {
 	
 	/**
-	 * Database connection
-	 *
-	 * @var \Doctrine\DBAL\Connection
-	 */
-	private $db;
-	
-	/**
-	 * Constructor
-	 * 
-	 * @param \Doctrine\DBAL\Connection The database connection object
-	 */
-	public function __construct(Connection $db){
-		$this->db = $db;
-	}
-	
-	/**
-	 * Returne a list of all posts
+	 * Returne a list of all posts sorted by most recent
 	 * 
 	 * @return array A list of all posts
 	 */
 	public function recoverAllPost() {
 		$req = "select * from posts order by id_post desc";
-		$response= $this->db->fetchAll($req);
+		$response = $this->getDb()->fetchAll($req);
 		
 		// Convert query result to a array of domain objects
 		$posts = array();
 		foreach ($response as $row) {
 			$postId = $row['id_post'];
-			$posts[$postId] = $this->buildPost($row);
+			$posts[$postId] = $this->buildDomainObject($row);
 		}
 		return $posts;
 	}
@@ -47,7 +31,8 @@ class PostDAO {
 	 * @param array $row The database row containing Post data
 	 * @return \blog_ecrivain\Domain\Post
 	 */
-	private function buildPost(array $row) {
+	protected function buildDomainObject($row) {
+		
 		$post = new Post();
 		$post->setId($row['id_post']);
 		$post->setTitle($row['title']);
