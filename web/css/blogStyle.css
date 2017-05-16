@@ -6,6 +6,10 @@
  * Made By MaterializeCSS.com
  */
 
+postTitle:hover, postTitle:focus {
+	text-decoration: none;
+}
+
 .date_size {
 	font-size: 0.3em;
 }

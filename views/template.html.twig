@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<meta charset="utf-8"/>
+ 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<!--Let browser know website is optimized for mobile-->
+      	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      	
+      	<!--Import Google Icon Font-->
+      	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      	<!--Import materialize.css-->
+      	<link href="{{ asset('/lib/materialize/css/materialize.css')}}" type="text/css" rel="stylesheet" media="screen,projection"/>
+      	<!-- Import blogStyle.css -->
+    	<link href="{{ asset('/css/blogStyle.css') }}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    	<title>Blog Ecrivain - {% block title %}{% endblock %}</title>
+    </head>
+    
+    <body>
+        <header>
+        	<nav class="teal lighten-2" role="navigation">
+                <div class="nav-wrapper container">
+                	<a id="logo-container" href="#" class="brand-logo">Jean Forteroche</a>
+                	<ul class="right hide-on-med-and-down">
+                		<li><a href="#"><strong> Acceuil </strong></a></li>
+                		<li><a href="#"><strong> Blog </strong></a></li>
+                  	</ul>
+            
+                  	<ul id="nav-mobile" class="side-nav">
+                    	<li><a href="#"><strong> Acceuil </strong></a></li>
+                		<li><a href="#"><strong> Blog </strong></a></li>
+                  	</ul>
+                  <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+                </div>
+          	</nav>
+        </header>
+        
+        <div id="content">{% block content %}{% endblock %}</div>
+        
+        <footer class="page-footer teal">
+    		<div class="container">
+      			<div class="row">
+        			<div class="col l6 s12">
+          				<h5 class="white-text">Company Bio</h5>
+          				<p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+
+
+        			</div>
+        			<div class="col l3 s12">
+          				<h5 class="white-text">Settings</h5>
+          				<ul>
+            				<li><a class="white-text" href="#!">Link 1</a></li>
+            				<li><a class="white-text" href="#!">Link 2</a></li>
+                            <li><a class="white-text" href="#!">Link 3</a></li>
+                            <li><a class="white-text" href="#!">Link 4</a></li>
+         			 	</ul>
+        			</div>
+        			<div class="col l3 s12">
+                    		<h5 class="white-text">Connect</h5>
+                            <ul>
+                                <li><a class="white-text" href="#!">Link 1</a></li>
+                                <li><a class="white-text" href="#!">Link 2</a></li>
+                                <li><a class="white-text" href="#!">Link 3</a></li>
+                                <li><a class="white-text" href="#!">Link 4</a></li>
+          					</ul>
+        			</div>
+      			</div>
+    		</div>
+    		<div class="footer-copyright">
+      			<div class="container">
+      				Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+      			</div>
+    		</div>
+		</footer>
+    		
+    </body>
+    <!--Import jQuery before materialize.js-->
+     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+     <script type="text/javascript" src="{{ asset('/lib/materialize/js/materialize.min.js') }}"></script>
+     <script src="{{ asset('/js/init.js') }}js/init.js"></script>
+</html>
