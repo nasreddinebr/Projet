@@ -1,0 +1,21 @@
+{% extends "template.html.twig" %}
+{% block title %}Blog{% endblock %}
+
+{% block content %}
+<!-- Posts -->        
+<div class="container">
+	<div class="section">
+        {% for post in posts %}		{# Recover the first three post #}
+        <article>
+          	<h3>
+            	<p>- 
+                	<a class="postTitle" href="{{ path('post', { 'id': post.id }) }}">{{ post.title }}</a> 
+                	<span class="date_size">{{ post.date }}</span>
+                </p>
+            </h3>
+            <p>{{ post.content }}</p>
+        </article>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,7 +1,7 @@
-{% extend "template.html.twig" %}
+{% extends "template.html.twig" %}
 {% block title %}{{ post.title }}{% endblock %}
 
-{% bloc content %}
+{% block content %}
 	<div id="index-banner" class="parallax-container">
         <div class="parallax"><img src="{{ asset('/img/background3.jpg') }}" alt="Unsplashed background img 1"></div>
 	</div>
@@ -13,9 +13,10 @@
             </h3>
             <p>{{ post.content }}</p>
             
+            <h5>Commentaires:</h5>
             {# Recover all the comments of the article #}
             {% for comment in comments %}
-            	<p{{ comment.date }}</p>
+            	<p>{#{ comment.date }#}</p>
             	<p>{{ comment.content }}</p>
             {% else %}
             	<p>Aucun commentaire lier à ce billet.</p>

@@ -20,3 +20,9 @@ $app->register(new Silex\Provider\AssetServiceProvider(), array('assets.version'
 $app['dao.post'] = function ($app) {
 	return new BlogEcrivain\DAO\PostDAO($app['db']);
 };
+//Inject dependence on the PostDAO class to the CommentDAO instance through the setPostDAO mutator.
+$app['dao.comment'] = function ($app) {
+	$commentDAO = new BlogEcrivain\DAO\CommentDAO($app['db']);
+	$commentDAO->setPostDAO($app['dao.post']);
+	return $commentDAO;
+};

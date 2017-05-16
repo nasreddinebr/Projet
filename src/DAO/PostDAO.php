@@ -12,7 +12,7 @@ class PostDAO extends DAO {
 	 * @return array A list of all posts
 	 */
 	public function recoverAllPost() {
-		$req = "select * from posts order by id_post desc";
+		$req = "SELECT * FROM posts ORDER BY id_post DESC";
 		$response = $this->getDb()->fetchAll($req);
 		
 		// Convert query result to a array of domain objects
@@ -47,7 +47,7 @@ class PostDAO extends DAO {
 	 * @param array $row The database row containing Post data
 	 * @return \blog_ecrivain\Domain\Post
 	 */
-	protected function buildDomainObject($row) {
+	protected function buildDomainObject(array $row) {
 		
 		$post = new Post();
 		$post->setId($row['id_post']);

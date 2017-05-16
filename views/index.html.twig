@@ -12,7 +12,7 @@
         		<h4 class="header col s12 light">Les nouvelles technologies au service de la littérature</h4>
         	</div>
         	<div class="row center">
-        		<a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Commencer</a>
+        		<a href="{{ path('blog') }}" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Commencer</a>
         	</div>
         	<br><br>
         </div>
@@ -27,7 +27,7 @@
         <article>
           	<h3>
             	<p>- 
-                	<a class="postTitle" href="{{ path('post', {'id': post.id}) }}">{{ post.title }}</a> 
+                	<a class="postTitle" href="{{ path('post', { 'id': post.id }) }}">{{ post.title }}</a> 
                 	<span class="date_size">{{ post.date }}</span>
                 </p>
             </h3>

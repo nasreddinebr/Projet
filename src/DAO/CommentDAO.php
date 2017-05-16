@@ -33,6 +33,7 @@ class CommentDAO extends DAO {
 		//Convert Query response to an array of domain objects
 		foreach ($response as $row) {
 			$commentId = $row['id_comment'];
+			$comentDate = $row['date_comment'];
 			$comment = $this->buildDomainObject($row);
 			
 			//The associated post is defined for the constructed comment
