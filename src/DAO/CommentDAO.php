@@ -40,7 +40,10 @@ class CommentDAO extends DAO {
 			$comment->setPost($post);
 			$comments[$commentId] = $comment;
 		}
-		return $comments;		
+		if(isset($comments)) {
+			return $comments;
+		}
+					
 	}
 	
 	/**
