@@ -7,7 +7,7 @@ use BlogEcrivain\Domain\Post;
 class PostDAO extends DAO {
 	
 	/**
-	 * Returne a list of all posts sorted by most recent
+	 * Return a list of all posts sorted by most recent
 	 * 
 	 * @return array A list of all posts
 	 */
@@ -22,6 +22,22 @@ class PostDAO extends DAO {
 			$posts[$postId] = $this->buildDomainObject($row);
 		}
 		return $posts;
+	}
+	
+	/**
+	 * Return a post matching th supplied id
+	 * 
+	 * @param integer $id
+	 * 
+	 * @return \BlogEcrivain\Domain\Post|throw an exception if no matching post is found
+	 */
+	public function recoverPost($id) {
+		$req = "SELECT * FROM posts WHERE id_post=?";
+		$row = $this->getDb()->fetchAssoc($req, array($id));
+		if($row)
+			return $this->buildDomainObject($row);
+		else 
+			throw new \Exception("No post matching id" . $id);
 	}
 	
 	
