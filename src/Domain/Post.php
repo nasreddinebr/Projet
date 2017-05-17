@@ -19,7 +19,7 @@ class Post {
 	/**
 	 * Post p_date
 	 * 
-	 * @var datetime
+	 * @var \DateTime
 	 */
 	private $p_date;
 	

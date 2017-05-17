@@ -1,6 +1,7 @@
 <?php
 namespace BlogEcrivain\Domain;
 
+
 class Comment {
 	/**
 	 * Comment id
@@ -10,16 +11,9 @@ class Comment {
 	private $id;
 	
 	/**
-	 * Comment author
-	 *
-	 * @var string
-	 */
-	private $author;
-	
-	/**
 	 * Comment date
 	 * 
-	 * @var datetime 
+	 * @var \DateTime 
 	 */
 	private $dateComment;
 	
@@ -65,15 +59,6 @@ class Comment {
 	public function setId($id) {
 		$this->id = $id;
 		return $this->id;
-	}
-	
-	public function getAuthor() {
-		return $this->author;
-	}
-	
-	public function setAuthor($author) {
-		$this->author = $author;
-		return $this->author;
 	}
 	
 	public function getDateComment() {

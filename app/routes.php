@@ -1,8 +1,7 @@
 <?php
 // Home page
 $app->get('/', function() use ($app) {
-	$posts = $app['dao.post']->recoverAllPost();
-	
+	$posts = find($app);
 	return $app['twig']->render('index.html.twig', array('posts' => $posts));
 })->bind('home');
 
@@ -17,7 +16,6 @@ $app->get('/post/{id}', function ($id) use ($app){
 
 // Blog page
 $app->get('/blog', function() use ($app) {
-	$posts = $app['dao.post']->recoverAllPost();
-	
-	return $app['twig']->render('blog.html.twig', array('posts' => $posts));
+	$listPosts = find($app);
+	return $app['twig']->render('blog.html.twig', array('posts' => $listPosts));
 })->bind('blog');
