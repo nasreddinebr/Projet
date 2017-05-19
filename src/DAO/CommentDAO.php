@@ -10,8 +10,17 @@ class CommentDAO extends DAO {
 	 */
 	private $postDAO;
 	
+	/**
+	 * @var \BlogEcrivain\DAO\UserDAO
+	 */
+	private $user;
+	
 	public function setPostDAO(PostDAO $postDAO) {
 		$this->postDAO = $postDAO;
+	}
+	
+	public function setUser(UserDAO $userDAO) {
+		$this->user = $userDAO;
 	}
 	
 	/**
@@ -25,8 +34,8 @@ class CommentDAO extends DAO {
 		// The associated post is retrieved only once
 		$post = $this->postDAO->recoverPost($postId);
 		
-		// id_post is not selected by the SQL query
-		// The post won't be retrieved during domain object construction
+		/* id_post is not selected by the SQL query.
+		 The post won't be retrieved during domain object construction.*/
 		$req = "SELECT id_comment, date_comment, content FROM comments WHERE post_id=? ORDER BY id_comment";
 		$response = $this->getDb()->fetchAll($req, array($postId));
 		
@@ -64,6 +73,12 @@ class CommentDAO extends DAO {
 			$postId = $row['id_post'];
 			$post = $this->postDAO->recoverPost($postId);
 			$comment->setPost($post);
+		}
+		if (array_key_exists('id_user', $row)) {
+			//recuperate and set the associated author
+			$userId = $row['id_user'];
+			$user = $this->user->recoverUserById($userId);
+			$comment->setAuthor($user);
 		}
 		return $comment;
 	}
