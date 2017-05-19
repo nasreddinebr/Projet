@@ -52,6 +52,13 @@ class Comment {
 	 */
 	private $user;
 	
+	/**
+	 * Comment author.
+	 *
+	 * @var \BlogEcrivain\Domain\User
+	 */
+	private $author;
+	
 	public function getId() {
 		return $this->id;
 	}
@@ -113,5 +120,14 @@ class Comment {
 	public function setUser($user) {
 		$this->user = $user;
 		return $this->user;
-	}	
+	}
+	
+	public function getAuthor() {
+		return $this->author;
+	}
+	
+	public function setAuthor(User $author) {
+		$this->author = $author;
+		return $this;
+	}
 }
