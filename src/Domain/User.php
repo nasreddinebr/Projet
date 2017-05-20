@@ -24,7 +24,7 @@ class User implements UserInterface {
 	 * @var string
 	 * @access private
 	 */
-	private  $login;
+	private  $username;
 	
 	/**
 	 *
@@ -57,13 +57,6 @@ class User implements UserInterface {
 		return $this->id;
 	}
 	
-	
-	/**
-	 * @access public
-	 * @param integer $id
-	 *
-	 */
-	
 	public function setId($id) {
 		$this->id = $id;
 		return $this;
@@ -89,12 +82,12 @@ class User implements UserInterface {
 	 * @inheritDoc
 	 */
 	
-	public function getLogin() {
-		return $this->login;
+	public function getUsername() {
+		return $this->username;
 	}
 
-	public function setLogin($login) {
-		$this->login = $login;
+	public function setUsername($username) {
+		$this->username = $username;
 		return $this;
 	}
 	
@@ -128,8 +121,7 @@ class User implements UserInterface {
 	
 	
 	/**
-	 * @access public
-	 * @return string
+	 * @inheritDoc
 	 */
 	
 	public function getRole() {
@@ -141,6 +133,9 @@ class User implements UserInterface {
 		return $this;
 	}
 	
+	/**
+	 * @inheritDoc
+	 */
 	public function eraseCredentials(){
 		
 	}

@@ -79,7 +79,7 @@ class CommentDAO extends DAO {
 			//recuperate and set the associated author
 			$userId = $row['id_user'];
 			$user = $this->userDAO->recoverUserById($userId);
-			$comment->setlogin($user);
+			$comment->setAuthor($user);
 		}
 		return $comment;
 	}

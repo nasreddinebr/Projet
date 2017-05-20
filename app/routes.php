@@ -23,8 +23,8 @@ $app->get('/blog', function() use ($app) {
 })->bind('blog');
 
 //Login page
-$app->get('/signin', function(Request $request) use ($app) {
-	return $app['twig']->render('signin.html.twig', array(
+$app->get('/login', function(Request $request) use ($app) {
+	return $app['twig']->render('login.html.twig', array(
 			'error' => $app['security.last_error']($request),
 			'last_username' => $app['session']->get('_security.last_username'),	
 	));

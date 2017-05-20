@@ -11,6 +11,13 @@ class Comment {
 	private $id;
 	
 	/**
+	 * Comment login.
+	 *
+	 * @var \BlogEcrivain\Domain\User
+	 */
+	private $author;
+	
+	/**
 	 * Comment date
 	 * 
 	 * @var \DateTime 
@@ -45,13 +52,6 @@ class Comment {
 	 */
 	private $post;
 	
-	/**
-	 * Comment author.
-	 *
-	 * @var \BlogEcrivain\Domain\User
-	 */
-	private $login;
-	
 	public function getId() {
 		return $this->id;
 	}
@@ -59,6 +59,15 @@ class Comment {
 	public function setId($id) {
 		$this->id = $id;
 		return $this->id;
+	}
+	
+	public function getAuthor() {
+		return $this->author;
+	}
+	
+	public function setlogin(User $author) {
+		$this->author = $author;
+		return $this;
 	}
 	
 	public function getDateComment() {
@@ -104,14 +113,5 @@ class Comment {
 	public function setPost(Post $post) {
 		$this->post = $post;
 		return $this->post;
-	}
-	
-	public function getLogin() {
-		return $this->login;
-	}
-	
-	public function setlogin(User $login) {
-		$this->login = $login;
-		return $this;
 	}
 }

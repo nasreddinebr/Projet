@@ -13,23 +13,24 @@ class UserDAO extends DAO implements UserProviderInterface {
 	 * Recuperate a user by id
 	 * 
 	 * @param integer $id  User id
+	 * @return user
 	 */
 	public function recoverUserById($id) {
 		$req = "SELECT * FROM users WHERE id_user=?";
-		$row = $this->getDb()->fetchAssoc($req, array(($id)));
-		if ($row){
+		$row = $this->getDb()->fetchAssoc($req, array($id));
+		if ($row)
 			return $this->buildDomainObject($row);
-		}else {
+		else
 			throw new \Exception("Aucun identifiant correspondant à l'id utilisateur" . $id);
-		}
+	
 	}
 	
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function loadUserByUsername($username) {
 		$req = "SELECT * FROM users WHERE login=?";
-		$row = $this->getDb()->fetchAssoc($req, array(($username)));
+		$row = $this->getDb()->fetchAssoc($req, array($username));
 		if ($row){
 			return $this->buildDomainObject($row);
 		}else {
@@ -38,7 +39,7 @@ class UserDAO extends DAO implements UserProviderInterface {
 	}
 	
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function refreshUser(UserInterface $user) {
 		$class = get_class($user);
@@ -49,7 +50,7 @@ class UserDAO extends DAO implements UserProviderInterface {
 	}
 	
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
 	public function supportsClass($class){
 		return 'BlogEcrivain\Domain\User' === $class;
@@ -64,7 +65,8 @@ class UserDAO extends DAO implements UserProviderInterface {
 	protected function buildDomainObject(array $row) {
 		$user = new User();
 		$user->setId($row['id_user']);
-		$user->setLogin($row['login']);
+		$user->setEmail($row['email']);
+		$user->setUsername($row['login']);
 		$user->setPassword($row['password']);
 		$user->setSalt($row['salt']);
 		$user->setRole($row['role']);

@@ -41,7 +41,7 @@
                         	<div class="card-reveal">
                           		<span class="card-title grey-text text-darken-4">
                           			<i class="material-icons right">close</i>
-                          			<h3>{{ post.title }}</h3>
+                          			<h4><a href="{{ path('post', { 'id': post.id }) }}">{{ post.title }}</a></h4>
                           			<p>{{ post.date }}</p>
                           		</span>
                           		<p>{{ post.content }}</p>
