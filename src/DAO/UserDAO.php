@@ -6,8 +6,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use BlogEcrivain\Domain\User;
-use Symfony\Component\Validator\Constraints\IdenticalToValidator;
-use BlogEcrivain;
+
 
 class UserDAO extends DAO implements UserProviderInterface {
 	/**
@@ -28,7 +27,7 @@ class UserDAO extends DAO implements UserProviderInterface {
 	/**
 	 * @inheritdoc
 	 */
-	public function recoverUserByName($username) {
+	public function loadUserByUsername($username) {
 		$req = "SELECT * FROM users WHERE login=?";
 		$row = $this->getDb()->fetchAssoc($req, array(($username)));
 		if ($row){
@@ -62,7 +61,7 @@ class UserDAO extends DAO implements UserProviderInterface {
 	 * @param array $row The DB row containing User data.
 	 * @return BlogEcrivain\Domain\User
 	 */
-	protected function buildDomainObject($row) {
+	protected function buildDomainObject(array $row) {
 		$user = new User();
 		$user->setId($row['id_user']);
 		$user->setLogin($row['login']);
