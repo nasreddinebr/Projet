@@ -6,7 +6,9 @@
  * Made By MaterializeCSS.com
  */
 
-.center { 
+.title {text-align: center;}
+
+.centers { 
 	width: 50%;
 	margin: auto; 
 }
