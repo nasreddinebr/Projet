@@ -42,6 +42,6 @@ $app['dao.user'] = function($app) {
 $app['dao.comment'] = function($app) {
 	$commentDAO = new BlogEcrivain\DAO\CommentDAO($app['db']);
 	$commentDAO->setPostDAO($app['dao.post']);
-	$commentDAO->setUser($app['dao.user']);
+	$commentDAO->setUserDAO($app['dao.user']);
 	return $commentDAO;
 };

@@ -66,18 +66,18 @@ COLLATE = utf8_general_ci;
 -- -----------------------------------------------------
 -- Table `mydb`.`comments`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `blog_ecrivain`.`comments` (
-  `id_comment` INT NOT NULL AUTO_INCREMENT COMMENT '\n		',
-  `date_comment` DATETIME NULL,
-  `content` VARCHAR(1000) NULL,
-  `report` INT NULL COMMENT '	',
-  `read` INT NULL,
-  `post_id` INT NULL,
-  `user_id` INT NULL,
-  PRIMARY KEY (`id_comment`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci;
+CREATE TABLE IF NOT EXISTS `blog_ecrivain`.`comments` ( 
+	`id_comment` INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
+	`date_comment` DATETIME NULL, 
+	`content` VARCHAR(1000) NULL, 
+	`report` INT NULL, 
+	`read` INT NULL, 
+	`post_id` INT NULL, 
+	`user_id` INT NULL, 
+	constraint fk_com_post foreign key(post_id) references posts(id_post), 
+	constraint fk_com_usr foreign key(user_id) references users(id_user) 
+)ENGINE = InnoDB DEFAULT CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
 
 
 -- -----------------------------------------------------

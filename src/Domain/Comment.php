@@ -46,18 +46,11 @@ class Comment {
 	private $post;
 	
 	/**
-	 * Comment user
-	 *
-	 * @var integer
-	 */
-	private $user;
-	
-	/**
 	 * Comment author.
 	 *
 	 * @var \BlogEcrivain\Domain\User
 	 */
-	private $author;
+	private $login;
 	
 	public function getId() {
 		return $this->id;
@@ -113,21 +106,12 @@ class Comment {
 		return $this->post;
 	}
 	
-	public function getUser() {
-		return $this->user;
+	public function getLogin() {
+		return $this->login;
 	}
 	
-	public function setUser($user) {
-		$this->user = $user;
-		return $this->user;
-	}
-	
-	public function getAuthor() {
-		return $this->author;
-	}
-	
-	public function setAuthor(User $author) {
-		$this->author = $author;
+	public function setlogin(User $login) {
+		$this->login = $login;
 		return $this;
 	}
 }

@@ -17,12 +17,21 @@
            
             {# Recover all the comments of the article #}
             {% for comment in comments %}
-            	
-            	    {{ comment.dateComment }}</br
-            	    <p>{{ comment.content }}</p>
+            	    <div>
+            	    	<h4>
+            	    		<strong>{{ dump(comment) }}</strong>
+            	    		<span class="date_size">{{ comment.dateComment }}</span>
+            	    	</h4>
+            	    	<p>{{ comment.content }}</p>
+            	    </div>
             {% else %}
             	<p>Aucun commentaire lier à ce billet.</p>
             {% endfor %}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            	Soon!
+            {% else %}
+            	<a href="{{ path('signin') }}">Se Connecter</a> pour ajouter un commentere.
+            {% endif %}
 		</div>
 	</div>        
 {% endblock %}
