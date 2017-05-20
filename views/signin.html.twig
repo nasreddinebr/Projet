@@ -2,13 +2,15 @@
 {% block title %}Connexion{% endblock %}
 {% block content %}
 	<div class="container">
-		<h2>Veuillez vous identifier</h2>
+		
 		{% if error %}
 			<div class="card-panel red lighten-4">
 				<span class="red-text red darken-4"><strong>Nom d'utilisateur </strong> ou <strong>Mot de Pass</strong> incorecte!</span>
 			</div>
 		{% endif %}
 		<div class="row">
+		<div class="center">
+			<h2>Veuillez vous identifier</h2>
 			<form class="col s12" action="{{ path('login_check') }}" methode="post">
 				<div class="input-field col s12">
           			<i class="material-icons prefix">account_circle</i>
@@ -24,6 +26,7 @@
         			<button type="submit" class="waves-effect waves-light btn">Connexion</button>
         		</div>
 			</form>
+		</div>
 		</div>
 	</div>
 {% endblock %}
