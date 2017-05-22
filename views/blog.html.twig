@@ -10,7 +10,7 @@
           	<h3>
             	<p>- 
                 	<a class="postTitle" href="{{ path('post', { 'id': post.id }) }}">{{ post.title }}</a> 
-                	<span class="date_size">{{ post.date }}</span>
+                	<span class="date_size">{{ post.date|date("d/m/Y h:i:s") }}</span>
                 </p>
             </h3>
             <p>{{ post.content }}</p>

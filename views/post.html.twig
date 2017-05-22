@@ -9,7 +9,7 @@
 	<div class="container">
 		<div class="section">
 			<h3>
-            	<p>- {{ post.title }} <span class="date_size">{{ post.date }}</span></p>
+            	<p>- {{ post.title }} <span class="date_size">{{ post.date|date("d/m/Y h:i:s") }}</span></p>
             </h3>
             <p>{{ post.content }}</p>
             
@@ -18,10 +18,10 @@
             {# Recover all the comments of the article #}
             {% for comment in comments %}
             	    <div>
-            	    	<h4>
-            	    		<strong>{{ dump(comment) }}</strong>
-            	    		<span class="date_size">{{ comment.dateComment }}</span>
-            	    	</h4>
+            	    	<h5>
+            	    		<strong>{{ comment.author.username }}</strong>
+            	    		<span class="date_size">{{ comment.dateComment|date("d/m/Y h:i:s") }}</span>
+            	    	</h5>
             	    	<p>{{ comment.content }}</p>
             	    </div>
             {% else %}

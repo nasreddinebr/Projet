@@ -43,7 +43,7 @@ class CommentDAO extends DAO {
 		$comments = array();
 		foreach ($response as $row) {
 			$commentId = $row['id_comment'];
-			$comentDate = $row['date_comment'];
+			//$comentDate = $row['date_comment'];
 			$comment = $this->buildDomainObject($row);
 			
 			//The associated post is defined for the constructed comment
@@ -75,9 +75,9 @@ class CommentDAO extends DAO {
 			$post = $this->postDAO->recoverPost($postId);
 			$comment->setPost($post);
 		}
-		if (array_key_exists('id_user', $row)) {
+		if (array_key_exists('user_id', $row)) {
 			//recuperate and set the associated author
-			$userId = $row['id_user'];
+			$userId = $row['user_id'];
 			$user = $this->userDAO->recoverUserById($userId);
 			$comment->setAuthor($user);
 		}
