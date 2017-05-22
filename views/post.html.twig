@@ -12,7 +12,7 @@
             	<p>- {{ post.title }} <span class="date_size">{{ post.date|date("d/m/Y h:i:s") }}</span></p>
             </h3>
             <p>{{ post.content }}</p>
-            
+            <hr>
             <h5>Commentaires:</h5>
            
             {# Recover all the comments of the article #}
@@ -27,7 +27,7 @@
             {% else %}
             	<p>Aucun commentaire lier à ce billet.</p>
             {% endfor %}
-            {#% if is_granted('IS_AUTHENTICATED_FULLY') %#}
+            <hr>
             {% if commentForm %}
             	{{ form_start(commentForm) }}
                 	<div class="input-field col s12">
