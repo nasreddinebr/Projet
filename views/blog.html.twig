@@ -6,15 +6,24 @@
 <div class="container">
 	<div class="section">
         {% for post in posts %}		{# Recover the first three post #}
-        <article>
-          	<h3>
-            	<p>- 
-                	<a class="postTitle" href="{{ path('post', { 'id': post.id }) }}">{{ post.title }}</a> 
-                	<span class="date_size">{{ post.date|date("d/m/Y h:i:s") }}</span>
-                </p>
-            </h3>
-            <p>{{ post.content }}</p>
-        </article>
+            <article>
+            	<div class="row">
+            		<div class="col s12">
+            			<h5 class="class="grey-text-darken-2"">{{ post.title }}</h5>
+            			<h6 class="grey-text">{{ post.date|date("d/m/Y h:i:s") }}</h6>
+            			<div class="row">
+            				<div class="col s12 m6 l8">
+            					<p>{{ post.content[:500] }} <a href="{{ path('post', { 'id': post.id }) }}"><trong>...</trong></a></p>
+            				</div>
+            				<div class="col s12 m6 l4">
+            					<img class="materialboxed responsive-img activator" src="{{ asset('/img/background3.jpg') }}">
+            					<br/><br/>
+            					<a class="btn light-teal waves-effect wave-light" href="{{ path('post', { 'id': post.id }) }}">Lire l'article complet</a>
+            				</div>
+            			</div>
+            		</div>
+            	</div>
+            </article>
         {% endfor %}
     </div>
 </div>
