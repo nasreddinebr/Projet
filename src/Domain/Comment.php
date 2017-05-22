@@ -36,14 +36,14 @@ class Comment {
 	 *
 	 * @var integer
 	 */
-	private $report;
+	private $report = 0;
 	
 	/**
 	 * Comment read
 	 *
 	 * @var integer
 	 */
-	private $read;
+	private $read = 0;
 	
 	/**
 	 * Associated post

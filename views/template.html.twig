@@ -25,26 +25,29 @@
   				<li class="divider"></li>
   				<li><a href="#!">Iscription</a></li>
 			</ul>
-        	<nav class="teal lighten-2" role="navigation">
-                <div class="nav-wrapper container">
-                	<a id="logo-container" href="{{ path('home') }}" class="brand-logo">Jean Forteroche</a>
-                	<ul class="right hide-on-med-and-down">
-                		<li><a href="{{ path('home') }}"><strong> Acceuil </strong></a></li>
-                		<li><a href="{{ path('blog') }}"><strong> Blog </strong></a></li>
-                		{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+			<div class="navbar-fixed">
+				<nav class="teal lighten-2" role="navigation">
+                	<div class="nav-wrapper container">
+                		<a id="logo-container" href="{{ path('home') }}" class="brand-logo">Jean Forteroche</a>
+                		<ul class="right hide-on-med-and-down">
+                			<li><a href="{{ path('home') }}"><strong> Acceuil </strong></a></li>
+                			<li><a href="{{ path('blog') }}"><strong> Blog </strong></a></li>
+                		    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 			<li><a class="dropdown-button" href="#!" data-activates="dropdown1">Bien-venu {{ app.user.username }}<i class="material-icons right">arrow_drop_down</i></a></li>
-                		{% else %}
+                		    {% else %}
                 			<li><a class="dropdown-button" href="#!" data-activates="dropdown2"><strong>Connectez-vous</strong><i class="material-icons right">arrow_drop_down</i></a></li>
-						{% endif %}
-                  	</ul>
+						    {% endif %}
+                  		</ul>
             
-                  	<ul id="nav-mobile" class="side-nav">
-                    	<li><a href="{{ path('home') }}"><strong> Acceuil </strong></a></li>
-                		<li><a href="{{ path('blog') }}"><strong> Blog </strong></a></li>
-                  	</ul>
-                  <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-                </div>
-          	</nav>
+                  		<ul id="nav-mobile" class="side-nav">
+                    		<li><a href="{{ path('home') }}"><strong> Acceuil </strong></a></li>
+                			<li><a href="{{ path('blog') }}"><strong> Blog </strong></a></li>
+                  		</ul>
+                  		<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+                	</div>
+          		</nav>
+			</div>
+        	
         </header>
         
         <div id="content">{% block content %}{% endblock %}</div>

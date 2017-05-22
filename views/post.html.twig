@@ -27,8 +27,25 @@
             {% else %}
             	<p>Aucun commentaire lier à ce billet.</p>
             {% endfor %}
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            	Soon!
+            {#% if is_granted('IS_AUTHENTICATED_FULLY') %#}
+            {% if commentForm %}
+            	{{ form_start(commentForm) }}
+                	<div class="input-field col s12">
+                		{{ form_errors(commentForm.content) }}
+                		{{ form_widget(commentForm.content, { 'attr': { 
+                		    'rows': '4',
+                		    'class': 'materialize-textarea',
+                		    'id': 'comment1'
+                		}}) }}
+                		<label for="textarea1">Ajouter votre commentaire</label>
+                	</div>
+                	<div class="input-field"><input type="submit" class="waves-effect waves-light btn"></div>
+                {{ form_end(commentForm) }}
+                {% for flashMessage in app.session.flashbag.get('success') %}
+                	<div class="card-panel teal lighten-5">
+						<span class="teal-text darken-4"><strong>{{ flashMessage }}</strong></span>
+					</div>
+				{% endfor %}
             {% else %}
             	<a href="{{ path('signin') }}">Se Connecter</a> pour ajouter un commentere.
             {% endif %}
