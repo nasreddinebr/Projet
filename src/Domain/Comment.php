@@ -65,7 +65,7 @@ class Comment {
 		return $this->author;
 	}
 	
-	public function setlogin(User $author) {
+	public function setAuthor(User $author) {
 		$this->author = $author;
 		return $this;
 	}

@@ -19,7 +19,7 @@
             {% for comment in comments %}
             	    <div>
             	    	<h4>
-            	    		<strong>{{ comment.author }}</strong>
+            	    		<strong>{{ dump(comment) }}</strong>
             	    		<span class="date_size">{{ comment.dateComment }}</span>
             	    	</h4>
             	    	<p>{{ comment.content }}</p>
