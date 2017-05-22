@@ -31,12 +31,17 @@
                 <article>
                     <div class="col l6 m6 s12">
                       	<div class="card">
+                      		<div class="card-content">
+                      			<h5 class="grey-text-darken-2">{{ post.title }}</h5>
+                      			<h6 class="grey-text">{{ post.date|date("d/m/Y h:i:s") }}</h6>
+                      			
+                      		</div>
                         	<div class="card-image waves-effect waves-block waves-light">
                           		<img class="activator" src="{{ asset('/img/background3.jpg') }}">
                         	</div>
                         	<div class="card-content">
-                          		<span class="card-title activator grey-text text-darken-4">{{ post.title }}<i class="material-icons right">more_vert</i></span>
-                          		<p><a href="{{ path('post', { 'id': post.id }) }}">Lire la suite</a></p>
+                          		<span class="card-title activator grey-text text-darken-4"><i class="material-icons right">more_vert</i></span>
+                          		<p><a href="{{ path('post', { 'id': post.id }) }}">Voir l'article complet</a></p>
                         	</div>
                         	<div class="card-reveal">
                           		<span class="card-title grey-text text-darken-4">
@@ -44,7 +49,7 @@
                           			<h4><a href="{{ path('post', { 'id': post.id }) }}">{{ post.title }}</a></h4>
                           			<p>{{ post.date|date("d/m/Y h:i:s") }}</p>
                           		</span>
-                          		<p>{{ post.content[:200] }} <a href="{{ path('post', { 'id': post.id }) }}">...</a></p>
+                          		<p>{{ post.content[:200] }} <a href="{{ path('post', { 'id': post.id }) }}"><trong>...</trong></a></p>
                         	</div>
                       	</div>
                     </div>  
