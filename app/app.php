@@ -25,13 +25,19 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
 				'users'		=> function () use ($app) {
 					return new BlogEcrivain\DAO\UserDAO($app['db']);
 				},
+			),
 		),
-	),
+		// Submit access to back-office
+		'security.role_hierarchy' => array(
+				'ROLE_ADMIN' => array('ROLE_USER'),
+		),
+		'security.access_rules' => array(
+				array('^/admin', 'ROLE_ADMIN'),
+		),
 ));
 $app->register(new Silex\Provider\FormServiceProvider());
 $app->register(new Silex\Provider\LocaleServiceProvider());
 $app->register(new Silex\Provider\TranslationServiceProvider());
-
 
 // Register services.
 $app['dao.post'] = function($app) {
