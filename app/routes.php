@@ -5,7 +5,7 @@ use BlogEcrivain\Form\Type\CommentWrite;
 
 // Home page
 $app->get('/', function() use ($app) {
-	$posts = find($app);
+	$posts = findPosts($app);
 	return $app['twig']->render('index.html.twig', array('posts' => $posts));
 })->bind('home');
 
@@ -47,15 +47,43 @@ $app->match('/post/{id}', function ($id, Request $req) use ($app){
 
 // Blog page
 $app->get('/blog', function() use ($app) {
-	$listPosts = find($app);
+	$listPosts = findPosts($app);
 	return $app['twig']->render('blog.html.twig', array('posts' => $listPosts));
 })->bind('blog');
 
 //Login page
 $app->get('/signin', function(Request $request) use ($app) {
 	return $app['twig']->render('login.html.twig', array(
-			'error' => $app['security.last_error']($request),
+			'error' 		=> $app['security.last_error']($request),
 			'last_username' => $app['session']->get('_security.last_username'),	
 	));
 	
 })->bind('signin');
+
+// Admin page
+$app->get('/admin', function () use ($app) {
+	$posts = findPosts($app);
+	$comments = $app['dao.comment']->recoverAllComments();
+	$users = $app['dao.user']->recoverAllUsers();
+	return $app['twig']->render('admin.html.twig', array(
+		'posts' 	=> $posts,
+		'comments' 	=> $comments,
+		'users'		=> $users
+	));
+})->bind('admin');
+
+// Author page
+$app->get('/author', function () use ($app) {
+	$posts = findPosts($app);
+	$comments = $app['dao.comment']->recoverAllComments();
+	return $app['twig']->render('author.html.twig', array(
+			'posts' 	=> $posts,
+			'comments' 	=> $comments
+	));
+})->bind('author');
+
+// Moderator page
+$app->get('/moderator', function () use ($app) {
+	$comments = $app['dao.comment']->recoverAllComments();
+	return $app['twig']->render('moderator.html.twig', array('comments' => $comments));
+})->bind('moderator');

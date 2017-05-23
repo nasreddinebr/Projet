@@ -1,5 +1,8 @@
 <?php
-function find($app) {
+function findPosts($app) {
 	$findAllPosts = $app['dao.post']->recoverAllPost();
 	return $findAllPosts;
 }
+
+
+

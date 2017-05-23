@@ -57,6 +57,24 @@ class UserDAO extends DAO implements UserProviderInterface {
 	}
 	
 	/**
+	 * Recover a list of all users
+	 *
+	 * @return array
+	 */
+	public function recoverAllUsers() {
+		$req = "SELECT * FROM users ORDER BY role, login";
+		$response = $this->getDb()->fetchAll($req);
+		
+		//Convert Query response to an array of domain objects
+		$users = array();
+		foreach ($response as $row) {
+			$id = $row['id_user'];
+			$users['$id'] = $this->buildDomainObject($row);
+		}
+		return $users;
+	}
+	
+	/**
 	 * Creation of the user object based on the row of the database.
 	 *
 	 * @param array $row The DB row containing User data.

@@ -9,3 +9,16 @@ insert into comments values
 (1, Now(),'Ca commentce vraiment bien', 1, 1, 5, 4);
 insert into comments values
 (2, "L'histoire et à couper le souffle", 1, 1, 5, 5);
+
+/* raw password is 'john' */
+insert into t_user values
+('','john@gmail.com', 'JohnDoe', '$2y$13$F9v8pl5u5WMrCorP9MLyJeyIsOLj.0/xqKd/hqa5440kyeB7FQ8te', 'YcM=A$nsYzkyeDVjEUa7W9K', 'ROLE_USER');
+/* raw password is 'jane' */
+insert into t_user values
+('','jane@gmail.com', 'JaneDoe', '$2y$13$qOvvtnceX.TjmiFn4c4vFe.hYlIVXHSPHfInEG21D99QZ6/LM70xa', 'dhMTBkzwDKxnD;4KNs,4ENy', 'ROLE_USER');
+
+/* raw password is '@dm1n' */
+insert into users values
+('','jean.forteroche@hotmail.fr', 'JeanFo', '$2y$13$A8MQM2ZNOi99EW.ML7srhOJsCaybSbexAj/0yXrJs4gQ/2BqMMW2K', 'EDDsl&fBCJB|a5XUtAlnQN8', 'ROLE_AUTHOR');
+insert into users values
+('','nasre@hotmail.fr', 'nasre', '$2y$13$A8MQM2ZNOi99EW.ML7srhOJsCaybSbexAj/0yXrJs4gQ/2BqMMW2K', 'EDDsl&fBCJB|a5XUtAlnQN8', 'ROLE_MODERATOR');

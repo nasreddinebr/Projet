@@ -81,6 +81,24 @@ class CommentDAO extends DAO {
 	}
 	
 	/**
+	 * Recover a list of all comments
+	 *
+	 * @return array
+	 */
+	public function recoverAllComments() {
+		$req = "SELECT * FROM comments ORDER BY id_comment DESC";
+		$response = $this->getDb()->fetchAll($req);
+		
+		//Convert Query response to an array of domain objects
+		$comments = array();
+		foreach ($response as $row) {
+			$id = $row['id_comment'];
+			$comments['$id'] = $this->buildDomainObject($row);
+		}
+		return $comments;
+	}
+	
+	/**
 	 * Creat an commengt object based on a DB row
 	 * 
 	 * @param array $row The DB row containing Coment data
@@ -106,5 +124,5 @@ class CommentDAO extends DAO {
 			$comment->setAuthor($user);
 		}
 		return $comment;
-	}
+	}	
 }
