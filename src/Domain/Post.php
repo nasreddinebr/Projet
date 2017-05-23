@@ -30,6 +30,13 @@ class Post {
 	 */
 	private $content;
 	
+	/**
+	 * Post author.
+	 *
+	 * @var \BlogEcrivain\Domain\User
+	 */
+	private $author;
+	
 	public function getId(){
 		return $this->id;
 	}
@@ -63,6 +70,15 @@ class Post {
 	
 	public function setContent($content){
 		$this->content = $content;
+		return $this;
+	}
+	
+	public function getAuthor() {
+		return $this->author;
+	}
+	
+	public function setAuthor(User $author) {
+		$this->author = $author;
 		return $this;
 	}
 }

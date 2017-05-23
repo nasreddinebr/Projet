@@ -99,6 +99,15 @@ class CommentDAO extends DAO {
 	}
 	
 	/**
+	 * Delete all comments for a post
+	 * 
+	 * @param $postId
+	 */
+	public function deletAllCommentByPost($postId) {
+		$this->getDb()->delete('comments', array('post_id' => $postId));
+	}
+	
+	/**
 	 * Creat an commengt object based on a DB row
 	 * 
 	 * @param array $row The DB row containing Coment data

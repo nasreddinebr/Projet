@@ -1,7 +1,9 @@
 <?php
 use Symfony\Component\HttpFoundation\Request;
 use BlogEcrivain\Domain\Comment;
+use BlogEcrivain\Domain\Post;
 use BlogEcrivain\Form\Type\CommentWrite;
+use BlogEcrivain\Form\Type\PostWrite;
 
 // Home page
 $app->get('/', function() use ($app) {
@@ -87,3 +89,24 @@ $app->get('/moderator', function () use ($app) {
 	$comments = $app['dao.comment']->recoverAllComments();
 	return $app['twig']->render('moderator.html.twig', array('comments' => $comments));
 })->bind('moderator');
+
+// Add a new post
+$app->match('/admin/post/add', function (Request $request) use ($app) {
+	$post = new Post();
+	$postForm = $app['form.factory']->create(PostWrite::class, $post);
+	$postForm->handleRequest($request);
+	if ($postForm->isSubmitted() && $postForm->isValid()) {
+		$app['dao.post']->addPost($post);
+		$app['session']->getFlasBag()->add('seccess','Le billet et enregistrer.');
+	}
+	return $app['twig']->render('post_form.html.twig', array(
+			'title' 	=> 'Nouveau Billet',
+			'postForm' 	=> $postForm->createView()
+	));
+})->bind('admin_article_add');
+
+// Edit an existing post
+
+
+// Delete a post and it's comments
+
