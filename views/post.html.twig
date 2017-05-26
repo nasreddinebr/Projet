@@ -35,7 +35,7 @@
                 		}}) }}
                 		<label for="textarea1">Ajouter votre commentaire</label>
                 	</div>
-                	<div class="input-field"><input type="submit" class="waves-effect waves-light btn"></div>
+                	<div class="input-field"><input type="submit" class="waves-effect waves-light btn" value="Valider"></div>
                 {{ form_end(commentForm) }}
                 {% for flashMessage in app.session.flashbag.get('success') %}
                 	<div class="card-panel teal lighten-5">

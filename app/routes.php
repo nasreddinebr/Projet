@@ -112,7 +112,7 @@ $app->match('/admin/post/{id}/edit', function ($id, Request $request) use ($app)
 	$postForm->handleRequest($request);
 	if ($postForm->isSubmited() && $postForm->isValid()) {
 		$app['dao.post']->save($post);
-		$app['session']->getFlashBag()->$add('success', 'Le billet a été mis à jour avec succès');
+		$app['session']->getFlashBag()->$add('success', 'Le billet a été mis à jour avec succès.');
 	}
 	return $app['twig']->render('post_form.html.twig', array(
 			'title' => 'Edit post',
@@ -120,5 +120,16 @@ $app->match('/admin/post/{id}/edit', function ($id, Request $request) use ($app)
 	));
 })->bind('admin_post_edit');
 
-//TODO : Delete a post and it's comments
+// Delete a post and it's comments
+$app->get('/admin/post/{id}/delete', function ($id, Request $request) use ($app) {
+	// Delete all associated comments
+	$app['dao.comment']->deletAllCommentByPost($id);
+	
+	// Delete the post
+	$app['dao.post']->deletPost($id);
+	$app['session']->getFlashBag()->add('success', 'Le billet a été suprimer avec succès.');
+	
+	//Redirecte to admin home page
+	return $app->redirect($app['url_generator']->generate('admin'));
+})->bind('admin_post_remove');
 
