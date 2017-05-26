@@ -61,7 +61,9 @@ $app->register(new Silex\Provider\TranslationServiceProvider());
 
 // Register services.
 $app['dao.post'] = function($app) {
-	return new BlogEcrivain\DAO\PostDAO($app['db']);
+	$postDAO = new BlogEcrivain\DAO\PostDAO($app['db']);
+	$postDAO->setUserDAO($app['dao.user']);
+	return $postDAO;
 };
 
 $app['dao.user'] = function($app) {

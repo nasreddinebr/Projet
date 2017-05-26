@@ -106,7 +106,19 @@ $app->match('/admin/post/add', function (Request $request) use ($app) {
 })->bind('admin_article_add');
 
 // Edit an existing post
+$app->match('/admin/post/{id}/edit', function ($id, Request $request) use ($app) {
+	$post = $app['dao.post']->recoverPost($id);
+	$postForm = $app['form.factory']->create(PostWrite::class, $post);
+	$postForm->handleRequest($request);
+	if ($postForm->isSubmited() && $postForm->isValid()) {
+		$app['dao.post']->save($post);
+		$app['session']->getFlashBag()->$add('success', 'Le billet a été mis à jour avec succès');
+	}
+	return $app['twig']->render('post_form.html.twig', array(
+			'title' => 'Edit post',
+			'postForm'	=> $postForm->createView()
+	));
+})->bind('admin_post_edit');
 
-
-// Delete a post and it's comments
+//TODO : Delete a post and it's comments
 

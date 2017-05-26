@@ -103,7 +103,7 @@ class PostDAO extends DAO {
 			//recuperate and set the associated author
 			$userId = $row['user_id'];
 			$user = $this->userDAO->recoverUserById($userId);
-			$comment->setAuthor($user);
+			$post->setAuthor($user);
 		}
 		return $post;
 	}
