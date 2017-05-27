@@ -1,42 +1,54 @@
-{% extends 'template.html.twig' %}
+{% extends 'template_backoffice.html.twig' %}
 {% set adminMenu = true %}
 {% block title %} {{ title }} {% endblock %}
 {% block content %}
-    <h2>{{ block('title') }}</h2>
-    {% for flashMessage in app.session.flashbag.get('success') %}
-    	<div class="card-panel teal lighten-5">
-    		<span class="teal-text darken-4"><strong>{{ flashMessage }}</strong></span>
-    	</div>
-    {% endfor %}
-    <div class="well">
+    <div class="container">
+    	<h2>{{ block('title') }}</h2>
+        
     	{{ form_start(postForm, { 'attr': {'class': 'form-horizontal'}}) }}
-        	<div class="form-group">
-    			{{ form_label(postForm.postTitle, null, { 'label_attr': {
-    			    'class': 'cole s12'
-    			}}) }}
-    			<div class="col s12">
-    				{{ form_errors(postForm.postTitle) }}
-    				{{ form_widget(postForm.postTitle, { 'attr': {
-    				    'class': 'form-control'
+    		<div class="row">
+    			<div class="input-field col s12">
+    				{{ form_errors(postForm.title) }}
+    				{{ form_widget(postForm.title, { 'attr': {
+    				    'class': 'form-control',
+    				    'name' : 'title',
+    				    'id'   : 'title'
     				}}) }}
+    				<label for="title">Titre</label>
     			</div>  	
-        	</div>
-        	<div class="form-group">
-        		{{ form_label(postForm.postContent, null, { 'label_attr': {
-        		    'class': 'col s12'
-        		}}) }}
-        		<div claass="col s12">
-        			{{ form_errors(postForm.postContent) }}
-        			{{ form_widget(postForm.postContent, { 'attr': {
-        			    'class': 'materialize-textarea',
-                    	'rows': '8'
+     
+        		<div class="input-field col s12">
+        			{{ form_errors(postForm.content) }}
+        			{{ form_widget(postForm.content, { 'attr': {
+        			    'class'    : 'materialize-textarea',
+                    	'rows'     : '8',
+                    	'name'     : 'content',
+                    	'id'       : 'content'
         			}}) }}
+        			<label for="content">Contenu de l'article</label>
         		</div>
-        	</div>
-            	<div class="form-group">
-            		<input type="submit" class="waves-effect waves-light btn" value="Enregistrer">
+        	
+            	<div class="col s12">
+            		<div class="input-field file-field">
+            			<div class="btn light-blue col s2">
+            				<span>Image du billet</span>
+            				<input type="file" name="image" class="col s12"/>
+            			</div>
+            			<input type="text" class="file-path col s10" readonly/>
+            		</div>
             	</div>
-        	</div>
+                <div class="col s12">
+                	<input type="submit" class="waves-effect waves-light btn light-blue" value="Enregistrer"/>
+                </div>
+    		</div>
+    			
         {{ form_end(postForm) }}
+        
+        {# Display the confirmation message if the post is correctly saved #}
+        {% for flashMessage in app.session.flashbag.get('success') %}
+    		<div class="card-panel teal lighten-5">
+    			<span class="teal-text darken-4"><strong>{{ flashMessage }}</strong></span>
+    		</div>
+        {% endfor %}
     </div>
 {% endblock %}

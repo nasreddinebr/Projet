@@ -57,9 +57,9 @@ class PostDAO extends DAO {
 	 */
 	public function addPost(Post $post) {
 		$postData = array(
-				'title' => $post->getTitle(),
-				'content' => $post->getContent(),
-				'user_id' =>$post->getAuthor()->getId()
+				'title' 	=> $post->getTitle(),
+				'content' 	=> $post->getContent(),
+				'user_id' 	=> $post->getAuthor()->getId()
 		);
 		if ($post->getId()) {
 			
@@ -70,7 +70,7 @@ class PostDAO extends DAO {
 			$this->getDb()->insert('posts', $postData);
 			
 			// Get the id of new post and set it on the entity
-			$id = $this->getDb()-LastInsertId();
+			$id = $this->getDb()->lastInsertId();
 			$post->setId($id);
 		}
 	}

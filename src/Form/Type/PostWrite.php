@@ -9,8 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 class PostWrite extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-		->add('postTitle', TextType::class)
-		->add('postContent', TextareaType::class);
+		->add('title', TextType::class)
+		->add('content', TextareaType::class);
 	}
 	
 	public function getName() {

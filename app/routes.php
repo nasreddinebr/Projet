@@ -11,7 +11,7 @@ $app->get('/', function() use ($app) {
 	return $app['twig']->render('index.html.twig', array('posts' => $posts));
 })->bind('home');
 
-// Post detils and comments
+// Post details and comments
 $app->match('/post/{id}', function ($id, Request $req) use ($app){
 	// Recuperate a post via its id
 	$post = $app['dao.post']->recoverPost($id);
@@ -92,12 +92,25 @@ $app->get('/moderator', function () use ($app) {
 
 // Add a new post
 $app->match('/admin/post/add', function (Request $request) use ($app) {
-	$post = new Post();
-	$postForm = $app['form.factory']->create(PostWrite::class, $post);
-	$postForm->handleRequest($request);
-	if ($postForm->isSubmitted() && $postForm->isValid()) {
-		$app['dao.post']->addPost($post);
-		$app['session']->getFlasBag()->add('seccess','Le billet et enregistrer.');
+	// We check if there is a user logged in
+	if ($app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_FULLY')) {
+		// The user is identified, recuperate it.
+		$post = new Post();
+		$user = $app['user'];
+		$post->setAuthor($user);
+		
+		// Creation of a new post and the form to associate it
+		$postForm = $app['form.factory']->create(PostWrite::class, $post);
+		$postForm->handleRequest($request);
+		
+		/**
+		 * If a post is submitted and the content is valid,
+		 * the new post is saved and a message of success is displayed.
+		 */
+		if ($postForm->isSubmitted() && $postForm->isValid()) {
+			$app['dao.post']->addPost($post);
+			$app['session']->getFlashBag()->add('success','Le billet et enregistrer.');
+		}
 	}
 	return $app['twig']->render('post_form.html.twig', array(
 			'title' 	=> 'Nouveau Billet',
