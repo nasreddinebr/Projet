@@ -23,7 +23,15 @@
                     				<div class="col s12 m6 l4">
                     					<img class="materialboxed responsive-img activator" src="{{ asset('/img/background3.jpg') }}">
                     					<br/><br/>
-                    					<a class="btn light-teal waves-effect wave-light" href="{{ path('post', { 'id': post.id }) }}">Lire l'article complet</a>
+                    					<div class="fixed-action-btn horizontal right-align">
+                                            <a class="btn-floating btn-large light-blue">
+                                            	<i class="large material-icons">menu</i>
+                                            </a>
+                                            <ul>
+                                            	<li><a class="btn-floating red" href="{{ path('admin_post_remove', {'id':post.id}) }}"><i class="material-icons">delete</i></a></li>
+                                            	<li><a class="btn-floating green" href="{{ path('admin_post_edit', {'id':post.id}) }}"><i class="material-icons">edit</i></a></li>
+                                            </ul>
+                                      	</div>
                     				</div>
                     			</div>
                     		</div>
