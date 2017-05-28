@@ -20,14 +20,14 @@
         		<div class="input-field col s12">
         			{{ form_errors(postForm.content) }}
         			{{ form_widget(postForm.content, { 'attr': {
-        			    'class'    : 'materialize-textarea',
+        			    'class'    : 'materialize-textarea postedit',
                     	'rows'     : '8',
                     	'name'     : 'content',
                     	'id'       : 'content'
         			}}) }}
-        			<label for="content">Contenu de l'article</label>
         		</div>
-        	
+        		
+        		{# Upload an image#}
             	<div class="col s12">
             		<div class="input-field file-field">
             			<div class="btn light-blue col s2">
@@ -37,6 +37,8 @@
             			<input type="text" class="file-path col s10" readonly/>
             		</div>
             	</div>
+            	
+            	{# switch for publish a post or no  #}
             	<div class="col s6">
             		<p>publier</p>
             		<div class="switch">
