@@ -44,7 +44,11 @@
             		<div class="switch">
             			<label>
             				Non
-            				<input type="checkbox" name="public"/>
+            				{{ form_errors(postForm.publish) }}
+        			        {{ form_widget(postForm.publish, { 'attr': {
+                    			'name'     : 'public',
+                    			'id'       : 'public'
+        			        }}) }}
             				<span class="lever light-blue"></span>
             				Oui
             			</label>

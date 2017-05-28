@@ -59,6 +59,7 @@ class PostDAO extends DAO {
 		$postData = array(
 				'title' 	=> $post->getTitle(),
 				'content' 	=> $post->getContent(),
+				'publish'	=> $post->getPublish(),
 				'user_id' 	=> $post->getAuthor()->getId()
 		);
 		if ($post->getId()) {
@@ -85,6 +86,25 @@ class PostDAO extends DAO {
 		$this->getDb()->delete('posts', array('id_post' => $id));
 	}
 	
+	/**
+	 * Returns the list of posts that are published
+	 * 
+	 * @return array A list of all posts
+	 */
+	public function recoverPostPublished() {
+		$req = "SELECT * FROM posts WHERE publish=1 ORDER BY id_post DESC";
+		$response = $this->getDb()->fetchAll($req);
+		
+		// Convert query result to a array of domain objects
+		$posts = array();
+		foreach ($response as $row) {
+			$postId = $row['id_post'];
+			$posts[$postId] = $this->buildDomainObject($row);
+		}
+		if (isset($posts)) {
+			return $posts;
+		}	
+	}
 	
 	/**
 	 * Creat an Post object based on a database row

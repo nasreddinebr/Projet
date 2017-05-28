@@ -31,6 +31,12 @@ class Post {
 	private $content;
 	
 	/**
+	 * Post publish
+	 * @var bool
+	 */
+	private $publish;
+	
+	/**
 	 * Post author.
 	 *
 	 * @var \BlogEcrivain\Domain\User
@@ -70,6 +76,15 @@ class Post {
 	
 	public function setContent($content){
 		$this->content = $content;
+		return $this;
+	}
+	
+	public function getPublish() {
+		return $this->publish;
+	}
+	
+	public function setPublish($publish) {
+		$this->publish = $publish;
 		return $this;
 	}
 	

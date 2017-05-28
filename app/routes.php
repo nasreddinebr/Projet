@@ -7,7 +7,7 @@ use BlogEcrivain\Form\Type\PostWrite;
 
 // Home page
 $app->get('/', function() use ($app) {
-	$posts = findPosts($app);
+	$posts = $app['dao.post']->recoverPostPublished();
 	return $app['twig']->render('index.html.twig', array('posts' => $posts));
 })->bind('home');
 
