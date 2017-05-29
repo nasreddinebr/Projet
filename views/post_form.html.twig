@@ -27,13 +27,15 @@
         		
         		{# Upload an image#}
             	<div class="col s12">
-            		<div class="input-field file-field">
-            			<div class="btn light-blue col s2">
-            				<span>Image du billet</span>
-            				<input type="file" name="image" class="col s12"/>
-            			</div>
-            			<input type="text" class="file-path col s10" readonly/>
-            		</div>
+            		<div class="file-field input-field">
+      					<div class="btn light-blue col s2">
+        					<span>File</span>
+        					<input type="file" multiple>
+      					</div>
+      					<div class="file-path-wrapper">
+        					<input class="file-path validate" type="text" placeholder="Upload one or more files">
+      					</div>
+    				</div>
             	</div>
             	
             	{# switch for publish a post or no  #}
