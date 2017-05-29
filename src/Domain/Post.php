@@ -37,6 +37,13 @@ class Post {
 	private $publish;
 	
 	/**
+	 * Post media
+	 * 
+	 * @var string
+	 */
+	private $media;
+	
+	/**
 	 * Post author.
 	 *
 	 * @var \BlogEcrivain\Domain\User
@@ -85,6 +92,15 @@ class Post {
 	
 	public function setPublish($publish) {
 		$this->publish = $publish;
+		return $this;
+	}
+	
+	public function getMedia() {
+		return $this->media;
+	}
+	
+	public function setMedia($media) {
+		$this->media = $media;
 		return $this;
 	}
 	
