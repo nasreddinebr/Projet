@@ -63,15 +63,15 @@ $app->get('/signin', function(Request $request) use ($app) {
 })->bind('signin');
 
 // Admin page
-$app->get('/admin', function () use ($app) {
+$app->get('/admin', function (Request $request) use ($app) {
 	$posts = findPosts($app);
 	$comments = $app['dao.comment']->recoverAllComments();
 	$users = $app['dao.user']->recoverAllUsers();
 	return $app['twig']->render('admin.html.twig', array(
-		'posts' 	=> $posts,
-		'comments' 	=> $comments,
-		'users'		=> $users
-	));
+				'posts' 	=> $posts,
+				'comments' 	=> $comments,
+				'users'		=> $users
+	));	
 })->bind('admin');
 
 // Author page
