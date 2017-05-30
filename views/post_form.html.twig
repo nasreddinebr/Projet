@@ -4,6 +4,12 @@
 {% block content %}
     <div class="container">
     	<h2>{{ block('title') }}</h2>
+    	{# Display the confirmation message if the post is correctly saved #}
+        {% for flashMessage in app.session.flashbag.get('success') %}
+    		<div class="card-panel teal lighten-5">
+    			<span class="teal-text darken-4"><strong>{{ flashMessage }}</strong></span>
+    		</div>
+        {% endfor %}
         
     	{{ form_start(postForm, { 'attr': {'class': 'form-horizontal'}}) }}
     		<div class="row">
@@ -65,13 +71,6 @@
                 </div>
     		</div>
     			
-        {{ form_end(postForm) }}
-        
-        {# Display the confirmation message if the post is correctly saved #}
-        {% for flashMessage in app.session.flashbag.get('success') %}
-    		<div class="card-panel teal lighten-5">
-    			<span class="teal-text darken-4"><strong>{{ flashMessage }}</strong></span>
-    		</div>
-        {% endfor %}
+        {{ form_end(postForm) }}   
     </div>
 {% endblock %}

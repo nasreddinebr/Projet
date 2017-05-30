@@ -5,6 +5,10 @@ use BlogEcrivain\Domain\Post;
 use BlogEcrivain\Form\Type\CommentWrite;
 use BlogEcrivain\Form\Type\PostWrite;
 
+/**************************************************************************************/
+/**									  Front-Office				                 	 **/
+/**************************************************************************************/
+
 // Home page
 $app->get('/', function() use ($app) {
 	$posts = $app['dao.post']->recoverPostPublished();
@@ -53,6 +57,10 @@ $app->get('/blog', function() use ($app) {
 	return $app['twig']->render('blog.html.twig', array('posts' => $listPosts));
 })->bind('blog');
 
+/**************************************************************************************/
+/**							Authentication and Back-Office							 **/
+/**************************************************************************************/
+
 //Login page
 $app->get('/signin', function(Request $request) use ($app) {
 	return $app['twig']->render('login.html.twig', array(
@@ -65,7 +73,7 @@ $app->get('/signin', function(Request $request) use ($app) {
 // Admin page
 $app->get('/admin', function (Request $request) use ($app) {
 	$posts = findPosts($app);
-	$comments = $app['dao.comment']->recoverAllComments();
+	$comments = $app['dao.comment']->recoverUnreadComment();
 	$users = $app['dao.user']->recoverAllUsers();
 	return $app['twig']->render('admin.html.twig', array(
 				'posts' 	=> $posts,
@@ -77,7 +85,7 @@ $app->get('/admin', function (Request $request) use ($app) {
 // Author page
 $app->get('/author', function () use ($app) {
 	$posts = findPosts($app);
-	$comments = $app['dao.comment']->recoverAllComments();
+	$comments = $app['dao.comment']->recoverUnreadComment();
 	return $app['twig']->render('author.html.twig', array(
 			'posts' 	=> $posts,
 			'comments' 	=> $comments
@@ -86,9 +94,17 @@ $app->get('/author', function () use ($app) {
 
 // Moderator page
 $app->get('/admin/moderator', function () use ($app) {
-	$comments = $app['dao.comment']->recoverAllComments();
-	return $app['twig']->render('moderator.html.twig', array('comments' => $comments));
+	$posts = findPosts($app);
+	$comments = $app['dao.comment']->recoverUnreadComment();
+	return $app['twig']->render('moderator.html.twig', array(
+			'posts' 	=> $posts,
+			'comments' 	=> $comments,
+	));
 })->bind('moderator');
+
+/**************************************************************************************/
+/**									Posts Management							     **/
+/**************************************************************************************/
 
 // Add a new post
 $app->match('/admin/post/add', function (Request $request) use ($app) {
@@ -146,3 +162,12 @@ $app->get('/admin/post/{id}/delete', function ($id, Request $request) use ($app)
 	return $app->redirect($app['url_generator']->generate('admin'));
 })->bind('admin_post_remove');
 
+/**************************************************************************************/
+/**									Comments Management							     **/
+/**************************************************************************************/
+
+// Home page
+/*$app->get('/admin/moderator', function() use ($app) {
+	$posts = $app['dao.comment']->recoverAllComments();
+	return $app['twig']->render('moderator.html.twig', array('comments' => $comments));
+})->bind('moderator');*/

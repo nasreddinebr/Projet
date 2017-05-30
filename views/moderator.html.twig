@@ -1,6 +1,26 @@
 {% extends "template_backoffice.html.twig" %}
 {% set adminMenu = true %}
-{% block title %}Moderator{% endblock %}
+{% block title %}List des Commentaire non lue{% endblock %}
 {% block content %}
 	<h2>{{ block('title') }}</h2>
+    {% for flashMessage in app.session.flashbag.get('success') %}
+    	<div class="card-panel teal lighten-5">
+			<span class="teal-text darken-4"><strong>{{ flashMessage }}</strong></span>
+		</div>
+	{% endfor %}
+	{% if comments %}
+		<div class="container">
+        	<div class="section">
+                {% for comment in comments %}
+            	    <div class="col s12">
+            	    	<h6 class="grey-text">Par: {{ comment.author.username }} Le: {{ comment.dateComment|date("d/m/Y h:i:s") }}</h6>
+            	    	<p>{{ comment.content[:150] }}</p>
+            	    	
+            	    </div>
+                {% else %}
+            		<p>Aucun commentaire non lue.</p>
+                {% endfor %}
+            </div>
+		</div>
+    {% endif %}
 {% endblock %}

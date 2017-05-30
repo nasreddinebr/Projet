@@ -64,6 +64,8 @@ class CommentDAO extends DAO {
 	public function addComment(Comment $comment) {
 		$commentData = array(
 				'content' 		=> $comment->getContent(),
+				//'report'		=> $comment->getReport(),
+				//'read'			=> $comment->getRead(),
 				'post_id' 		=> $comment->getPost()->getId(),
 				'user_id' 		=> $comment->getAuthor()->getId()
 		);
@@ -77,6 +79,41 @@ class CommentDAO extends DAO {
 			// Recuperate the id of the new comment then insert it on the entity
 			$id = $this->getDb()->lastInsertId();
 			$comment->setId($id);
+		}
+	}
+	
+	/**
+	 * Recover a list of all comment unread
+	 *
+	 * @return array
+	 */
+	
+	/*public function recoverUnreadComment() {
+		$req = "SELECT * FROM comments";
+		$response = $this->getDb()->fetchAll($req);
+		
+		// Convert query result to a array of domain objects
+		$comments = array();
+		foreach ($response as $row) {
+			$id = $row['id_comment'];
+			$comments['$id'] = $this->buildDomainObject($row);
+		}
+		if (isset($comments)) {
+			return $comments;
+		}
+	}*/
+	public function recoverUnreadComment() {
+		$req = "SELECT * FROM comments WHERE read_comment=0";
+		$response = $this->getDb()->fetchAll($req);
+		
+		// Convert query result to a array of domain objects
+		$posts = array();
+		foreach ($response as $row) {
+			$comentId = $row['id_comment'];
+			$comments[$comentId] = $this->buildDomainObject($row);
+		}
+		if (isset($posts)) {
+			return $posts;
 		}
 	}
 	
@@ -99,6 +136,31 @@ class CommentDAO extends DAO {
 	}
 	
 	/**
+	 * Return a comment matching the suplied id
+	 * 
+	 * @param integer $id
+	 */
+	public function recoverComment($id) {
+		$req = "SELECT * FROM comments WHERE id_comment=?";
+		$response = $this->getDb()->fetchAssoc($req, array($id));
+		if ($response){
+			return $this->buildDomainObject($response);
+		}else {
+			throw new \Exception("Aucun commentaire ne correspond à l'id " . $id);
+		}
+	}
+	/**
+	 * Removes a comment from the data base
+	 * 
+	 * @param integer $id
+	 */
+	public function delete($id) {
+		// Delete the comment
+		$this->getDb()-delete('comments', array('id_comment' => $id));
+	}
+	
+	
+	/**
 	 * Delete all comments for a post
 	 * 
 	 * @param $postId
@@ -119,6 +181,8 @@ class CommentDAO extends DAO {
 		$comment->setId($row['id_comment']);
 		$comment->setDateComment($row['date_comment']);
 		$comment->setContent($row['content']);
+		$comment->setReport($row['report']);
+		$comment->setRead($row['read_comment']);
 		
 		if (array_key_exists('id_post', $row)) {
 			// Find and set the associated post
