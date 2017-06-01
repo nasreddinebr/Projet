@@ -2,7 +2,7 @@
 {% set adminMenu = true %}
 {% block title %}List des Commentaire non lue{% endblock %}
 {% block content %}
-	<h2>{{ block('title') }}</h2>
+	
     {% for flashMessage in app.session.flashbag.get('success') %}
     	<div class="card-panel teal lighten-5">
 			<span class="teal-text darken-4"><strong>{{ flashMessage }}</strong></span>
@@ -11,15 +11,50 @@
 	{% if comments %}
 		<div class="container">
         	<div class="section">
-                {% for comment in comments %}
-            	    <div class="col s12">
-            	    	<h6 class="grey-text">Par: {{ comment.author.username }} Le: {{ comment.dateComment|date("d/m/Y h:i:s") }}</h6>
-            	    	<p>{{ comment.content[:150] }}</p>
-            	    	
-            	    </div>
-                {% else %}
-            		<p>Aucun commentaire non lue.</p>
-                {% endfor %}
+        		<h4>{{ block('title') }}</h4>
+        		<table class="highlight">
+        			<thead>
+                  		<tr>
+                          	<th>Billets</th>
+                          	<th>Auteur</th>
+                          	<th>Contenue</th>
+                          	<th>Actions</th>
+                  		</tr>
+       			 	</thead>
+                    {% for comment in comments %}
+                	    <div class="col s12">
+                	    	{#<h6 class="grey-text">Par: {{ comment.author.username }} Le: {{ comment.dateComment|date("d/m/Y h:i:s") }}</h6>
+                	    	<p>{{ comment.content[:150] }}</p>#}
+                	    	<tbody>
+                              	<tr>
+                                	<td>{{ comment.post.title }}</td>
+                                	<td>{{ comment.author.username }}</td>
+                                	<td>{{ comment.content[:150] }}</td>
+									<td>
+										<br/><br/>
+										<div class="fixed-action-btn horizontal right-align">
+                                            <a class="btn-floating btn light-blue">
+                                            	<i class="large material-icons">menu</i>
+                                            </a>
+                                            <ul>
+                                            	<li><a class="btn-floating red" href="#"><i class="material-icons">delete</i></a></li>
+                                            	<li><a class="btn-floating green" href="#"><i class="material-icons">edit</i></a></li>
+                                            </ul>
+                                      	</div>
+                                      	<!-- div>
+                                      		<ul class="horizontale right-align">
+                                            	<li><a class="btn-floating red" href="#"><i class="material-icons">delete</i></a></li>
+                                            	<li><a class="btn-floating green" href="#"><i class="material-icons">edit</i></a></li>
+                                        	</ul>
+                                      	</div-->
+									</td>
+                              	</tr>
+                        	</tbody>
+                	    </div>
+                    {% else %}
+                		<p>Aucun commentaire non lue.</p>
+                    {% endfor %}
+            	</table>
             </div>
 		</div>
     {% endif %}

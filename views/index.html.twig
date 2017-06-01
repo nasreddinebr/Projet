@@ -49,7 +49,7 @@
                           			<h4><a href="{{ path('post', { 'id': post.id }) }}">{{ post.title }}</a></h4>
                           			<p>{{ post.date|date("d/m/Y h:i:s") }}</p>
                           		</span>
-                          		<p>{{ post.content[:200] }} <a href="{{ path('post', { 'id': post.id }) }}"><trong>...</trong></a></p>
+                          		<p>{{ post.content[:500]|raw }} <a href="{{ path('post', { 'id': post.id }) }}"><trong>...</trong></a></p>
                         	</div>
                       	</div>
                     </div>  

@@ -52,6 +52,13 @@ class Comment {
 	 */
 	private $post;
 	
+	/**
+	 * Associated post titele
+	 * 
+	 * @var \BlogEcrivain\Domain\Post
+	 */
+	private  $postTitle;
+	
 	public function getId() {
 		return $this->id;
 	}
@@ -113,5 +120,14 @@ class Comment {
 	public function setPost(Post $post) {
 		$this->post = $post;
 		return $this->post;
+	}
+	
+	public function getpostTitle() {
+		return $this->postTitle;
+	}
+	
+	public function setpostTitle($postTitle) {
+		$this->postTitle = $postTitle;
+		return $this;
 	}
 }

@@ -88,22 +88,9 @@ class CommentDAO extends DAO {
 	 * @return array
 	 */
 	
-	/*public function recoverUnreadComment() {
-		$req = "SELECT * FROM comments";
-		$response = $this->getDb()->fetchAll($req);
-		
-		// Convert query result to a array of domain objects
-		$comments = array();
-		foreach ($response as $row) {
-			$id = $row['id_comment'];
-			$comments['$id'] = $this->buildDomainObject($row);
-		}
-		if (isset($comments)) {
-			return $comments;
-		}
-	}*/
 	public function recoverUnreadComment() {
-		$req = "SELECT * FROM comments WHERE read_comment=0";
+		
+		$req = "SELECT * FROM comments WHERE read_comment=0 ORDER BY date_comment ASC";
 		$response = $this->getDb()->fetchAll($req);
 		
 		// Convert query result to a array of domain objects
@@ -111,27 +98,9 @@ class CommentDAO extends DAO {
 		foreach ($response as $row) {
 			$comentId = $row['id_comment'];
 			$comments[$comentId] = $this->buildDomainObject($row);
+			
 		}
-		if (isset($posts)) {
-			return $posts;
-		}
-	}
-	
-	/**
-	 * Recover a list of all comments
-	 *
-	 * @return array
-	 */
-	public function recoverAllComments() {
-		$req = "SELECT * FROM comments ORDER BY id_comment DESC";
-		$response = $this->getDb()->fetchAll($req);
 		
-		//Convert Query response to an array of domain objects
-		$comments = array();
-		foreach ($response as $row) {
-			$id = $row['id_comment'];
-			$comments['$id'] = $this->buildDomainObject($row);
-		}
 		return $comments;
 	}
 	
@@ -181,12 +150,12 @@ class CommentDAO extends DAO {
 		$comment->setId($row['id_comment']);
 		$comment->setDateComment($row['date_comment']);
 		$comment->setContent($row['content']);
-		$comment->setReport($row['report']);
-		$comment->setRead($row['read_comment']);
+		//$comment->setReport($row['report']);
+		//$comment->setRead($row['read_comment']);
 		
-		if (array_key_exists('id_post', $row)) {
+		if (array_key_exists('post_id', $row)) {
 			// Find and set the associated post
-			$postId = $row['id_post'];
+			$postId = $row['post_id'];
 			$post = $this->postDAO->recoverPost($postId);
 			$comment->setPost($post);
 		}

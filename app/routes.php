@@ -75,7 +75,7 @@ $app->get('/admin', function (Request $request) use ($app) {
 	$posts = findPosts($app);
 	$comments = $app['dao.comment']->recoverUnreadComment();
 	$users = $app['dao.user']->recoverAllUsers();
-	return $app['twig']->render('admin.html.twig', array(
+	return $app['twig']->render('moderator.html.twig', array(
 				'posts' 	=> $posts,
 				'comments' 	=> $comments,
 				'users'		=> $users
@@ -83,22 +83,22 @@ $app->get('/admin', function (Request $request) use ($app) {
 })->bind('admin');
 
 // Author page
-$app->get('/author', function () use ($app) {
+/*$app->get('/author', function () use ($app) {
 	$posts = findPosts($app);
 	$comments = $app['dao.comment']->recoverUnreadComment();
 	return $app['twig']->render('author.html.twig', array(
 			'posts' 	=> $posts,
 			'comments' 	=> $comments
 	));
-})->bind('author');
+})->bind('author');*/
 
 // Moderator page
-$app->get('/admin/moderator', function () use ($app) {
+$app->get('/admin/moderator', function (Request $request) use ($app) {
 	$posts = findPosts($app);
 	$comments = $app['dao.comment']->recoverUnreadComment();
 	return $app['twig']->render('moderator.html.twig', array(
 			'posts' 	=> $posts,
-			'comments' 	=> $comments,
+			'comments' 	=> $comments
 	));
 })->bind('moderator');
 

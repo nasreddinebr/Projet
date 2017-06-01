@@ -10,7 +10,7 @@
 		<div class="section">
 			<h4 class="grey-text-darken-2">{{ post.title }}</h4>
 			<h6 class="grey-text">Par: {{ post.author.username }} Le:{{ post.date|date("d/m/Y h:i:s") }}</h6>
-            <p>{{ post.content }}</p>
+            <p>{{ post.content|raw }}</p>
             <hr>
             <h5>Commentaires:</h5>
            

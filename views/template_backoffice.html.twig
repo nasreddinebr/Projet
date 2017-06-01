@@ -61,7 +61,7 @@
                 					<a href="{{ path('admin_article_add') }}"><i class="material-icons">library_add</i></a>
                 				</li>
                 				<li class="{% if adminMenu is defined %}active{% endif %}">
-                					<a href="{{ path('home') }}"><i class="material-icons">view_quilt</i></a>
+                					<a href="{{ path('admin') }}"><i class="material-icons">view_quilt</i></a>
                 				</li>
                 				
                 			{% elseif app.user and is_granted('ROLE_MODERATOR') %}
@@ -71,9 +71,7 @@
                 				<li class="{% if adminMenu is defined %}active{% endif %}">
                 					<a href="{{ path('moderator') }}"><i class="material-icons">view_list</i></a>
                 				</li>
-                				<li class="{% if adminMenu is defined %}active{% endif %}">
-                					<a href="{{ path('home') }}"><i class="material-icons">view_quilt</i></a>
-                				</li>
+                				
                 			{% endif %}
                 			
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
