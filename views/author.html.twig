@@ -14,7 +14,7 @@
             	<div class="row">
                 	<div class="col s12">
                 		<h5 class="class="grey-text-darken-2"">{{ post.title }}</h5>
-                		<h6 class="grey-text">{{ post.date|date("d/m/Y h:i:s") }}</h6>
+                		<h6 class="grey-text">{{ post.date|date("d/m/Y H:i:s") }}</h6>
                 		<div class="row">
                 			<div class="col s12 m6 l8">
                 				<p>{{ post.content[:500] }} <a href="{{ path('post', { 'id': post.id }) }}"><trong>...</trong></a></p>

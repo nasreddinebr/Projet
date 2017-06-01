@@ -29,25 +29,34 @@
                               	<tr>
                                 	<td>{{ comment.post.title }}</td>
                                 	<td>{{ comment.author.username }}</td>
-                                	<td>{{ comment.content[:150] }}</td>
+                                	<td>{{ comment.content[:80] }}...</td>
 									<td>
-										<br/><br/>
-										<div class="fixed-action-btn horizontal right-align">
-                                            <a class="btn-floating btn light-blue">
-                                            	<i class="large material-icons">menu</i>
-                                            </a>
-                                            <ul>
-                                            	<li><a class="btn-floating red" href="#"><i class="material-icons">delete</i></a></li>
-                                            	<li><a class="btn-floating green" href="#"><i class="material-icons">edit</i></a></li>
-                                            </ul>
-                                      	</div>
-                                      	<!-- div>
-                                      		<ul class="horizontale right-align">
-                                            	<li><a class="btn-floating red" href="#"><i class="material-icons">delete</i></a></li>
-                                            	<li><a class="btn-floating green" href="#"><i class="material-icons">edit</i></a></li>
-                                        	</ul>
-                                      	</div-->
-									</td>
+										<a href="#{#{ path('admin_Comment_edit', {'id': comment.id}) }#}" id="{{ comment.id }}" class="btn-floating btn-small waves-effect waves-light green see_comment">
+											<i class="material-icons">done</i>
+										</a>
+										<a href="#" id="{{ comment.id }}" class="btn-floating btn-small waves-effect waves-light red delete_comment">
+											<i class="material-icons">delete</i>
+										</a>
+										<a href="#comment_{{ comment.id }}" class="btn-floating btn-small waves-effect waves-light blue modal-trigger">
+											<i class="material-icons">more_vert</i>
+										</a>
+										<div id="comment_{{ comment.id }}" class="modal">
+                                            <div class="modal-content">
+                                              	<h5>{{ comment.post.title }}</h5>
+												<p>Commentaire posté par: <strong>{{ comment.author.username }}</strong>. Le: {{ comment.dateComment|date("d/m/Y H:i") }}</p>
+												<hr>
+												<p>{{ comment.content }}</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                            	<a href="#!" id="{{ comment.id }}" class="modal-action mopdal-close waves-effect waves-red btn-flat delete_comment">
+                                              		<i class="material-icons">delete</i>
+                                              	</a>
+                                              	<a href="#!" id="{{ comment.id }}" class="modal-action mopdal-close waves-effect waves-green btn-flat see_comment">
+                                              		<i class="material-icons">done</i>
+                                              	</a>
+                                            </div>
+                                       	</div>
+                                	</td>
                               	</tr>
                         	</tbody>
                 	    </div>

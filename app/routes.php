@@ -75,7 +75,7 @@ $app->get('/admin', function (Request $request) use ($app) {
 	$posts = findPosts($app);
 	$comments = $app['dao.comment']->recoverUnreadComment();
 	$users = $app['dao.user']->recoverAllUsers();
-	return $app['twig']->render('moderator.html.twig', array(
+	return $app['twig']->render('admin.html.twig', array(
 				'posts' 	=> $posts,
 				'comments' 	=> $comments,
 				'users'		=> $users
