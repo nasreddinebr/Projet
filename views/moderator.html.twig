@@ -31,7 +31,7 @@
                                 	<td>{{ comment.author.username }}</td>
                                 	<td>{{ comment.content[:80] }}...</td>
 									<td>
-										<a href="#{#{ path('admin_Comment_edit', {'id': comment.id}) }#}" id="{{ comment.id }}" class="btn-floating btn-small waves-effect waves-light green see_comment">
+										<a href="{#{ path('admin_Comment_edit', {'id': comment.id}) }#}" id="{{ comment.id }}" class="btn-floating btn-small waves-effect waves-light green see_comment">
 											<i class="material-icons">done</i>
 										</a>
 										<a href="#" id="{{ comment.id }}" class="btn-floating btn-small waves-effect waves-light red delete_comment">
