@@ -166,8 +166,23 @@ $app->get('/admin/post/{id}/delete', function ($id, Request $request) use ($app)
 /**									Comments Management							     **/
 /**************************************************************************************/
 
-// Home page
-/*$app->get('/admin/moderator', function() use ($app) {
-	$posts = $app['dao.comment']->recoverAllComments();
-	return $app['twig']->render('moderator.html.twig', array('comments' => $comments));
-})->bind('moderator');*/
+// TODO : Update comment to read
+$app->get('/admin/comment/{id}/read', function ($id, Request $request) use ($app) {
+	// Delete a comment by ID
+	$app['dao.comment']->readComment($id);
+	$app['session']->getFlashBag()->add('success', 'Le commentaire a été marqué comme lu.');
+	
+	// Redirect to admin home page
+	return $app->redirect($app['url_generator']->generate('moderator'));
+	
+})->bind('admin_Comment_read');
+
+// TODO : Remove a comment
+$app->get('/admin/comment/{id}/delete', function ($id, Request $request) use ($app){
+	// Delete a comment by ID
+	$app['dao.comment']->removeComment($id);
+	$app['session']->getFlashBag()->add('success', 'Le commentaire a été supprimé avec succès.');
+	
+	// Redirect to admin home page
+	return $app->redirect($app['url_generator']->generate('moderator'));
+})->bind('admin_comment_delete');

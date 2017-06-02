@@ -100,8 +100,12 @@ class CommentDAO extends DAO {
 			$comments[$comentId] = $this->buildDomainObject($row);
 			
 		}
+		if (isset($comments)){
+			return $comments;
+		}else {
+			echo 'Tout les commentaires en été lu.';
+		}
 		
-		return $comments;
 	}
 	
 	/**
@@ -109,11 +113,12 @@ class CommentDAO extends DAO {
 	 * 
 	 * @param integer $id
 	 */
-	public function recoverComment($id) {
-		$req = "SELECT * FROM comments WHERE id_comment=?";
-		$response = $this->getDb()->fetchAssoc($req, array($id));
-		if ($response){
-			return $this->buildDomainObject($response);
+	public function readComment($id) {
+		$see = 1;
+		$commentData = array('read_comment'	=> $see);
+		if ($id) {
+			//The comment has been added: update it
+			$this->getDb()->update('comments', $commentData, array('id_comment' => $id));
 		}else {
 			throw new \Exception("Aucun commentaire ne correspond à l'id " . $id);
 		}
@@ -123,9 +128,9 @@ class CommentDAO extends DAO {
 	 * 
 	 * @param integer $id
 	 */
-	public function delete($id) {
+	public function removeComment($id) {
 		// Delete the comment
-		$this->getDb()-delete('comments', array('id_comment' => $id));
+		$this->getDb()->delete('comments', array('id_comment' => $id));
 	}
 	
 	

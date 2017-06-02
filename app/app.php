@@ -70,7 +70,7 @@ $app['dao.user'] = function($app) {
 	return new BlogEcrivain\DAO\UserDAO($app['db']);
 };
 
-//Inject dependence on the PostDAO class to the CommentDAO instance through the setPostDAO mutator.
+// Inject dependence on the PostDAO class to the CommentDAO instance through the setPostDAO mutator.
 $app['dao.comment'] = function($app) {
 	$commentDAO = new BlogEcrivain\DAO\CommentDAO($app['db']);
 	$commentDAO->setPostDAO($app['dao.post']);

@@ -5,7 +5,6 @@
  		<meta http-equiv="X-UA-Compatible" content="IE=edge">
     	<!--Let browser know website is optimized for mobile-->
       	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-      	
       	<!--Import Google Icon Font-->
       	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       	<!--Import materialize.css-->
@@ -30,7 +29,6 @@
 			</ul>
 				<nav class="light-blue" role="navigation">
                 	<div class="nav-wrapper container">
-                		
                 		<ul class="right hide-on-med-and-down">
                 			{% if app.user and is_granted('ROLE_ADMIN') %}
                 				<li class="{% if adminMenu is defined %}active{% endif %} light-blue">
@@ -48,8 +46,7 @@
                 				<li class="{% if adminMenu is defined %}active{% endif %} light-blue">
                 					<a href="{{ path('admin') }}"><i class="material-icons">view_quilt</i></a>
                 				</li>
-                				
-                					
+		
                 			{% elseif app.user and is_granted('ROLE_AUTHOR') %}
                 				<li class="{% if adminMenu is defined %}active{% endif %} light-blue">
                 					<a href="{{ path('home') }}"><i class="material-icons">home</i></a>
