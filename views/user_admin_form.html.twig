@@ -1,0 +1,85 @@
+{% extends "template_backoffice.html.twig" %}
+{% set adminMenu = true %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+	<div class="container">
+		
+		{#% if error %}
+			<div class="card-panel red lighten-4">
+				<span class="red-text darken-4"><strong>Nom d'utilisateur </strong> ou <strong>Mot de Pass</strong> incorecte!</span>
+			</div>
+		{% endif %#}
+		<div class="row">
+    		<div class="centers">
+    			<h2>{{ block('title') }}</h2>
+    			
+    			{# Add user message with success #}
+    			{% for flashMessage in app.session.flashbag.get('success') %}
+        			<div class="card-panel teal lighten-5">
+            			<span class="teal-text darken-4"><strong>{{ flashMessage }}</strong></span>
+            		</div>
+    			{% endfor %}
+    			
+    			{# Form errors #}
+    			{% if form_errors(userForm.password.first) %}
+    				<div class="card-panel red lighten-4">
+						<span class="red-text darken-4">{{ form_erros(userForm.password.first) }}</span>
+					</div>
+				{% endif %}
+				
+				{# Registration Admin Form #}
+				<div class="row">
+				    {{ form_start(userForm, {'attr': {'class': 'col s12'} }) }}
+    				    <div class="row">
+    				    	<div slass="input-field col s12">
+    				    		{{ form_errors (userForm.username) }}
+    				    		{{ form_widget (userForm.username, {'attr': {
+    				    		    'class': 'validate',
+    				    		    'id':    'login'
+    				    		} }) }}
+    				    		<label for="login">nom d'utilisateur</label>
+    				    	</div>
+    				    	<div class="input-field col s12">
+                				{{ form_errors (userForm.email) }}
+    				    		{{ form_widget (userForm.email, {'attr': {
+    				    		    'class': 'validate',
+    				    		    'id':    'email'
+                                } }) }}    
+                				<label for="email" data-error="wrong" data-success="right">Email</label>
+              				</div>
+              				<div class="input-field col s12">
+    				    		{{ form_widget (userForm.password.first, {'attr': {
+    				    		    'class': 'validate',
+    				    		    'id':    'passwordFirst'
+                                } }) }}    
+                				<label for="passwordFirst">Password</label>
+              				</div>
+              				<div class="input-field col s12">
+    				    		{{ form_widget (userForm.password.second, {'attr': {
+    				    		    'class': 'validate',
+    				    		    'id':    'passwordSecond'
+                                } }) }}    
+                				<label for="passwordSecond">Password</label>
+              				</div>
+              				<div class="input-field col s6">
+              					<select>
+              						{{ form_errors (userForm.role) }}
+        				    		{{ form_widget (userForm.rol, {'attr': {
+        				    		    'class': 'validate',
+        				    		    'id':    'role'
+                                    } }) }}    
+                    				<label>Sélection de rôle</label>
+              					</select>
+              				</div>
+              				<div class="col s6 right-align">
+                            	<br/><br/>
+                            	<button type="submit" class="waves-effect waves-light btn light-blue">Enregistrer</button>
+                            </div>
+    				    
+    				    </div>
+    				{{ form_end(userform) }}
+				</div>
+    		</div>
+		</div>
+	</div>
+{% endblock %}

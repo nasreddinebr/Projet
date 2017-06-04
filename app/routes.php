@@ -82,21 +82,11 @@ $app->get('/admin', function (Request $request) use ($app) {
 	));	
 })->bind('admin');
 
-// Author page
-/*$app->get('/author', function () use ($app) {
-	$posts = findPosts($app);
-	$comments = $app['dao.comment']->recoverUnreadComment();
-	return $app['twig']->render('author.html.twig', array(
-			'posts' 	=> $posts,
-			'comments' 	=> $comments
-	));
-})->bind('author');*/
-
 // Moderator page
 $app->get('/admin/moderator', function (Request $request) use ($app) {
 	$posts = findPosts($app);
 	$comments = $app['dao.comment']->recoverUnreadComment();
-	return $app['twig']->render('moderator.html.twig', array(
+	return $app['twig']->render('comments.html.twig', array(
 			'posts' 	=> $posts,
 			'comments' 	=> $comments
 	));
@@ -166,7 +156,7 @@ $app->get('/admin/post/{id}/delete', function ($id, Request $request) use ($app)
 /**									Comments Management							     **/
 /**************************************************************************************/
 
-// TODO : Update comment to read
+// Update comment to read
 $app->get('/admin/comment/{id}/read', function ($id, Request $request) use ($app) {
 	// Delete a comment by ID
 	$app['dao.comment']->readComment($id);
@@ -177,7 +167,7 @@ $app->get('/admin/comment/{id}/read', function ($id, Request $request) use ($app
 	
 })->bind('admin_Comment_read');
 
-// TODO : Remove a comment
+// Remove a comment
 $app->get('/admin/comment/{id}/delete', function ($id, Request $request) use ($app){
 	// Delete a comment by ID
 	$app['dao.comment']->removeComment($id);

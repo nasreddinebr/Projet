@@ -102,9 +102,9 @@ class CommentDAO extends DAO {
 		}
 		if (isset($comments)){
 			return $comments;
-		}else {
-			echo 'Tout les commentaires en été lu.';
-		}
+		}//else {
+			//echo 'Tout les commentaires en été lu.';
+		//}
 		
 	}
 	

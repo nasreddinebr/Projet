@@ -75,6 +75,27 @@ class UserDAO extends DAO implements UserProviderInterface {
 	}
 	
 	/**
+	 * Add a user into the DB or update it
+	 * 
+	 * @param \BlogEcrivain\Domain\User $user to save.
+	 */
+	public function addUser(User $user) {
+		$userData = array(
+			'email' => $user->getEmail(),
+			'login' => $user->getUsername(),
+			'password' => $user->getPassword(),
+			'salt'		=> $user->getSalt(),
+			'role'		=> $user->getRole()
+		);
+		if ($user->getId()) {
+			// If the user already exists: upadate it
+			$this->getDb()->update('users', $userData, array('id_user' => $user->getId()));
+		}else {
+			
+		}
+	}
+	
+	/**
 	 * Creation of the user object based on the row of the database.
 	 *
 	 * @param array $row The DB row containing User data.
