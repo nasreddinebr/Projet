@@ -13,16 +13,17 @@
             <p>{{ post.content|raw }}</p>
             <hr>
             <h5>Commentaires:</h5>
-           
-            {# Recover all the comments of the article #}
-            {% for comment in comments %}
-            	    <div>
-            	    	<h6 class="grey-text">Par: {{ comment.author.username }} Le: {{ comment.dateComment|date("d/m/Y H:i:s") }}</h6>
-            	    	<p>{{ comment.content }}</p>
-            	    </div>
+            {% if comments %}
+                {# Recover all the comments of the article #}
+                {% for comment in comments %}
+                	    <div>
+                	    	<h6 class="grey-text">Par: {{ comment.author.username }} Le: {{ comment.dateComment|date("d/m/Y H:i:s") }}</h6>
+                	    	<p>{{ comment.content }}</p>
+                	    </div>
+                {% endfor %}
             {% else %}
             	<p>Aucun commentaire lier à ce billet.</p>
-            {% endfor %}
+            {% endif %}
             <hr>
             {% if commentForm %}
             	{{ form_start(commentForm) }}

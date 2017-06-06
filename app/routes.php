@@ -2,8 +2,10 @@
 use Symfony\Component\HttpFoundation\Request;
 use BlogEcrivain\Domain\Comment;
 use BlogEcrivain\Domain\Post;
+use BlogEcrivain\Domain\User;
 use BlogEcrivain\Form\Type\CommentWrite;
 use BlogEcrivain\Form\Type\PostWrite;
+use BlogEcrivain\Form\Type\UserAdminWrite;
 
 /**************************************************************************************/
 /**									  Front-Office				                 	 **/
@@ -67,29 +69,24 @@ $app->get('/signin', function(Request $request) use ($app) {
 			'error' 		=> $app['security.last_error']($request),
 			'last_username' => $app['session']->get('_security.last_username'),	
 	));
-	
 })->bind('signin');
 
 // Admin page
 $app->get('/admin', function (Request $request) use ($app) {
 	$posts = findPosts($app);
-	$comments = $app['dao.comment']->recoverUnreadComment();
-	$users = $app['dao.user']->recoverAllUsers();
-	return $app['twig']->render('admin.html.twig', array(
-				'posts' 	=> $posts,
-				'comments' 	=> $comments,
-				'users'		=> $users
-	));	
+	return $app['twig']->render('admin.html.twig', array('posts' => $posts));	
 })->bind('admin');
+
+// Users page
+$app->get('/admin/users', function (Request $request) use ($app) {
+	$users = $app['dao.user']->recoverAllUsers();
+	return $app['twig']->render('users_list.html.twig', array('users' => $users));
+})->bind('user');
 
 // Moderator page
 $app->get('/admin/moderator', function (Request $request) use ($app) {
-	$posts = findPosts($app);
 	$comments = $app['dao.comment']->recoverUnreadComment();
-	return $app['twig']->render('comments.html.twig', array(
-			'posts' 	=> $posts,
-			'comments' 	=> $comments
-	));
+	return $app['twig']->render('comments.html.twig', array('comments' => $comments));
 })->bind('moderator');
 
 /**************************************************************************************/
@@ -176,3 +173,70 @@ $app->get('/admin/comment/{id}/delete', function ($id, Request $request) use ($a
 	// Redirect to admin home page
 	return $app->redirect($app['url_generator']->generate('moderator'));
 })->bind('admin_comment_delete');
+
+/**************************************************************************************/
+/**									Users Management							     **/
+/**************************************************************************************/
+
+// Add user if not exist
+$app->match('/admin/user/add', function (Request $request) use ($app) {
+	$user = new User();
+	// TODO : import a lis of all users
+	$userForm = $app['form.factory']->create(UserAdminWrite::class, $user);
+	$userForm->handleRequest($request);
+	if ($userForm->isSubmitted() && $userForm->isValid()) {
+		// TODO : condition if user exist in data base
+			// return error
+		// TODO : else
+		// Generate a random salt value
+		$salt = substr(sha1(time()), 0, 23);
+		$user->setSalt($salt);
+		$userPassword = $user->getPassword();
+		// get  the default encoder
+		$encoder = $app['security.encoder.bcrypt'];
+		//compute the encoded password
+		$password = $encoder->encodePassword($userPassword, $user->getSalt());
+		$user->setPassword($password);
+		$app['dao.user']->addUser($user);
+		$app['session']->getFlashBag()->add('success', 'l\'utilisateur à bien été enregistrer.');
+	}
+	return $app['twig']->render('user_admin_form.html.twig', array(
+			'title'		=> 'New user',
+			'userForm'	=> $userForm->createView()));
+})->bind('admin_user_add');
+
+// Edit an existing user
+$app->match('admin/user/{id}/edit', function ($id, Request $request) use ($app) {
+	$user = $app['dao.user']->recoverUserById($id);
+	$userForm = $app['form.factory']->create(UserAdminWrite::class, $user);
+	$userForm ->handleRequest($request);
+	if ($userForm->isSubmitted() && $userForm->isValid()) {
+		$userPassword = $user->getPassword();
+		
+		//get the encoder
+		$encoder = $app['security.encoder_factory']->getEncoder($user);
+		
+		// hash the password
+		$password = $encoder->encodePassword($userPassword, $user->getSalt());
+		$user->setPassword($password);
+		$app['dao.user']->addUser($user);
+		$app['session']->getFlashBag()->add('success', 'L\'utilisateur a été mis à jour avec succès.');
+		return $app['twig']->render('user_admin_form.html.twig', array(
+				'title'		=> 'Edit user',
+				'userForm'	=> $userForm->createView()));
+	}
+})->bind('admin_user_edit');
+
+// Remove a user
+$app->match('admin/user/{id}/delete', function ($id, Request $request) use ($app) {
+	// Delete all associated comments
+	$app['dao.comment']->deletAllCommentByUser($id);
+	// Delete all associated Posts
+	$app['dao.post']->deletAllPostByUser($id);	
+	// Delete a user
+	$app['dao.user']->removeUser($id);
+	$app['session']->getFlashBag()->add('success', 'L\'utilisateur a été éliminé avec succès.');
+	
+	// Redirect to admin home page
+	return $app->redirect($app['url_generator']->generate('user'));
+})->bind('admin user delete');

@@ -23,7 +23,7 @@
     			{# Form errors #}
     			{% if form_errors(userForm.password.first) %}
     				<div class="card-panel red lighten-4">
-						<span class="red-text darken-4">{{ form_erros(userForm.password.first) }}</span>
+						<span class="red-text darken-4">{{ form_errors(userForm.password.first) }}</span>
 					</div>
 				{% endif %}
 				
@@ -31,13 +31,13 @@
 				<div class="row">
 				    {{ form_start(userForm, {'attr': {'class': 'col s12'} }) }}
     				    <div class="row">
-    				    	<div slass="input-field col s12">
+    				    	<div class="input-field col s12">
     				    		{{ form_errors (userForm.username) }}
     				    		{{ form_widget (userForm.username, {'attr': {
     				    		    'class': 'validate',
-    				    		    'id':    'login'
+    				    		    'id':    'username'
     				    		} }) }}
-    				    		<label for="login">nom d'utilisateur</label>
+    				    		<label for="username">nom d'utilisateur</label>
     				    	</div>
     				    	<div class="input-field col s12">
                 				{{ form_errors (userForm.email) }}
@@ -62,22 +62,20 @@
                 				<label for="passwordSecond">Password</label>
               				</div>
               				<div class="input-field col s6">
-              					<select>
               						{{ form_errors (userForm.role) }}
-        				    		{{ form_widget (userForm.rol, {'attr': {
-        				    		    'class': 'validate',
+        				    		{{ form_widget (userForm.role, {'attr': {
+        				    		    'class': 'browser-default',
         				    		    'id':    'role'
-                                    } }) }}    
-                    				<label>Sélection de rôle</label>
-              					</select>
+                                    } }) }}
               				</div>
+              				
               				<div class="col s6 right-align">
-                            	<br/><br/>
+                            	<br/>
                             	<button type="submit" class="waves-effect waves-light btn light-blue">Enregistrer</button>
                             </div>
     				    
     				    </div>
-    				{{ form_end(userform) }}
+    				{{ form_end(userForm) }}
 				</div>
     		</div>
 		</div>

@@ -50,10 +50,7 @@ class CommentDAO extends DAO {
 			$comment->setPost($post);
 			$comments[$commentId] = $comment;
 		}
-		if(isset($comments)) {
-			return $comments;
-		}
-					
+		return $comments;					
 	}
 	
 	/**
@@ -65,7 +62,7 @@ class CommentDAO extends DAO {
 		$commentData = array(
 				'content' 		=> $comment->getContent(),
 				//'report'		=> $comment->getReport(),
-				//'read'			=> $comment->getRead(),
+				//'read'		=> $comment->getRead(),
 				'post_id' 		=> $comment->getPost()->getId(),
 				'user_id' 		=> $comment->getAuthor()->getId()
 		);
@@ -98,13 +95,9 @@ class CommentDAO extends DAO {
 		foreach ($response as $row) {
 			$comentId = $row['id_comment'];
 			$comments[$comentId] = $this->buildDomainObject($row);
-			
 		}
-		if (isset($comments)){
-			return $comments;
-		}//else {
-			//echo 'Tout les commentaires en été lu.';
-		//}
+		if (isset($comments)) return $comments;
+		
 		
 	}
 	
@@ -141,6 +134,15 @@ class CommentDAO extends DAO {
 	 */
 	public function deletAllCommentByPost($postId) {
 		$this->getDb()->delete('comments', array('post_id' => $postId));
+	}
+	
+	/**
+	 * Delete all comments for a user
+	 * 
+	 * @param integer $user_id
+	 */
+	public function deletAllCommentByUser($userId) {
+		$this->getDb()->delete('comments', array('user_id' => $userId));
 	}
 	
 	/**

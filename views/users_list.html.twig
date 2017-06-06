@@ -1,0 +1,73 @@
+{% extends "template_backoffice.html.twig" %}
+{% set adminMenu = true %}
+{% block title %}List des utilsateurs{% endblock %}
+{% block content %}	
+	
+	<div class="container">
+        <div class="section">
+        
+        	{# Message #}
+            {% for flashMessage in app.session.flashbag.get('success') %}
+            	<div class="card-panel teal lighten-5">
+        			<span class="teal-text darken-4"><strong>{{ flashMessage }}</strong></span>
+        		</div>
+        	{% endfor %}
+        	
+        	{# List of users #}
+        	<div class="col s10">
+        		<h4>{{ block('title') }}</h4>
+        	</div>
+        	<div class="col s2 right-align">
+                <a href="{{ path('admin_user_add') }}" class="waves-effect waves-light btn light-blue"><i class="material-icons right">add</i>Nouveau utilsateur</a>
+            </div>
+        	
+            <table class="highlight">
+                <thead>
+                    <tr>
+                        <th>Login</th>
+                        <th>E-mail</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <div class="col s12">
+                    <tbody>
+                        {% if users %}
+                            {% for user in users %}
+                                <tr>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>
+                                    	{% if user.role == 'ROLE_ADMIN' %}
+                                    		Admin
+                                    	{% elseif user.role == 'ROLE_AUTHOR' %}
+                                    		Auteur
+                                    	{% elseif user.role == 'ROLE_MODERATOR' %}
+                                    		Moderateur
+                                    	{% else %}
+                                    		User
+                                    	{% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="right-align">
+                                        	<a href="{{ path('admin user delete', {'id': user.id}) }}" class="btn-floating btn-small waves-effect waves-light red">
+                                            	<i class="material-icons">delete</i>
+                                            </a>
+                                            <a href="{{ path('admin_user_edit', {'id': user.id}) }}" class="btn-floating btn-small waves-effect waves-light orange darken-3 modal-trigger">
+                                            	<i class="material-icons">edit</i>
+                                            </a>
+                                        </div>   
+                                    </td>
+                                </tr>                         
+                            {% endfor %}    	
+                        {% else %}
+                            <tr>
+                            	<td colspan="4" class="title">Aucun utilisateur trouver</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </div>
+            </table>
+        </div>
+	</div>
+{% endblock %}

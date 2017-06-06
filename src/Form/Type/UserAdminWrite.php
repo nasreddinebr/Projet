@@ -21,7 +21,11 @@ class UserAdminWrite extends AbstractType {
 						'second_options'	=> array('label' => 'répéter votre password'),
 				))
 				->add('role', ChoiceType::class, array(
-						'choises' => array('Admin' => 'ROLE_ADMIN', 'Author' => 'ROLE_AUTHOR', 'Moderator' => 'ROLE_MODERATOR', 'user' => 'ROLE_USER')
+						'choices' => array(
+							'Admin' 	=> 'ROLE_ADMIN', 
+							'Author' 	=> 'ROLE_AUTHOR', 
+							'Moderator' => 'ROLE_MODERATOR', 
+							'user' 		=> 'ROLE_USER')
 				));
 	}
 	

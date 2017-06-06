@@ -51,6 +51,26 @@ class PostDAO extends DAO {
 	}
 	
 	/**
+	 * Returns the list of posts that are published
+	 *
+	 * @return array A list of all posts
+	 */
+	public function recoverPostPublished() {
+		$req = "SELECT * FROM posts WHERE publish=1 ORDER BY id_post DESC";
+		$response = $this->getDb()->fetchAll($req);
+		
+		// Convert query result to a array of domain objects
+		$posts = array();
+		foreach ($response as $row) {
+			$postId = $row['id_post'];
+			$posts[$postId] = $this->buildDomainObject($row);
+		}
+		if (isset($posts)) {
+			return $posts;
+		}
+	}
+	
+	/**
 	 * Add a new post into th DB
 	 * 
 	 * @param \BlogEcrivain\Domain\Post $post The post to add 
@@ -89,23 +109,12 @@ class PostDAO extends DAO {
 	}
 	
 	/**
-	 * Returns the list of posts that are published
-	 * 
-	 * @return array A list of all posts
+	 * Delete all post for a user
+	 *
+	 * @param integer $user_id
 	 */
-	public function recoverPostPublished() {
-		$req = "SELECT * FROM posts WHERE publish=1 ORDER BY id_post DESC";
-		$response = $this->getDb()->fetchAll($req);
-		
-		// Convert query result to a array of domain objects
-		$posts = array();
-		foreach ($response as $row) {
-			$postId = $row['id_post'];
-			$posts[$postId] = $this->buildDomainObject($row);
-		}
-		if (isset($posts)) {
-			return $posts;
-		}	
+	public function deletAllPostByUser($userId) {
+		$this->getDb()->delete('posts', array('user_id' => $userId));
 	}
 	
 	/**

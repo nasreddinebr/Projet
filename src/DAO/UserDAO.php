@@ -62,14 +62,14 @@ class UserDAO extends DAO implements UserProviderInterface {
 	 * @return array
 	 */
 	public function recoverAllUsers() {
-		$req = "SELECT * FROM users ORDER BY role, login";
+		$req = "SELECT * FROM users ORDER BY id_user";
 		$response = $this->getDb()->fetchAll($req);
 		
 		//Convert Query response to an array of domain objects
 		$users = array();
 		foreach ($response as $row) {
-			$id = $row['id_user'];
-			$users['$id'] = $this->buildDomainObject($row);
+			$userId = $row['id_user'];
+			$users[$userId] = $this->buildDomainObject($row);
 		}
 		return $users;
 	}
@@ -81,9 +81,9 @@ class UserDAO extends DAO implements UserProviderInterface {
 	 */
 	public function addUser(User $user) {
 		$userData = array(
-			'email' => $user->getEmail(),
-			'login' => $user->getUsername(),
-			'password' => $user->getPassword(),
+			'email' 	=> $user->getEmail(),
+			'login' 	=> $user->getUsername(),
+			'password' 	=> $user->getPassword(),
 			'salt'		=> $user->getSalt(),
 			'role'		=> $user->getRole()
 		);
@@ -91,8 +91,22 @@ class UserDAO extends DAO implements UserProviderInterface {
 			// If the user already exists: upadate it
 			$this->getDb()->update('users', $userData, array('id_user' => $user->getId()));
 		}else {
+			// Add new user
+			$this->getDb()->insert('users', $userData);
 			
+			// Get id of newly created user and set it 
+			$id = $this->getDb()->lastInsertId();
+			$user->setId($id);
 		}
+	}
+	
+	/**
+	 * Remove a user
+	 * 
+	 * @param integer $id
+	 */
+	public function removeUser($id) {
+		$this->getDb()->delete('users', array('id_user' => $id));
 	}
 	
 	/**
