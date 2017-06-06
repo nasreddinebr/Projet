@@ -102,6 +102,8 @@ $app->match('/admin/post/add', function (Request $request) use ($app) {
 		$user = $app['user'];
 		$post->setAuthor($user);
 		
+		
+		
 		// Creation of a new post and the form to associate it
 		$postForm = $app['form.factory']->create(PostWrite::class, $post);
 		$postForm->handleRequest($request);
@@ -111,7 +113,25 @@ $app->match('/admin/post/add', function (Request $request) use ($app) {
 		 * the new post is saved and a message of success is displayed.
 		 */
 		if ($postForm->isSubmitted() && $postForm->isValid()) {
-			$app['dao.post']->addPost($post);
+			$fileName = $_FILES['post_write']['name']['media'];
+			// Verifiing if the file as successfully uploaded
+			//if($_FILES['post_write']['error'] > 0) $errors = "File upload error";
+			$extensions_valides = array( 'jpg' , 'jpeg' , 'gif' , 'png' );
+			$extension_upload = strtolower(  substr(  strrchr($_FILES['post_write']['name']['media'], '.'), 1));
+			if ( in_array($extension_upload,$extensions_valides)){
+				//ajout le post a la base bd
+				$post->setMedia($fileName);
+				$app['dao.post']->addPost($post);
+				//recuperer l'id du post
+				$id_post = $post->getId();
+				//donnée un nom et un chemind'upload
+				$upload_dir = '../web/img';
+				$nom = "background{$id_post}.{$extension_upload}";
+				$tmp_name = $_FILES['post_write']['tmp_name']['media'];
+				//uploader le fichier en changent le nom "background(idPost).extention_upload
+				move_uploaded_file($tmp_name, "$upload_dir/$nom");
+				// TODO : enregister les donnée des media sur l base de donné
+			}
 			$app['session']->getFlashBag()->add('success','Le billet et enregistrer.');
 		}
 	}
