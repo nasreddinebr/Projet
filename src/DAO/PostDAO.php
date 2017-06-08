@@ -80,7 +80,7 @@ class PostDAO extends DAO {
 				'title' 	=> $post->getTitle(),
 				'content' 	=> $post->getContent(),
 				'publish'	=> $post->getPublish(),
-				'media'		=> $post->getMedia(),
+				//'media'		=> $post->getMedia(),
 				'user_id' 	=> $post->getAuthor()->getId()
 		);
 	
@@ -130,7 +130,7 @@ class PostDAO extends DAO {
 		$post->setTitle($row['title']);
 		$post->setDate($row['p_date']);
 		$post->setContent($row['content']);
-		$post->setMedia($row['media']);
+		//$post->setMedia($row['media']);
 		if (array_key_exists('user_id', $row)) {
 			//recuperate and set the associated author
 			$userId = $row['user_id'];

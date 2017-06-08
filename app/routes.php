@@ -3,6 +3,7 @@ use Symfony\Component\HttpFoundation\Request;
 use BlogEcrivain\Domain\Comment;
 use BlogEcrivain\Domain\Post;
 use BlogEcrivain\Domain\User;
+use BlogEcrivain\Domain\Media;
 use BlogEcrivain\Form\Type\CommentWrite;
 use BlogEcrivain\Form\Type\PostWrite;
 use BlogEcrivain\Form\Type\UserAdminWrite;
@@ -99,10 +100,9 @@ $app->match('/admin/post/add', function (Request $request) use ($app) {
 	if ($app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_FULLY')) {
 		// The user is identified, recuperate it.
 		$post = new Post();
+		$media = new Media();
 		$user = $app['user'];
 		$post->setAuthor($user);
-		
-		
 		
 		// Creation of a new post and the form to associate it
 		$postForm = $app['form.factory']->create(PostWrite::class, $post);
@@ -113,26 +113,40 @@ $app->match('/admin/post/add', function (Request $request) use ($app) {
 		 * the new post is saved and a message of success is displayed.
 		 */
 		if ($postForm->isSubmitted() && $postForm->isValid()) {
-			$fileName = $_FILES['post_write']['name']['media'];
 			// Verifiing if the file as successfully uploaded
 			//if($_FILES['post_write']['error'] > 0) $errors = "File upload error";
 			$extensions_valides = array( 'jpg' , 'jpeg' , 'gif' , 'png' );
 			$extension_upload = strtolower(  substr(  strrchr($_FILES['post_write']['name']['media'], '.'), 1));
-			if ( in_array($extension_upload,$extensions_valides)){
-				//ajout le post a la base bd
-				$post->setMedia($fileName);
+			if ( in_array($extension_upload, $extensions_valides)){
 				$app['dao.post']->addPost($post);
-				//recuperer l'id du post
-				$id_post = $post->getId();
-				//donnée un nom et un chemind'upload
-				$upload_dir = '../web/img';
-				$nom = "background{$id_post}.{$extension_upload}";
+				$id_post = $post->getId();		// Recuperate the id of last post
+				
+				//Recover the temporary path and the destination folder, and then rename the uploder file
 				$tmp_name = $_FILES['post_write']['tmp_name']['media'];
+				$upload_dir = '../web/img/PostsMedia';		
+				$fileName = "background{$id_post}.{$extension_upload}";
+				
+				//if the folde does not exit, we create it with a writing mode.
+				if (!file_exists($upload_dir)) {
+					mkdir($upload_dir, 0777);
+				}
+				
 				//uploader le fichier en changent le nom "background(idPost).extention_upload
-				move_uploaded_file($tmp_name, "$upload_dir/$nom");
-				// TODO : enregister les donnée des media sur l base de donné
+				move_uploaded_file($tmp_name, "$upload_dir/$fileName");
+					
+				//$urlfile = substr($upload_dir, -15);
+				$media->setFileName($fileName);
+				$media->setUrlFile(substr($upload_dir, -15));
+				$media->setPostId($id_post);
+				
+				// Add media to the DataBase
+				$app['dao.media']->addMedia($media);
+				
+				$app['session']->getFlashBag()->add('success','Le billet et enregistrer.');
+			}else {
+				echo "le format de l'image et invalide";
 			}
-			$app['session']->getFlashBag()->add('success','Le billet et enregistrer.');
+			
 		}
 	}
 	return $app['twig']->render('post_form.html.twig', array(

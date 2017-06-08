@@ -1,6 +1,7 @@
 <?php
+namespace BlogEcrivain\Domain;
 
-use phpDocumentor\Reflection\Types\This;
+
 
 class Media {
 	
@@ -18,7 +19,7 @@ class Media {
 	 * @var string
 	 * @access private
 	 */
-	private  $name;
+	private  $fileName;
 	
 	/**
 	 * File URL
@@ -57,11 +58,11 @@ class Media {
 	 */
 	
 	public function getFileName() {
-		return $this->name;
+		return $this->fileName;
 	}
 	
-	public function setFileName($name) {
-		$this->name = $name;
+	public function setFileName($fileName) {
+		$this->fileName = $fileName;
 		return $this;
 	}
 	
@@ -88,7 +89,7 @@ class Media {
 		return $this->postId;
 	}
 	
-	public function setPostId(Post $postId) {
+	public function setPostId($postId) {
 		$this->postId = $postId;
 		return $this;
 	}

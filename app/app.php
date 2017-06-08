@@ -77,3 +77,7 @@ $app['dao.comment'] = function($app) {
 	$commentDAO->setUserDAO($app['dao.user']);
 	return $commentDAO;
 };
+
+$app['dao.media'] = function ($app) {
+	return new BlogEcrivain\DAO\MediaDAO($app['db']);
+};
