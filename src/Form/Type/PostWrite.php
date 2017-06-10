@@ -11,7 +11,9 @@ class PostWrite extends AbstractType {
 		$builder
 				->add('title', TextType::class)
 				->add('content', TextareaType::class, array('required' => false,))
-				->add('media', FileType::class, array('required' => false,))
+				->add('media', FileType::class, array(
+						'data_class' => null,
+						'required' => false,))
 				->add('publish', CheckboxType::class, array('required' => false,));
 	}
 	

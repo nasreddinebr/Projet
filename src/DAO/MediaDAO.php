@@ -13,7 +13,7 @@ class MediaDAO extends DAO {
 				'url_file'	=> $media->getUrlFile(),
 				'post_id'	=> $media->getPostId()
 		);
-		print_r($mediaData);
+		
 		$req = $this->getDb()->prepare('INSERT INTO medias(file_name, url_file, post_id) VALUES(:file_name, :url_file, :post_id)');
 		$req->execute($mediaData);	
 		

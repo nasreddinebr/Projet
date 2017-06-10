@@ -4,6 +4,7 @@ namespace BlogEcrivain\DAO;
 
 use BlogEcrivain\Domain\Post;
 use Doctrine\DBAL\Driver\SQLSrv\LastInsertId;
+use BlogEcrivain\Domain\Media;
 
 class PostDAO extends DAO {
 	
@@ -16,13 +17,15 @@ class PostDAO extends DAO {
 		$this->userDAO = $userDAO;
 	}
 	
+	
 	/**
 	 * Return a list of all posts sorted by most recent
 	 * 
 	 * @return array A list of all posts
 	 */
 	public function recoverAllPost() {
-		$req = "SELECT * FROM posts ORDER BY id_post DESC";
+		//$req = "SELECT * FROM posts ORDER BY id_post DESC";
+		$req = "SELECT * FROM posts p INNER JOIN medias m ON m.post_id = p.id_post ORDER BY p.id_post DESC";
 		$response = $this->getDb()->fetchAll($req);
 		
 		// Convert query result to a array of domain objects
@@ -42,7 +45,7 @@ class PostDAO extends DAO {
 	 * @return \BlogEcrivain\Domain\Post|throw an exception if no matching post is found
 	 */
 	public function recoverPost($id) {
-		$req = "SELECT * FROM posts WHERE id_post=?";
+		$req = "SELECT * FROM posts p INNER JOIN medias m ON m.post_id = p.id_post WHERE id_post=?";
 		$row = $this->getDb()->fetchAssoc($req, array($id));
 		if($row)
 			return $this->buildDomainObject($row);
@@ -56,7 +59,7 @@ class PostDAO extends DAO {
 	 * @return array A list of all posts
 	 */
 	public function recoverPostPublished() {
-		$req = "SELECT * FROM posts WHERE publish=1 ORDER BY id_post DESC";
+		$req = "SELECT * FROM posts p INNER JOIN medias m ON m.post_id = p.id_post WHERE publish=1 ORDER BY id_post DESC";
 		$response = $this->getDb()->fetchAll($req);
 		
 		// Convert query result to a array of domain objects
@@ -124,12 +127,14 @@ class PostDAO extends DAO {
 	 * @return \blog_ecrivain\Domain\Post
 	 */
 	protected function buildDomainObject(array $row) {
-		
+		$media = new Media();
 		$post = new Post();
 		$post->setId($row['id_post']);
 		$post->setTitle($row['title']);
 		$post->setDate($row['p_date']);
 		$post->setContent($row['content']);
+		$media= array($row['file_name'], $row['url_file']);
+		$post->setMedia($media);
 		//$post->setMedia($row['media']);
 		if (array_key_exists('user_id', $row)) {
 			//recuperate and set the associated author

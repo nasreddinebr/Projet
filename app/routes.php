@@ -56,7 +56,7 @@ $app->match('/post/{id}', function ($id, Request $req) use ($app){
 
 // Blog page
 $app->get('/blog', function() use ($app) {
-	$listPosts = findPosts($app);
+	$listPosts = $app['dao.post']->recoverPostPublished();
 	return $app['twig']->render('blog.html.twig', array('posts' => $listPosts));
 })->bind('blog');
 
@@ -74,7 +74,8 @@ $app->get('/signin', function(Request $request) use ($app) {
 
 // Admin page
 $app->get('/admin', function (Request $request) use ($app) {
-	$posts = findPosts($app);
+	$posts = $app['dao.post']->recoverAllPost();
+
 	return $app['twig']->render('admin.html.twig', array('posts' => $posts));	
 })->bind('admin');
 
@@ -107,7 +108,6 @@ $app->match('/admin/post/add', function (Request $request) use ($app) {
 		// Creation of a new post and the form to associate it
 		$postForm = $app['form.factory']->create(PostWrite::class, $post);
 		$postForm->handleRequest($request);
-		
 		/**
 		 * If a post is submitted and the content is valid,
 		 * the new post is saved and a message of success is displayed.
