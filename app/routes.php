@@ -99,7 +99,8 @@ $app->get('/admin/moderator', function (Request $request) use ($app) {
 $app->match('/admin/post/add', function (Request $request) use ($app) {
 	// We check if there is a user logged in
 	if ($app['security.authorization_checker']->isGranted('IS_AUTHENTICATED_FULLY')) {
-		// The user is identified, recuperate it.
+		
+		// The author aor admin is identified, recuperate it.
 		$post = new Post();
 		$media = new Media();
 		$user = $app['user'];
@@ -113,11 +114,11 @@ $app->match('/admin/post/add', function (Request $request) use ($app) {
 		 * the new post is saved and a message of success is displayed.
 		 */
 		if ($postForm->isSubmitted() && $postForm->isValid()) {
-			// Verifiing if the file as successfully uploaded
-			//if($_FILES['post_write']['error'] > 0) $errors = "File upload error";
+			
+			// verifying whether the uploader file extension is allowed or not
 			$extensions_valides = array( 'jpg' , 'jpeg' , 'gif' , 'png' );
-			$extension_upload = strtolower(  substr(  strrchr($_FILES['post_write']['name']['media'], '.'), 1));
-			if ( in_array($extension_upload, $extensions_valides)){
+			$extension_upload = strtolower(substr(strrchr($_FILES['post_write']['name']['media'], '.'), 1));
+			if (in_array($extension_upload, $extensions_valides)){
 				$app['dao.post']->addPost($post);
 				$id_post = $post->getId();		// Recuperate the id of last post
 				
@@ -131,10 +132,8 @@ $app->match('/admin/post/add', function (Request $request) use ($app) {
 					mkdir($upload_dir, 0777);
 				}
 				
-				//uploader le fichier en changent le nom "background(idPost).extention_upload
+				// Upload the file by changing he's name "background(idPost).extention_upload"
 				move_uploaded_file($tmp_name, "$upload_dir/$fileName");
-					
-				//$urlfile = substr($upload_dir, -15);
 				$media->setFileName($fileName);
 				$media->setUrlFile(substr($upload_dir, -15));
 				$media->setPostId($id_post);
@@ -144,9 +143,8 @@ $app->match('/admin/post/add', function (Request $request) use ($app) {
 				
 				$app['session']->getFlashBag()->add('success','Le billet et enregistrer.');
 			}else {
-				echo "le format de l'image et invalide";
+				$app['session']->getFlashBag()->add('error','L\'extension du fichier est invalide veuillez sélectionner une image valide.');
 			}
-			
 		}
 	}
 	return $app['twig']->render('post_form.html.twig', array(
@@ -172,8 +170,12 @@ $app->match('/admin/post/{id}/edit', function ($id, Request $request) use ($app)
 
 // Delete a post and it's comments
 $app->get('/admin/post/{id}/delete', function ($id, Request $request) use ($app) {
+
 	// Delete all associated comments
 	$app['dao.comment']->deletAllCommentByPost($id);
+	
+	// Delete all associated media.
+	$app['dao.media']->removeMediaByPsot($id);
 	
 	// Delete the post
 	$app['dao.post']->deletPost($id);
@@ -189,6 +191,7 @@ $app->get('/admin/post/{id}/delete', function ($id, Request $request) use ($app)
 
 // Update comment to read
 $app->get('/admin/comment/{id}/read', function ($id, Request $request) use ($app) {
+	
 	// Delete a comment by ID
 	$app['dao.comment']->readComment($id);
 	$app['session']->getFlashBag()->add('success', 'Le commentaire a été marqué comme lu.');
@@ -215,10 +218,12 @@ $app->get('/admin/comment/{id}/delete', function ($id, Request $request) use ($a
 // Add user if not exist
 $app->match('/admin/user/add', function (Request $request) use ($app) {
 	$user = new User();
+	
 	// TODO : import a lis of all users
 	$userForm = $app['form.factory']->create(UserAdminWrite::class, $user);
 	$userForm->handleRequest($request);
 	if ($userForm->isSubmitted() && $userForm->isValid()) {
+		
 		// TODO : condition if user exist in data base
 			// return error
 		// TODO : else

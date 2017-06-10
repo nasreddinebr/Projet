@@ -17,14 +17,12 @@ class PostDAO extends DAO {
 		$this->userDAO = $userDAO;
 	}
 	
-	
 	/**
 	 * Return a list of all posts sorted by most recent
 	 * 
 	 * @return array A list of all posts
 	 */
 	public function recoverAllPost() {
-		//$req = "SELECT * FROM posts ORDER BY id_post DESC";
 		$req = "SELECT * FROM posts p INNER JOIN medias m ON m.post_id = p.id_post ORDER BY p.id_post DESC";
 		$response = $this->getDb()->fetchAll($req);
 		
@@ -50,7 +48,7 @@ class PostDAO extends DAO {
 		if($row)
 			return $this->buildDomainObject($row);
 		else 
-			throw new \Exception("No post matching id" . $id);
+			throw new \Exception("Aucun billet ne correspond a l'id: " . $id);
 	}
 	
 	/**
@@ -83,7 +81,6 @@ class PostDAO extends DAO {
 				'title' 	=> $post->getTitle(),
 				'content' 	=> $post->getContent(),
 				'publish'	=> $post->getPublish(),
-				//'media'		=> $post->getMedia(),
 				'user_id' 	=> $post->getAuthor()->getId()
 		);
 	
@@ -135,8 +132,8 @@ class PostDAO extends DAO {
 		$post->setContent($row['content']);
 		$media= array($row['file_name'], $row['url_file']);
 		$post->setMedia($media);
-		//$post->setMedia($row['media']);
 		if (array_key_exists('user_id', $row)) {
+			
 			//recuperate and set the associated author
 			$userId = $row['user_id'];
 			$user = $this->userDAO->recoverUserById($userId);

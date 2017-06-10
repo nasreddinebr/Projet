@@ -4,13 +4,19 @@
 {% block content %}
     <div class="container">
     	<h2>{{ block('title') }}</h2>
+
+		
     	{# Display the confirmation message if the post is correctly saved #}
         {% for flashMessage in app.session.flashbag.get('success') %}
     		<div class="card-panel teal lighten-5">
     			<span class="teal-text darken-4"><strong>{{ flashMessage }}</strong></span>
     		</div>
         {% endfor %}
-        
+        {% for flashMessage in app.session.flashbag.get('error') %}
+    		<div class="card-panel red lighten-4">
+    			<span class="red-text darken-4"><strong>{{ flashMessage }}</strong></span>
+    		</div>
+        {% endfor %}
     	{{ form_start(postForm, { 'attr': {'class': 'col s12'}}) }}
     		<div class="row">
     			<div class="input-field col s12">

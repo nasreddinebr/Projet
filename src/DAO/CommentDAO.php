@@ -61,8 +61,6 @@ class CommentDAO extends DAO {
 	public function addComment(Comment $comment) {
 		$commentData = array(
 				'content' 		=> $comment->getContent(),
-				//'report'		=> $comment->getReport(),
-				//'read'		=> $comment->getRead(),
 				'post_id' 		=> $comment->getPost()->getId(),
 				'user_id' 		=> $comment->getAuthor()->getId()
 		);
@@ -110,6 +108,7 @@ class CommentDAO extends DAO {
 		$see = 1;
 		$commentData = array('read_comment'	=> $see);
 		if ($id) {
+			
 			//The comment has been added: update it
 			$this->getDb()->update('comments', $commentData, array('id_comment' => $id));
 		}else {
@@ -122,6 +121,7 @@ class CommentDAO extends DAO {
 	 * @param integer $id
 	 */
 	public function removeComment($id) {
+		
 		// Delete the comment
 		$this->getDb()->delete('comments', array('id_comment' => $id));
 	}
@@ -157,8 +157,6 @@ class CommentDAO extends DAO {
 		$comment->setId($row['id_comment']);
 		$comment->setDateComment($row['date_comment']);
 		$comment->setContent($row['content']);
-		//$comment->setReport($row['report']);
-		//$comment->setRead($row['read_comment']);
 		
 		if (array_key_exists('post_id', $row)) {
 			// Find and set the associated post
