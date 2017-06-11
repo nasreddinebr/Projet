@@ -8,7 +8,7 @@ class Comment {
 	 * 
 	 * @var integer
 	 */
-	private $id;
+	public $id;
 	
 	/**
 	 * Comment login.
@@ -44,6 +44,13 @@ class Comment {
 	 * @var integer
 	 */
 	private $read;
+	
+	/**
+	 * Comment parent
+	 * 
+	 * @var integer
+	 */
+	public $parent_id;
 	
 	/**
 	 * Associated post
@@ -111,6 +118,15 @@ class Comment {
 	public function setRead($read) {
 		$this->read = $read;
 		return $this->read;
+	}
+	
+	public function getParentId() {
+		return $this->parent_id;
+	}
+	
+	public function setParentId($parent_id) {
+		$this->parent_id = $parent_id;
+		return $this;
 	}
 	
 	public function getPost() {

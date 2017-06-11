@@ -37,11 +37,12 @@ class CommentDAO extends DAO {
 		
 		/* id_post is not selected by the SQL query.
 		 The post won't be retrieved during domain object construction.*/
-		$req = "SELECT id_comment, date_comment, content, user_id FROM comments WHERE post_id=? ORDER BY id_comment";
+		$req = "SELECT * FROM comments WHERE post_id=? ORDER BY id_comment";
 		$response = $this->getDb()->fetchAll($req, array($postId));
 		
+		//var_dump($response[0]["id_comment"] = 12);
 		//Convert Query response to an array of domain objects
-		$comments = array();
+		$com = [];
 		foreach ($response as $row) {
 			$commentId = $row['id_comment'];
 			$comment = $this->buildDomainObject($row);
@@ -50,6 +51,17 @@ class CommentDAO extends DAO {
 			$comment->setPost($post);
 			$comments[$commentId] = $comment;
 		}
+		foreach ($comments as $comment) {
+			$com[$comment->id]=$comment;
+		}
+		
+		foreach ($comments as $key => $comment) {
+			if ($comment->parent_id != 0) {
+				$com[$comment->parent_id]->children[] = $comment;
+				unset($comments[$key]);
+			}
+		}
+		//var_dump($comments[5]);
 		return $comments;					
 	}
 	
@@ -157,6 +169,7 @@ class CommentDAO extends DAO {
 		$comment->setId($row['id_comment']);
 		$comment->setDateComment($row['date_comment']);
 		$comment->setContent($row['content']);
+		$comment->setParentId($row['parent_id']);
 		
 		if (array_key_exists('post_id', $row)) {
 			// Find and set the associated post

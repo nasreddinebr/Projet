@@ -16,13 +16,24 @@
             {% if comments %}
                 {# Recover all the comments of the article #}
                 {% for comment in comments %}
-                	    <div>
-                	    	<h6 class="grey-text">Par: {{ comment.author.username }} Le: {{ comment.dateComment|date("d/m/Y H:i:s") }}</h6>
-                	    	<p>{{ comment.content }}</p>
+                	    <div class="row">
+                    	    <div class="col s12">
+                    	    	<div class="card-panel teal lighten-5">
+                    	    		<h6 class="grey-text">Par: {{ comment.author.username }} Le: {{ comment.dateComment|date("d/m/Y H:i:s") }}</h6>
+                    	    		<p>{{ comment.content }}</p>
+                    	    	</div>
+                    	    </div>	
                 	    </div>
                 {% endfor %}
             {% else %}
-            	<p>Aucun commentaire lier à ce billet.</p>
+                <div class="row">
+                    <div class="col s12">
+                        <div class="card-panel teal lighten-5">
+                        	<p>Aucun commentaire lier à ce billet.</p>
+                        </div>
+                    </div>	
+                </div>
+            	
             {% endif %}
             <hr>
             {% if commentForm %}

@@ -46,8 +46,9 @@ $app->match('/post/{id}', function ($id, Request $req) use ($app){
 		}
 		$commentFormView = $commentForm->createView();
 	}
-	
 	$comments = $app['dao.comment']->recoverAllCommentByPost($id);
+
+	var_dump($comments);
 	return $app['twig']->render('post.html.twig', array(
 			'post' 			=> $post, 
 			'comments' 		=> $comments,
