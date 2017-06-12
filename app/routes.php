@@ -110,6 +110,7 @@ $app->match('/admin/post/add', function (Request $request) use ($app) {
 		// Creation of a new post and the form to associate it
 		$postForm = $app['form.factory']->create(PostWrite::class, $post);
 		$postForm->handleRequest($request);
+		
 		/**
 		 * If a post is submitted and the content is valid,
 		 * the new post is saved and a message of success is displayed.

@@ -71,9 +71,15 @@ class CommentDAO extends DAO {
 	 * 
 	 * @param \BlogEcrivain\Domain\Comment
 	 */
-	public function addComment(Comment $comment) {
+	public function addComment(Comment $comment) {	//$parentId
+		if (!$comment->getParentId()) {
+			$comment->setParentId(0);
+		}/*else{
+			$comment->setParentId($parentId)
+		}*/
 		$commentData = array(
 				'content' 		=> $comment->getContent(),
+				'parent_id'		=> $comment->getParentId(),
 				'post_id' 		=> $comment->getPost()->getId(),
 				'user_id' 		=> $comment->getAuthor()->getId()
 		);
