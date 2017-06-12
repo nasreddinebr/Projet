@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col s12">
+        <div class="card-panel teal lighten-5">
+            <h6 class="grey-text">Par: {{ comment.author.username }} Le: {{ comment.dateComment|date("d/m/Y H:i:s") }}</h6>
+            <p>{{ comment.content }}</p>
+        </div>
+	</div>	
+</div>
+<div style="margin-left: 50px;">
+	{% if comment.children is defined %}
+	    {% for comment in comment.children %}
+		    {% include "comment_post.html.twig"%}
+	    {% endfor %}
+    {% endif %}
+</div>
+

@@ -62,10 +62,8 @@ class CommentDAO extends DAO {
 					unset($comments[$key]);
 				}
 			}
-		}
-		
-		//var_dump($comments[5]);
-		if (isset($comments)) return $comments;					
+			return $comments;
+		}		 					
 	}
 	
 	/**
