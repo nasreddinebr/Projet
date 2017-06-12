@@ -51,18 +51,21 @@ class CommentDAO extends DAO {
 			$comment->setPost($post);
 			$comments[$commentId] = $comment;
 		}
-		foreach ($comments as $comment) {
-			$com[$comment->id]=$comment;
-		}
-		
-		foreach ($comments as $key => $comment) {
-			if ($comment->parent_id != 0) {
-				$com[$comment->parent_id]->children[] = $comment;
-				unset($comments[$key]);
+		if (isset($comments)) {
+			foreach ($comments as $comment) {
+				$com[$comment->id]=$comment;
+			}
+			
+			foreach ($comments as $key => $comment) {
+				if ($comment->parent_id != 0) {
+					$com[$comment->parent_id]->children[] = $comment;
+					unset($comments[$key]);
+				}
 			}
 		}
+		
 		//var_dump($comments[5]);
-		return $comments;					
+		if (isset($comments)) return $comments;					
 	}
 	
 	/**
