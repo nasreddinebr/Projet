@@ -194,7 +194,7 @@ $app->get('/admin/post/{id}/delete', function ($id, Request $request) use ($app)
 // Update comment to read
 $app->get('/admin/comment/{id}/read', function ($id, Request $request) use ($app) {
 	
-	// Delete a comment by ID
+	// Read a comment by ID
 	$app['dao.comment']->readComment($id);
 	$app['session']->getFlashBag()->add('success', 'Le commentaire a été marqué comme lu.');
 	

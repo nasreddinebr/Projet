@@ -7,6 +7,11 @@ use Doctrine\DBAL\Driver\SQLSrv\LastInsertId;
 class CommentDAO extends DAO {
 	
 	/**
+	 * @param array of object
+	 */
+	private $comment_by_id;
+	
+	/**
 	 * @var \BlogEcrivain\DAO\PostDAO
 	 */
 	private $postDAO;
@@ -40,9 +45,8 @@ class CommentDAO extends DAO {
 		$req = "SELECT * FROM comments WHERE post_id=? ORDER BY id_comment";
 		$response = $this->getDb()->fetchAll($req, array($postId));
 		
-		//var_dump($response[0]["id_comment"] = 12);
 		//Convert Query response to an array of domain objects
-		$com = [];
+		
 		foreach ($response as $row) {
 			$commentId = $row['id_comment'];
 			$comment = $this->buildDomainObject($row);
@@ -51,17 +55,23 @@ class CommentDAO extends DAO {
 			$comment->setPost($post);
 			$comments[$commentId] = $comment;
 		}
+		
+		//Reorganize the comments with their reply.
+		$commentById = [];
 		if (isset($comments)) {
 			foreach ($comments as $comment) {
-				$com[$comment->id]=$comment;
+				$commentById[$comment->id]=$comment;
 			}
 			
 			foreach ($comments as $key => $comment) {
 				if ($comment->parent_id != 0) {
-					$com[$comment->parent_id]->children[] = $comment;
+					$commentById[$comment->parent_id]->children[] = $comment;
 					unset($comments[$key]);
 				}
 			}
+			
+			//Initializes comment_by_id to use it later.
+			$this->comment_by_id = $comments;
 			return $comments;
 		}		 					
 	}
@@ -72,11 +82,6 @@ class CommentDAO extends DAO {
 	 * @param \BlogEcrivain\Domain\Comment
 	 */
 	public function addComment(Comment $comment) {	//$parentId
-		if (!$comment->getParentId()) {
-			$comment->setParentId(0);
-		}/*else{
-			$comment->setParentId($parentId)
-		}*/
 		$commentData = array(
 				'content' 		=> $comment->getContent(),
 				'parent_id'		=> $comment->getParentId(),
@@ -135,16 +140,42 @@ class CommentDAO extends DAO {
 		}
 	}
 	/**
-	 * Removes a comment from the data base
+	 * Remove a comment from the data base
 	 * 
 	 * @param integer $id
 	 */
 	public function removeComment($id) {
+		$req = "SELECT * FROM comments WHERE id_comment=?";
+		$response = $this->getDb()->fetchAssoc($req,array($id));
 		
-		// Delete the comment
-		$this->getDb()->delete('comments', array('id_comment' => $id));
+		//recuperate all comment by post_id
+		$comments = $this->recoverAllCommentByPost($response['post_id']);
+		
+		// Get the list of the ids of the comment to delete and it is children
+		$ids = $this->getChildrenIds($comments[$response['id_comment']]);
+		$ids[] = $response['id_comment'];
+		
+		// Delete the comment and he's reply
+		$this->getDb()->exec('DELETE FROM comments WHERE id_comment IN (' . implode(',', $ids) . ')');
 	}
 	
+	// Obtain a table that will contain the id list of any child comment
+	public function getChildrenIds($comment){
+		$ids=[];
+		foreach ($comment->children as $child) {
+			$ids[] = $child->id;
+			
+			// Check whether the child in question has children
+			if (isset($child->children)) {
+				/**
+				 *  Recursion(La récursivité: fonction qui s'appelle elle-même)
+				 * 	and Merge the two array
+				 */
+				$ids = array_merge($ids,$this->getChildrenIds($child));
+			}
+		}
+		return $ids;
+	}
 	
 	/**
 	 * Delete all comments for a post
