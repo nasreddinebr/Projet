@@ -1,10 +1,13 @@
 {# Viewing comments #}
-<div class="row">
+<div class="row" id="comment{{ comment.id }}">
     <div class="col s12">
         <div class="card-panel teal lighten-5">
             <h6 class="grey-text">Par: {{ comment.author.username }} Le: {{ comment.dateComment|date("d/m/Y H:i:s") }}</h6>
             <p>{{ comment.content }}</p>
-            <a class="waves-effect waves-teal btn-flat">Button</a>
+            <div class="right-align">
+            	<button class="waves-effect waves-teal btn-flat reply" data-id="{{ comment.id }}">Répondre</button>
+            </div>
+            
         </div>
 	</div>	
 </div>

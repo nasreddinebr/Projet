@@ -30,7 +30,16 @@
             {% endif %}
             <hr>
             {% if commentForm %}
-            	{{ form_start(commentForm) }}
+            	{{ form_start(commentForm, {'attr': {'id': 'form-comment'}}) }}
+            		<!--input type="hidden" name="parent_id" value="0" id="parent_id"-->
+            		
+            		{{ form_errors(commentForm.parent_id) }}
+                	{{ form_widget(commentForm.parent_id, { 'attr': { 
+                		    'name'    : 'parent_id', 
+							'value'   : '0',
+							'id'      : 'comment_write_parent_id',
+                	}}) }}
+            		
                 	<div class="input-field col s12">
                 		{{ form_errors(commentForm.content) }}
                 		{{ form_widget(commentForm.content, { 'attr': { 
@@ -49,7 +58,7 @@
 				{% endfor %}
             {% else %}
             	<a href="{{ path('signin') }}">Se Connecter</a> pour ajouter un commentere.
-            {% endif %}
+            {% endif %}        
 		</div>
 	</div>        
 {% endblock %}
