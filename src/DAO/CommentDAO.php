@@ -9,7 +9,7 @@ class CommentDAO extends DAO {
 	/**
 	 * @param array of object
 	 */
-	private $comment_by_id;
+	//private $comment_by_id;
 	
 	/**
 	 * @var \BlogEcrivain\DAO\PostDAO
@@ -71,13 +71,13 @@ class CommentDAO extends DAO {
 			}
 			
 			//Initializes comment_by_id to use it later.
-			$this->comment_by_id = $comments;
+			//$this->comment_by_id = $comments;
 			return $comments;
 		}		 					
 	}
 	
 	/**
-	 * Add a comment to the database
+	 * Add a comment to the database or update it
 	 * 
 	 * @param \BlogEcrivain\Domain\Comment
 	 */
@@ -119,14 +119,13 @@ class CommentDAO extends DAO {
 			$comments[$comentId] = $this->buildDomainObject($row);
 		}
 		if (isset($comments)) return $comments;
-		
-		
 	}
 	
 	/**
-	 * Return a comment matching the suplied id
 	 * 
-	 * @param integer $id
+	 * Mark a comment as read
+	 * 
+	 * @param integer $id comment id
 	 */
 	public function readComment($id) {
 		$see = 1;
@@ -139,20 +138,23 @@ class CommentDAO extends DAO {
 			throw new \Exception("Aucun commentaire ne correspond à l'id " . $id);
 		}
 	}
+	
 	/**
-	 * Remove a comment from the data base
+	 * Delete a comment with it's children
 	 * 
 	 * @param integer $id
 	 */
 	public function removeComment($id) {
 		$req = "SELECT * FROM comments WHERE id_comment=?";
 		$response = $this->getDb()->fetchAssoc($req,array($id));
-		
-		//recuperate all comment by post_id
-		$comments = $this->recoverAllCommentByPost($response['post_id']);
-		
-		// Get the list of the ids of the comment to delete and it is children
-		$ids = $this->getChildrenIds($comments[$response['id_comment']]);
+		var_dump($response['parent_id']);
+		if ($response['parent_id'] == 0){
+			//recuperate all comment by post_id
+			$comments = $this->recoverAllCommentByPost($response['post_id']);
+			
+			// Get the list of the ids of the comment to delete and it is children
+			$ids = $this->getChildrenIds($comments[$response['id_comment']]);
+		}
 		$ids[] = $response['id_comment'];
 		
 		// Delete the comment and he's reply
@@ -160,21 +162,23 @@ class CommentDAO extends DAO {
 	}
 	
 	// Obtain a table that will contain the id list of any child comment
-	public function getChildrenIds($comment){
-		$ids=[];
-		foreach ($comment->children as $child) {
-			$ids[] = $child->id;
-			
-			// Check whether the child in question has children
-			if (isset($child->children)) {
-				/**
-				 *  Recursion(La récursivité: fonction qui s'appelle elle-même)
-				 * 	and Merge the two array
-				 */
-				$ids = array_merge($ids,$this->getChildrenIds($child));
+	public function getChildrenIds($comments){
+		if (isset($comments->children)){
+			$ids=[];
+			foreach ($comments->children as $child) {
+				$ids[] = $child->id;
+				
+				// Check whether the child in question has children
+				if (isset($child->children)) {
+					/**
+					 *  Recursion(La récursivité: fonction qui s'appelle elle-même)
+					 * 	and Merge the two array
+					 */
+					$ids = array_merge($ids,$this->getChildrenIds($child));
+				}
 			}
-		}
-		return $ids;
+			return $ids;
+		}	
 	}
 	
 	/**
