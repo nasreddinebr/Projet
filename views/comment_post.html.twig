@@ -9,7 +9,8 @@
                 {% if (comment.depth < 3) %}
                 	<button class="waves-effect waves-teal btn-flat reply" data-id="{{ comment.id }}" data-name="{{ comment.depth }}">Répondre</button>
                 {% endif %}
-                <button class="waves-effect waves-teal btn-flat reply">Signaler</button>
+                <a href="{{ path('report_comment', {'id': comment.id}) }}" class="waves-effect waves-teal btn-flat reply">Signaler</a>
+                        
             </div>
         </div>
 	</div>	
