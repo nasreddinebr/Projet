@@ -13,31 +13,40 @@
             <p>{{ post.content|raw }}</p>
             <hr>
             <h5>Commentaires:</h5>
-            {% if comments %}
-                {# Recover all the comments of the article #}
-                {% for comment in comments %}
-                	{% include "comment_post.html.twig"%}
-                {% endfor %}
-            {% else %}
-                <div class="row">
-                    <div class="col s12">
-                        <div class="card-panel teal lighten-5">
-                        	<p>Aucun commentaire lier à ce billet.</p>
-                        </div>
-                    </div>	
-                </div>
-            	
-            {% endif %}
+            <div class="comments_comtainer">
+            	{% if comments %}
+                    {# Recover all the comments of the article #}
+                    {% for comment in comments %}
+                    	{% include "comment_post.html.twig"%}
+                    {% endfor %}
+                {% else %}
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="card-panel teal lighten-5">
+                            	<p>Aucun commentaire lier à ce billet.</p>
+                            </div>
+                        </div>	
+                    </div>
+                	
+                {% endif %}
+            </div>
+            
             <hr>
             {% if commentForm %}
             	{{ form_start(commentForm, {'attr': {'id': 'form-comment'}}) }}
-            		<!--input type="hidden" name="parent_id" value="0" id="parent_id"-->
             		
             		{{ form_errors(commentForm.parent_id) }}
                 	{{ form_widget(commentForm.parent_id, { 'attr': { 
                 		    'name'    : 'parent_id', 
 							'value'   : '0',
 							'id'      : 'comment_write_parent_id',
+                	}}) }}
+                	
+                	{{ form_errors(commentForm.depth) }}
+                	{{ form_widget(commentForm.depth, { 'attr': { 
+                		    'name'    : 'depth', 
+							'value'   : '0',
+							'id'      : 'comment_write_depth',
                 	}}) }}
             		
                 	<div class="input-field col s12">

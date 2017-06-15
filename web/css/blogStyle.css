@@ -14,7 +14,10 @@ body {
 
 main {
 	flex: 1 0 auto;
-}     
+} 
+.comments_comtainer {
+	background-color: #e0f2f1;
+}
 
 .title {text-align: center;}
 

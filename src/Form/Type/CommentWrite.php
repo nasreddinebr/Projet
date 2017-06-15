@@ -12,6 +12,9 @@ class CommentWrite extends AbstractType {
 				->add('parent_id', HiddenType::class, array(
 						'data' => 'abcdef',
 				))
+				->add('depth', HiddenType::class, array(
+						'data' => 'abcde',
+				))
 				->add('content', TextareaType::class);
 	}
 	

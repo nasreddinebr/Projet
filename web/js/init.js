@@ -22,13 +22,15 @@ jQuery(document).ready(function($){
 	
 	$('.reply').click(function(e){
 		e.preventDefault();
-		var $form = $('#form-comment');
-		var $this = $(this);
-		var parent_id = $this.data('id');
-		var $comment = $('#comment' + parent_id);
+		var $form 		= $('#form-comment');
+		var $this 		= $(this);
+		var parent_id 	= $this.data('id');
+		var depth		= $this.data('name');
+		var $comment 	= $('#comment' + parent_id);
 		
 		$form.find('label').text('Réppondre à ce commentaire');
 		$('#comment_write_parent_id').val(parent_id);
+		$('#comment_write_depth').val(++depth);
 		$comment.after($form);
 	})
 });

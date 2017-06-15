@@ -53,6 +53,13 @@ class Comment {
 	public $parent_id;
 	
 	/**
+	 * Comment depth
+	 * 
+	 * @var integer
+	 */
+	public $depth;
+	
+	/**
 	 * Associated post
 	 *
 	 * @var \BlogEcrivain\Domain\Post
@@ -126,6 +133,15 @@ class Comment {
 	
 	public function setParentId($parent_id) {
 		$this->parent_id = $parent_id;
+		return $this;
+	}
+	
+	public function getDepth() {
+		return $this->depth;
+	}
+	
+	public function setDepth($depth) {
+		$this->depth = $depth;
 		return $this;
 	}
 	

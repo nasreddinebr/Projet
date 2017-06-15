@@ -85,6 +85,7 @@ class CommentDAO extends DAO {
 		$commentData = array(
 				'content' 		=> $comment->getContent(),
 				'parent_id'		=> $comment->getParentId(),
+				'depth'			=> $comment->getDepth(),
 				'post_id' 		=> $comment->getPost()->getId(),
 				'user_id' 		=> $comment->getAuthor()->getId()
 		);
@@ -212,6 +213,7 @@ class CommentDAO extends DAO {
 		$comment->setDateComment($row['date_comment']);
 		$comment->setContent($row['content']);
 		$comment->setParentId($row['parent_id']);
+		$comment->setDepth($row['depth']);
 		
 		if (array_key_exists('post_id', $row)) {
 			// Find and set the associated post

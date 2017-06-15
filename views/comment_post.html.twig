@@ -1,13 +1,16 @@
 {# Viewing comments #}
-<div class="row" id="comment{{ comment.id }}">
+<div class="row" id="comment{{ comment.id }}" style="margin: 1px;">
     <div class="col s12">
-        <div class="card-panel teal lighten-5">
+        <div class="card-panel teal lighten-4">
             <h6 class="grey-text">Par: {{ comment.author.username }} Le: {{ comment.dateComment|date("d/m/Y H:i:s") }}</h6>
             <p>{{ comment.content }}</p>
-            <div class="right-align">
-            	<button class="waves-effect waves-teal btn-flat reply" data-id="{{ comment.id }}">Répondre</button>
-            </div>
             
+            <div class="right-align">
+                {% if (comment.depth < 3) %}
+                	<button class="waves-effect waves-teal btn-flat reply" data-id="{{ comment.id }}" data-name="{{ comment.depth }}">Répondre</button>
+                {% endif %}
+                <button class="waves-effect waves-teal btn-flat reply">Signaler</button>
+            </div>
         </div>
 	</div>	
 </div>
@@ -20,4 +23,3 @@
 	    {% endfor %}
     {% endif %}
 </div>
-
