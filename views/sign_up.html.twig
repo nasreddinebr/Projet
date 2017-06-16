@@ -1,17 +1,17 @@
-{% extends "template_backoffice.html.twig" %}
+{% extends "template.html.twig" %}
 {% set adminMenu = true %}
-{% block title %}{{ title }}{% endblock %}
+{% block title %}{{ title }} {% endblock %}
 {% block content %}
 	<div class="container">
 		
 		<div class="row">
     		<div class="centers">
-    			<h2>{{ block('title') }}</h2>
+    			<h4>{{ block('title') }}:</h4>
     			
     			{# Add user message with success #}
     			{% for flashMessage in app.session.flashbag.get('success') %}
         			<div class="card-panel teal lighten-5">
-            			<span class="teal-text darken-4"><strong>{{ flashMessage }}</strong></span>
+            			<span class="teal-text darken-4"><strong>{{ flashMessage }} <a href="{{ path('signin') }}">Ce connecter</a></strong></span>
             		</div>
     			{% endfor %}
     			
@@ -56,17 +56,10 @@
                                 } }) }}    
                 				<label for="passwordSecond">Password</label>
               				</div>
-              				<div class="input-field col s6">
-              						{{ form_errors (userForm.role) }}
-        				    		{{ form_widget (userForm.role, {'attr': {
-        				    		    'class': 'browser-default',
-        				    		    'id':    'role'
-                                    } }) }}
-              				</div>
               				
-              				<div class="col s6 right-align">
+              				<div class="col s6">
                             	<br/>
-                            	<button type="submit" class="waves-effect waves-light btn light-blue">Enregistrer</button>
+                            	<button type="submit" class="waves-effect waves-light btn teal lighten-2">Enregistrer</button>
                             </div>
     				    
     				    </div>

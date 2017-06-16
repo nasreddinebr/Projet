@@ -7,6 +7,7 @@ use BlogEcrivain\Domain\Media;
 use BlogEcrivain\Form\Type\CommentWrite;
 use BlogEcrivain\Form\Type\PostWrite;
 use BlogEcrivain\Form\Type\UserAdminWrite;
+use BlogEcrivain\Form\Type\UserSignUp;
 
 /**************************************************************************************/
 /**									  Front-Office				                 	 **/
@@ -64,6 +65,14 @@ $app->get('/blog', function() use ($app) {
 /**************************************************************************************/
 /**							Authentication and Back-Office							 **/
 /**************************************************************************************/
+
+// Sign up
+$app->get('/signup', function(Request $request) use ($app) {
+	return $app['twig']->render('sign_up.html.twig');//, array(
+			//'error' 		=> $app['security.last_error']($request),
+			//'last_username' => $app['session']->get('_security.last_username'),
+	//));
+})->bind('signup');
 
 //Login page
 $app->get('/signin', function(Request $request) use ($app) {
@@ -226,7 +235,7 @@ $app->get('/admin/comment/{id}/delete', function ($id, Request $request) use ($a
 /**									Users Management							     **/
 /**************************************************************************************/
 
-// Add user if not exist
+// Admin add user if not exist
 $app->match('/admin/user/add', function (Request $request) use ($app) {
 	$user = new User();
 	
@@ -251,7 +260,7 @@ $app->match('/admin/user/add', function (Request $request) use ($app) {
 		$app['session']->getFlashBag()->add('success', 'l\'utilisateur à bien été enregistrer.');
 	}
 	return $app['twig']->render('user_admin_form.html.twig', array(
-			'title'		=> 'New user',
+			'title'		=> 'Nouveau utilisateur',
 			'userForm'	=> $userForm->createView()));
 })->bind('admin_user_add');
 
@@ -289,4 +298,34 @@ $app->match('admin/user/{id}/delete', function ($id, Request $request) use ($app
 	
 	// Redirect to admin home page
 	return $app->redirect($app['url_generator']->generate('user'));
-})->bind('admin user delete');
+})->bind('admin_user_delete');
+
+// User registration
+$app->match('/signup/user/add', function (Request $request) use ($app) {
+	$user = new User();
+	
+	// TODO : import a lis of all users
+	$userForm = $app['form.factory']->create(UserSignUp::class, $user);
+	$userForm->handleRequest($request);
+	if ($userForm->isSubmitted() && $userForm->isValid()) {
+		
+		// TODO : condition if user exist in data base
+		// return error
+		// TODO : else
+		// Generate a random salt value
+		$salt = substr(sha1(time()), 0, 23);
+		$user->setSalt($salt);
+		$userPassword = $user->getPassword();
+		// get  the default encoder
+		$encoder = $app['security.encoder.bcrypt'];
+		//compute the encoded password
+		$password = $encoder->encodePassword($userPassword, $user->getSalt());
+		$user->setPassword($password);
+		$user->setRole('ROLE_USER');
+		$app['dao.user']->addUser($user);
+		$app['session']->getFlashBag()->add('success', 'Votre inscription a été effectué avec succès.');
+	}
+	return $app['twig']->render('sign_up.html.twig', array(
+			'title'		=> 'Nouveau utilisateur',
+			'userForm'	=> $userForm->createView()));
+})->bind('user_add');

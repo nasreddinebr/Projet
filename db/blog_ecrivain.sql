@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:80
--- Generation Time: Jun 12, 2017 at 03:27 PM
+-- Generation Time: Jun 16, 2017 at 11:13 PM
 -- Server version: 5.5.55-0+deb8u1
 -- PHP Version: 5.6.30-0+deb8u1
 
@@ -33,23 +33,35 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `report` tinyint(1) DEFAULT '0',
   `read_comment` tinyint(1) NOT NULL DEFAULT '0',
   `parent_id` int(11) NOT NULL DEFAULT '0',
+  `depth` int(11) NOT NULL DEFAULT '0',
   `post_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `comments`
 --
 
-INSERT INTO `comments` (`id_comment`, `date_comment`, `content`, `report`, `read_comment`, `parent_id`, `post_id`, `user_id`) VALUES
-(1, '2017-06-10 14:54:31', 'Hello World', 0, 0, 0, 6, 1),
-(2, '2017-06-10 14:54:58', 'Hello admin', 0, 0, 0, 6, 1),
-(3, '2017-06-10 19:10:59', 'Bonjour', 0, 0, 0, 5, 12),
-(4, '2017-06-10 19:11:14', 'jolie photo', 0, 0, 0, 5, 12),
-(5, '2017-06-11 13:56:09', 'Ce commentaire à des réponses.', 0, 0, 0, 5, 4),
-(6, '2017-06-11 13:58:11', 'première réponse', 0, 0, 5, 5, 12),
-(7, '2017-06-11 13:59:41', 'Seconde réponse', 0, 0, 5, 5, 3),
-(8, '2017-06-11 14:01:24', 'Ce commentaire et une réponse d''une réponse.', 0, 0, 6, 5, 5);
+INSERT INTO `comments` (`id_comment`, `date_comment`, `content`, `report`, `read_comment`, `parent_id`, `depth`, `post_id`, `user_id`) VALUES
+(1, '2017-06-10 14:54:31', 'Hello World', 0, 1, 0, 0, 6, 1),
+(2, '2017-06-10 14:54:58', 'Hello admin', 0, 1, 0, 0, 6, 1),
+(4, '2017-06-10 19:11:14', 'jolie photo', 1, 1, 0, 0, 5, 12),
+(9, '2017-06-12 17:59:36', 'poupé russe', 1, 1, 0, 0, 5, 2),
+(19, '2017-06-13 02:21:44', 'commentaire parent', 0, 1, 0, 0, 5, 2),
+(20, '2017-06-13 02:24:33', 'La reponse du commentaire parent', 1, 1, 19, 0, 5, 2),
+(21, '2017-06-13 02:25:23', 'Une réponse de la réponce du commentaire parent', 1, 1, 20, 2, 5, 2),
+(23, '2017-06-13 14:12:52', 'Salut, ceci est un commentaire parent', 1, 1, 0, 0, 4, 2),
+(24, '2017-06-13 14:13:27', 'et ceci est un commentaire enfant', 1, 1, 0, 0, 4, 2),
+(25, '2017-06-13 14:13:45', 'et ceci est un commentaire enfant', 1, 1, 23, 0, 4, 2),
+(26, '2017-06-13 14:14:22', 'et ceci est un sous sous commentaire.', 0, 1, 25, 0, 4, 2),
+(27, '2017-06-13 14:15:39', 'et ceci est un sous commentaire à suprimer', 0, 1, 24, 0, 4, 2),
+(28, '2017-06-13 14:16:11', 'et ceci est un sous sou commentaire à suprimer avec son comentaire parent', 0, 1, 27, 0, 4, 2),
+(34, '2017-06-15 17:28:27', 'reponce', 1, 1, 4, 1, 5, 10),
+(35, '2017-06-15 17:29:22', 'encore une reponce', 1, 1, 34, 2, 5, 10),
+(36, '2017-06-15 17:31:45', 'une deuxieme repons', 1, 1, 9, 1, 5, 10),
+(37, '2017-06-15 17:32:18', 'une troisieme reponce', 0, 1, 36, 2, 5, 10),
+(38, '2017-06-15 17:36:10', 'encore une sous reponse', 1, 1, 34, 2, 5, 10),
+(39, '2017-06-15 18:38:22', 'un troisieme sous niveau', 1, 1, 37, 3, 5, 10);
 
 -- --------------------------------------------------------
 
@@ -121,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(255) DEFAULT NULL,
   `salt` varchar(23) DEFAULT NULL,
   `role` varchar(50) DEFAULT 'ROLE_USER'
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
@@ -174,7 +186,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-MODIFY `id_comment` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+MODIFY `id_comment` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=40;
 --
 -- AUTO_INCREMENT for table `medias`
 --
@@ -189,7 +201,7 @@ MODIFY `id_post` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- Constraints for dumped tables
 --
