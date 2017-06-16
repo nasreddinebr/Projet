@@ -204,11 +204,12 @@ $app->get('/admin/comment/{id}/read', function ($id, Request $request) use ($app
 })->bind('admin_Comment_read');
 
 //Report a comment
-$app->get('/post/comment/{id}/report', function ($id, Request $request) use ($app) {
-	
+$app->get('/post/{postid}/comment/{id}', function ($postid, $id, Request $request) use ($app) {
+
 	//Report a comment
 	$app['dao.comment']->reportComment($id);
 	$app['session']->getFlashBag()->add('success', 'Le commentaire à bien été signaler');
+	return $app->redirect($app['url_generator']->generate('post', array('id' => $postid)));
 })->bind('report_comment');
 
 // Remove a comment

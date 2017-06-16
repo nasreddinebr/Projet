@@ -3,6 +3,7 @@ namespace BlogEcrivain\DAO;
 
 use BlogEcrivain\Domain\Comment;
 use Doctrine\DBAL\Driver\SQLSrv\LastInsertId;
+use Symfony\Component\Validator\Constraints\IdenticalToValidator;
 
 class CommentDAO extends DAO {
 	
@@ -110,7 +111,7 @@ class CommentDAO extends DAO {
 	
 	public function recoverUnreadComment() {
 		
-		$req = "SELECT * FROM comments WHERE read_comment=0 ORDER BY date_comment ASC";
+		$req = "SELECT * FROM comments WHERE read_comment=0 ORDER BY report DESC";
 		$response = $this->getDb()->fetchAll($req);
 		
 		// Convert query result to a array of domain objects
@@ -136,6 +137,21 @@ class CommentDAO extends DAO {
 			//The comment has been added: update it
 			$this->getDb()->update('comments', $commentData, array('id_comment' => $id));
 		}else {
+			throw new \Exception("Aucun commentaire ne correspond à l'id " . $id);
+		}
+	}
+	
+	/**
+	 * Report a comment
+	 * 
+	 * @param integer $id comment id
+	 */
+	public function reportComment($id) {
+		$report = 1;
+		$commentReport = array('report' => 1);
+		if ($id) {
+			$this->getDb()->update('comments', $commentReport, array('id_comment' => $id));
+		} else {
 			throw new \Exception("Aucun commentaire ne correspond à l'id " . $id);
 		}
 	}
