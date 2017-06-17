@@ -270,20 +270,21 @@ $app->match('admin/user/{id}/edit', function ($id, Request $request) use ($app) 
 	$userForm = $app['form.factory']->create(UserAdminWrite::class, $user);
 	$userForm ->handleRequest($request);
 	if ($userForm->isSubmitted() && $userForm->isValid()) {
-		$userPassword = $user->getPassword();
+		//$userPassword
+		$plainPassword = $user->getPassword();
 		
 		//get the encoder
 		$encoder = $app['security.encoder_factory']->getEncoder($user);
 		
 		// hash the password
-		$password = $encoder->encodePassword($userPassword, $user->getSalt());
+		$password = $encoder->encodePassword($plainPassword, $user->getSalt());
 		$user->setPassword($password);
 		$app['dao.user']->addUser($user);
 		$app['session']->getFlashBag()->add('success', 'L\'utilisateur a été mis à jour avec succès.');
-		return $app['twig']->render('user_admin_form.html.twig', array(
-				'title'		=> 'Edit user',
-				'userForm'	=> $userForm->createView()));
 	}
+	return $app['twig']->render('user_admin_form.html.twig', array(
+			'title'		=> 'Edit user',
+			'userForm'	=> $userForm->createView()));
 })->bind('admin_user_edit');
 
 // Remove a user
