@@ -15,6 +15,12 @@
             		</div>
     			{% endfor %}
     			
+    			{% for flashMessage in app.session.flashbag.get('error') %}
+            		<div class="card-panel red lighten-4">
+            			<span class="red-text darken-4"><strong>{{ flashMessage }}</strong></span>
+            		</div>
+                {% endfor %}
+    			
     			{# Form errors #}
     			{% if form_errors(userForm.password.first) %}
     				<div class="card-panel red lighten-4">

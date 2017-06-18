@@ -9,6 +9,7 @@ use BlogEcrivain\Domain\User;
 
 
 class UserDAO extends DAO implements UserProviderInterface {
+	
 	/**
 	 * Recuperate a user by id
 	 * 
@@ -75,11 +76,38 @@ class UserDAO extends DAO implements UserProviderInterface {
 	}
 	
 	/**
+	 * Check if a username already exists
+	 * 
+	 * @return array
+	 */
+	public function userExists(User $user) {
+		$username = $user->getUsername();
+		$req = "SELECT EXISTS (SELECT login FROM users WHERE login =?) AS username_exist";
+		$response = $this->getDb()->fetchAssoc($req, array($username));
+		return $response;
+		
+	}
+	
+	/**
+	 * Check if the e-mail already exists
+	 *
+	 * @return array
+	 */
+	public function emailExists(User $user) {
+		$email = $user->getEmail();
+		$req = "SELECT EXISTS (SELECT login FROM users WHERE email=?) AS email_exist";
+		$response = $this->getDb()->fetchAssoc($req, array($email));
+		return $response;
+		
+	}
+	
+	/**
 	 * Add a user into the DB or update it
 	 * 
 	 * @param \BlogEcrivain\Domain\User $user to save.
 	 */
 	public function addUser(User $user) {
+		
 		$userData = array(
 			'email' 	=> $user->getEmail(),
 			'login' 	=> $user->getUsername(),

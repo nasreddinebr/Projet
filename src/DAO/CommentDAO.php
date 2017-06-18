@@ -164,7 +164,6 @@ class CommentDAO extends DAO {
 	public function removeComment($id) {
 		$req = "SELECT * FROM comments WHERE id_comment=?";
 		$response = $this->getDb()->fetchAssoc($req,array($id));
-		var_dump($response['parent_id']);
 		if ($response['parent_id'] == 0){
 			//recuperate all comment by post_id
 			$comments = $this->recoverAllCommentByPost($response['post_id']);

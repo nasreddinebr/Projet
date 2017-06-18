@@ -239,25 +239,35 @@ $app->get('/admin/comment/{id}/delete', function ($id, Request $request) use ($a
 $app->match('/admin/user/add', function (Request $request) use ($app) {
 	$user = new User();
 	
-	// TODO : import a lis of all users
 	$userForm = $app['form.factory']->create(UserAdminWrite::class, $user);
 	$userForm->handleRequest($request);
 	if ($userForm->isSubmitted() && $userForm->isValid()) {
-		
-		// TODO : condition if user exist in data base
-			// return error
-		// TODO : else
-		// Generate a random salt value
 		$salt = substr(sha1(time()), 0, 23);
 		$user->setSalt($salt);
 		$userPassword = $user->getPassword();
-		// get  the default encoder
+		
+		// Get  the default encoder
 		$encoder = $app['security.encoder.bcrypt'];
-		//compute the encoded password
+		
+		// Compute the encoded password
 		$password = $encoder->encodePassword($userPassword, $user->getSalt());
 		$user->setPassword($password);
-		$app['dao.user']->addUser($user);
-		$app['session']->getFlashBag()->add('success', 'l\'utilisateur à bien été enregistrer.');
+		
+		//Check the existence of username and email
+		$userExist = $app['dao.user']->userExists($user);
+		$userExist = array_merge($userExist, $app['dao.user']->emailExists($user)) ;
+		if ($userExist['username_exist']) {
+			$app['session']->getFlashBag()->add('error', 'Le nom d\'utilisateur choisie exist déja, veuillez choisire un autre');
+		}else {
+			if ($userExist['email_exist']) {
+				$app['session']->getFlashBag()->add('error', 'Cette adresse E-mail exist déja, veuillez saisire une autre');
+			}else {
+				// Save the user if the username or the email did not already exist
+				$app['dao.user']->addUser($user);
+				$app['session']->getFlashBag()->add('success', 'l\'utilisateur à bien été enregistrer.');
+			}
+		}
+		
 	}
 	return $app['twig']->render('user_admin_form.html.twig', array(
 			'title'		=> 'Nouveau utilisateur',
@@ -270,14 +280,13 @@ $app->match('admin/user/{id}/edit', function ($id, Request $request) use ($app) 
 	$userForm = $app['form.factory']->create(UserAdminWrite::class, $user);
 	$userForm ->handleRequest($request);
 	if ($userForm->isSubmitted() && $userForm->isValid()) {
-		//$userPassword
-		$plainPassword = $user->getPassword();
+		$userPassword = $user->getPassword();
 		
 		//get the encoder
 		$encoder = $app['security.encoder_factory']->getEncoder($user);
 		
 		// hash the password
-		$password = $encoder->encodePassword($plainPassword, $user->getSalt());
+		$password = $encoder->encodePassword($userPassword, $user->getSalt());
 		$user->setPassword($password);
 		$app['dao.user']->addUser($user);
 		$app['session']->getFlashBag()->add('success', 'L\'utilisateur a été mis à jour avec succès.');
@@ -304,27 +313,38 @@ $app->match('admin/user/{id}/delete', function ($id, Request $request) use ($app
 // User registration
 $app->match('/signup/user/add', function (Request $request) use ($app) {
 	$user = new User();
-	
-	// TODO : import a lis of all users
 	$userForm = $app['form.factory']->create(UserSignUp::class, $user);
 	$userForm->handleRequest($request);
 	if ($userForm->isSubmitted() && $userForm->isValid()) {
 		
-		// TODO : condition if user exist in data base
-		// return error
-		// TODO : else
 		// Generate a random salt value
 		$salt = substr(sha1(time()), 0, 23);
 		$user->setSalt($salt);
 		$userPassword = $user->getPassword();
+		
 		// get  the default encoder
 		$encoder = $app['security.encoder.bcrypt'];
-		//compute the encoded password
+		
+		// Compute the encoded password
 		$password = $encoder->encodePassword($userPassword, $user->getSalt());
 		$user->setPassword($password);
 		$user->setRole('ROLE_USER');
-		$app['dao.user']->addUser($user);
-		$app['session']->getFlashBag()->add('success', 'Votre inscription a été effectué avec succès.');
+		
+		//Check the existence of username and emails
+		$userExist = $app['dao.user']->userExists($user);
+		$userExist = array_merge($userExist, $app['dao.user']->emailExists($user)) ;
+		if ($userExist['username_exist']) {
+			$app['session']->getFlashBag()->add('error', 'Le nom d\'utilisateur choisie exist déja, veuillez choisire un autre');
+		}else {
+			if ($userExist['email_exist']) {
+				$app['session']->getFlashBag()->add('error', 'Cette adresse E-mail exist déja, veuillez saisire une autre');
+			}else {
+				//Save the user if the username or the email did not already exist
+				$app['dao.user']->addUser($user);
+				$app['session']->getFlashBag()->add('success', 'Votre inscription a été effectué avec succès.');
+			}
+		}
+		
 	}
 	return $app['twig']->render('sign_up.html.twig', array(
 			'title'		=> 'Nouveau utilisateur',
