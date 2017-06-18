@@ -1,0 +1,18 @@
+{% extends "template.html.twig" %}
+{% block title %}Error{% endblock %}
+ 
+{% block content %}
+<div class="container" id="errorMessage">
+    <div class="row">
+        <div class="col s4">
+        	<img alt="Error" src="{{ asset('/img/error_image.png') }}">
+        </div>
+        <div class="col s8">
+        	<h1>Whoops!!!<br></h1>
+        	<h3><small> {{ message }}</small></h3>
+        </div>
+	</div>
+</div>
+
+{% endblock %}
+        

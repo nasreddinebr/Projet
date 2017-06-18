@@ -5,6 +5,7 @@
 
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
+use Symfony\Component\HttpFoundation\Request;
 
 // Register global error and exception handlers
 ErrorHandler::register();
@@ -81,3 +82,33 @@ $app['dao.comment'] = function($app) {
 $app['dao.media'] = function ($app) {
 	return new BlogEcrivain\DAO\MediaDAO($app['db']);
 };
+
+//Register error handler
+/*$app->error(function (\Exeception $e, Request $request, $code) use ($app) {
+	switch ($code) {
+		case 403:
+			$message = 'Access denied.';
+			break;
+		case 404: 
+			$message = ' The requested ressource could not be found.';
+			break;
+		default:
+			$message = 'Something xent wrong.';
+			break;
+	}
+	return $app['twig']->render('error.html.twig', array('message' => $message));
+});*/
+// Register error handler
+$app->error(function (\Exception $e, Request $request, $code) use ($app) {
+	switch ($code) {
+		case 403:
+			$message = 'Error: 403 Access denied.';
+			break;
+		case 404:
+			$message = 'Error: 404 The requested resource could not be found.';
+			break;
+		default:
+			$message = "Something went wrong.";
+	}
+	return $app['twig']->render('error.html.twig', array('message' => $message));
+});
