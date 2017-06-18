@@ -34,4 +34,12 @@ jQuery(document).ready(function($){
 		$comment.after($form);
 	})
 });
+
+//form.addEventListner("submit", function (event) {
+	setTimeout(function (){
+		message.style.display = "none";
+	}, 4000);
+//});
+
+
    

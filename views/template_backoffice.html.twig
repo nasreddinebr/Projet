@@ -32,47 +32,47 @@
                 		<ul class="right hide-on-med-and-down">
                 			{% if app.user and is_granted('ROLE_ADMIN') %}
                 				<li class="{% if adminMenu is defined %}active{% endif %} light-blue">
-                					<a href="{{ path('home') }}"><i class="material-icons">home</i></a>
+                					<a href="{{ path('home') }}"><i class="material-icons" title="Acceuil">home</i></a>
                 				</li>
                 				<li class="{% if adminMenu is defined %}active{% endif %} light-blue">
-                					<a href="{{ path('user') }}"><i class="material-icons">supervisor_account</i></a>
+                					<a href="{{ path('user') }}"><i class="material-icons" title="Gestion des utilisateurs">supervisor_account</i></a>
                 				</li>
                 				<li class="{% if adminMenu is defined %}active{% endif %} light-blue">
-                					<a href="{{ path('moderator') }}"><i class="material-icons">view_list</i></a>
+                					<a href="{{ path('moderator') }}"><i class="material-icons" title="Gestion des commentaires">view_list</i></a>
                 				</li>
                 				<li class="{% if adminMenu is defined %}active{% endif %} light-blue">
-                					<a href="{{ path('admin_article_add') }}"><i class="material-icons">library_add</i></a>
+                					<a href="{{ path('admin_article_add') }}"><i class="material-icons" title="Ajouter un article">library_add</i></a>
                 				</li>
                 				<li class="{% if adminMenu is defined %}active{% endif %} light-blue">
-                					<a href="{{ path('admin') }}"><i class="material-icons">view_quilt</i></a>
+                					<a href="{{ path('admin') }}"><i class="material-icons"title="Gestion des articles">view_quilt</i></a>
                 				</li>
 		
                 			{% elseif app.user and is_granted('ROLE_AUTHOR') %}
                 				<li class="{% if adminMenu is defined %}active{% endif %} light-blue">
-                					<a href="{{ path('home') }}"><i class="material-icons">home</i></a>
+                					<a href="{{ path('home') }}"><i class="material-icons" title="Acceuil">home</i></a>
                 				</li>
                 				<li class="{% if adminMenu is defined %}active{% endif %} light-blue">
-                					<a href="{{ path('moderator') }}"><i class="material-icons">view_list</i></a>
+                					<a href="{{ path('moderator') }}"><i class="material-icons" title="Gestion des commentaires">view_list</i></a>
                 				</li>
                 				<li class="{% if adminMenu is defined %}active{% endif %} light-blue">
-                					<a href="{{ path('admin_article_add') }}"><i class="material-icons">library_add</i></a>
+                					<a href="{{ path('admin_article_add') }}"><i class="material-icons" title="Ajouter un article">library_add</i></a>
                 				</li>
                 				<li class="{% if adminMenu is defined %}active{% endif %} light-blue">
-                					<a href="{{ path('admin') }}"><i class="material-icons">view_quilt</i></a>
+                					<a href="{{ path('admin') }}"><i class="material-icons" title="Gestion des articles">view_quilt</i></a>
                 				</li>
                 				
                 			{% elseif app.user and is_granted('ROLE_MODERATOR') %}
                 				<li class="{% if adminMenu is defined %}active{% endif %} light-blue">
-                					<a href="{{ path('home') }}"><i class="material-icons">home</i></a>
+                					<a href="{{ path('home') }}"><i class="material-icons" title="Acceuil">home</i></a>
                 				</li>
                 				<li class="{% if adminMenu is defined %}active{% endif %} light-blue">
-                					<a href="{{ path('moderator') }}"><i class="material-icons">view_list</i></a>
+                					<a href="{{ path('moderator') }}"><i class="material-icons" title="Gestion des commentaires">view_list</i></a>
                 				</li>
                 				
                 			{% endif %}
                 			
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                				<li><a class="light-blue" href="{{ path('logout') }}"><i class="material-icons">power_settings_new</i></a></li>
+                				<li><a class="light-blue" href="{{ path('logout') }}"><i class="material-icons" title="Quitter">power_settings_new</i></a></li>
                 		    {% else %}
                 				<li><a class="dropdown-button" href="#!" data-activates="dropdown2"><strong>Connectez-vous</strong><i class="material-icons right">arrow_drop_down</i></a></li>
 						    {% endif %}

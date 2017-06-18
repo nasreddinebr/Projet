@@ -16,7 +16,7 @@
             					<p>{{ post.content[:500]|raw }}<a href="{{ path('post', { 'id': post.id }) }}"><strong>...</strong></a></p>
             				</div>
             				<div class="col s12 m6 l4">
-            					<img class="materialboxed responsive-img activator" src="{{ post.media.1 }}/{{ post.media.0 }}">
+            					<img class="materialboxed responsive-img activator" src="{{ post.media.1 }}/{{ post.media.0 }}" alt="{{ post.media.0 }}">
             					<br/><br/>
             					<a class="btn light-teal waves-effect wave-light" href="{{ path('post', { 'id': post.id }) }}">Lire l'article complet</a>
             				</div>

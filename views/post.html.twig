@@ -61,7 +61,7 @@
                 	<div class="input-field"><input type="submit" class="waves-effect waves-light btn" value="Valider"></div>
                 {{ form_end(commentForm) }}
                 {% for flashMessage in app.session.flashbag.get('success') %}
-                	<div class="card-panel teal lighten-5">
+                	<div class="card-panel teal lighten-5" id="message">
 						<span class="teal-text darken-4"><strong>{{ flashMessage }}</strong></span>
 					</div>
 				{% endfor %}
