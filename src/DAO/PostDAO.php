@@ -130,6 +130,7 @@ class PostDAO extends DAO {
 		$post->setTitle($row['title']);
 		$post->setDate($row['p_date']);
 		$post->setContent($row['content']);
+		$post->setPublish($row['publish']);
 		$media= array($row['file_name'], $row['url_file']);
 		$post->setMedia($media);
 		if (array_key_exists('user_id', $row)) {

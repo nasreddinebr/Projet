@@ -5,12 +5,13 @@
 	<div id="index-banner" class="parallax-container">
         <div class="parallax"><img src="{{ post.media.1 }}/{{ post.media.0 }}" alt="Unsplashed background img 1"></div>
 	</div>
-
+	{% if post.publish %}
 	<div class="container">
 		<div class="section">
 			<h4 class="grey-text-darken-2">{{ post.title }}</h4>
 			<h6 class="grey-text">Par: {{ post.author.username }} Le:{{ post.date|date("d/m/Y H:i:s") }}</h6>
             <p>{{ post.content|raw }}</p>
+            {{ dump(post) }}
             <hr>
             <h5>Commentaires:</h5>
             <div class="comments_comtainer">
@@ -69,5 +70,8 @@
             	<a href="{{ path('signin') }}">Se Connecter</a> pour ajouter un commentere.
             {% endif %}        
 		</div>
-	</div>        
+	</div>
+	{% else %}
+		{% include "error.html.twig"%}
+	{% endif %}        
 {% endblock %}

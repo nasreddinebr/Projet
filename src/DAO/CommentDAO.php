@@ -3,7 +3,6 @@ namespace BlogEcrivain\DAO;
 
 use BlogEcrivain\Domain\Comment;
 use Doctrine\DBAL\Driver\SQLSrv\LastInsertId;
-use Symfony\Component\Validator\Constraints\IdenticalToValidator;
 
 class CommentDAO extends DAO {
 	
