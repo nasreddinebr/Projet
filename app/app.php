@@ -23,38 +23,32 @@ $app->register(new Silex\Provider\AssetServiceProvider(), array('assets.version'
 $app->register(new Silex\Provider\SessionServiceProvider());
 $app->register(new Silex\Provider\SecurityServiceProvider(), array(
 		'security.firewalls' => array(
-			'secured' => array(
-				'pattern' => '^/',
-				'anonymous' => true,
-				'logout'	=> true,
-				'form'		=> array('login_path' => '/signin', 'check_path' => '/login_check'),
-				'users'		=> function () use ($app) {
+				'secured' => array(
+						'pattern' => '^/',
+						'anonymous' => true,
+						'logout' => true,
+						'form' => array('login_path' => '/login', 'check_path' => '/login_check'),
+						'users' => function () use ($app) {
 					return new BlogEcrivain\DAO\UserDAO($app['db']);
 				},
 			),
 		),
+		
 		// Submit access to the back office to the ROLE_ADMIN role
 		'security.role_hierarchy' => array(
-				'ROLE_ADMIN' => array('ROLE_USER'),
-		),
-		'security.access_rules' => array(
-				array('^/admin', 'ROLE_ADMIN'),
-		),
-		// Submit access to the back office to the ROLE_AUTHOR role
-		'security.role_hierarchy' => array(
-				'ROLE_AUTHOR' => array('ROLE_USER'),
-		),
-		'security.access_rules' => array(
-				array('^/author', 'ROLE_AUTHOR'),
-		),
-		// Submit access to the back office to the ROLE_MODERATOR role
-		'security.role_hierarchy' => array(
 				'ROLE_MODERATOR' => array('ROLE_USER'),
+				'ROLE_AUTHOR' => array('ROLE_MODERATOR'),
+				'ROLE_ADMIN' => array('ROLE_AUTHOR'),
+				
 		),
 		'security.access_rules' => array(
-				array('^/moderator', 'ROLE_MODERATOR'),
-		),
-		
+				array('^/admin/moderator', 'ROLE_MODERATOR'),
+				//array('^/admin/comment/{id}/delete', 'ROLE_MODERATOR'),
+				array('^/admin/author', 'ROLE_AUTHOR'),
+				array('^/admin/post', 'ROLE_AUTHOR'),
+				array('^/admin/post/{id}/edit', 'ROLE_AUTHOR'),
+				array('^/admin', 'ROLE_ADMIN'),
+		),		
 ));
 $app->register(new Silex\Provider\FormServiceProvider());
 $app->register(new Silex\Provider\LocaleServiceProvider());
@@ -83,23 +77,8 @@ $app['dao.media'] = function ($app) {
 	return new BlogEcrivain\DAO\MediaDAO($app['db']);
 };
 
-//Register error handler
-/*$app->error(function (\Exeception $e, Request $request, $code) use ($app) {
-	switch ($code) {
-		case 403:
-			$message = 'Access denied.';
-			break;
-		case 404: 
-			$message = ' The requested ressource could not be found.';
-			break;
-		default:
-			$message = 'Something xent wrong.';
-			break;
-	}
-	return $app['twig']->render('error.html.twig', array('message' => $message));
-});*/
 // Register error handler
-$app->error(function (\Exception $e, Request $request, $code) use ($app) {
+/*$app->error(function (\Exception $e, Request $request, $code) use ($app) {
 	switch ($code) {
 		case 403:
 			$message = 'Error: 403 Access denied.';
@@ -111,4 +90,4 @@ $app->error(function (\Exception $e, Request $request, $code) use ($app) {
 			$message = "Something went wrong.";
 	}
 	return $app['twig']->render('error.html.twig', array('message' => $message));
-});
+});*/

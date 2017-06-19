@@ -11,7 +11,7 @@
     			{# Add user message with success #}
     			{% for flashMessage in app.session.flashbag.get('success') %}
         			<div class="card-panel teal lighten-5">
-            			<span class="teal-text darken-4"><strong>{{ flashMessage }} <a href="{{ path('signin') }}">Ce connecter</a></strong></span>
+            			<span class="teal-text darken-4"><strong>{{ flashMessage }} <a href="{{ path('login') }}">Ce connecter</a></strong></span>
             		</div>
     			{% endfor %}
     			

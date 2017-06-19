@@ -15,14 +15,14 @@ use BlogEcrivain\Form\Type\UserSignUp;
 
 // Home page
 $app->get('/', function() use ($app) {
-	$posts = $app['dao.post']->recoverPostPublished();
+	$posts = $app['dao.post']->recoverAllPostPublished();
 	return $app['twig']->render('index.html.twig', array('posts' => $posts));
 })->bind('home');
 
 // Post details and comments
 $app->match('/post/{id}', function ($id, Request $req) use ($app){
 	// Recuperate a post via its id
-	$post = $app['dao.post']->recoverPost($id);
+	$post = $app['dao.post']->recoverPostPublished($id);
 	$commentFormView = null;
 	
 	// We check if there is a user logged in
@@ -58,7 +58,7 @@ $app->match('/post/{id}', function ($id, Request $req) use ($app){
 
 // Blog page
 $app->get('/blog', function() use ($app) {
-	$listPosts = $app['dao.post']->recoverPostPublished();
+	$listPosts = $app['dao.post']->recoverAllPostPublished();
 	return $app['twig']->render('blog.html.twig', array('posts' => $listPosts));
 })->bind('blog');
 
@@ -68,26 +68,28 @@ $app->get('/blog', function() use ($app) {
 
 // Sign up
 $app->get('/signup', function(Request $request) use ($app) {
-	return $app['twig']->render('sign_up.html.twig');//, array(
-			//'error' 		=> $app['security.last_error']($request),
-			//'last_username' => $app['session']->get('_security.last_username'),
-	//));
+	return $app['twig']->render('sign_up.html.twig');
 })->bind('signup');
 
 //Login page
-$app->get('/signin', function(Request $request) use ($app) {
+$app->get('/login', function(Request $request) use ($app) {
 	return $app['twig']->render('login.html.twig', array(
 			'error' 		=> $app['security.last_error']($request),
 			'last_username' => $app['session']->get('_security.last_username'),	
 	));
-})->bind('signin');
+})->bind('login');
 
 // Admin page
 $app->get('/admin', function (Request $request) use ($app) {
 	$posts = $app['dao.post']->recoverAllPost();
-
-	return $app['twig']->render('admin.html.twig', array('posts' => $posts));	
+	return $app['twig']->render('admin.html.twig', array('posts' => $posts));
 })->bind('admin');
+
+//author page
+$app->get('/admin/author', function (Request $request) use ($app) {
+	$posts = $app['dao.post']->recoverAllPost();
+	return $app['twig']->render('admin.html.twig', array('posts' => $posts));	
+})->bind('author');
 
 // Users page
 $app->get('/admin/users', function (Request $request) use ($app) {
@@ -166,7 +168,7 @@ $app->match('/admin/post/add', function (Request $request) use ($app) {
 
 // Edit an existing post
 $app->match('/admin/post/{id}/edit', function ($id, Request $request) use ($app) {
-	$post = $app['dao.post']->recoverPost($id);
+	$post = $app['dao.post']->recoverPostEdit($id);
 	$postForm = $app['form.factory']->create(PostWrite::class, $post);
 	$postForm->handleRequest($request);
 	if ($postForm->isSubmitted() && $postForm->isValid()) {
@@ -266,12 +268,12 @@ $app->match('/admin/user/add', function (Request $request) use ($app) {
 				$app['dao.user']->addUser($user);
 				$app['session']->getFlashBag()->add('success', 'l\'utilisateur à bien été enregistrer.');
 			}
-		}
-		
+		}		
 	}
 	return $app['twig']->render('user_admin_form.html.twig', array(
 			'title'		=> 'Nouveau utilisateur',
 			'userForm'	=> $userForm->createView()));
+	
 })->bind('admin_user_add');
 
 // Edit an existing user
@@ -311,7 +313,7 @@ $app->match('admin/user/{id}/delete', function ($id, Request $request) use ($app
 })->bind('admin_user_delete');
 
 // User registration
-$app->match('/signup/user/add', function (Request $request) use ($app) {
+$app->match('/signup/user', function (Request $request) use ($app) {
 	$user = new User();
 	$userForm = $app['form.factory']->create(UserSignUp::class, $user);
 	$userForm->handleRequest($request);

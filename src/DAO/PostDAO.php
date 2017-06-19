@@ -36,14 +36,14 @@ class PostDAO extends DAO {
 	}
 	
 	/**
-	 * Return a post matching th supplied id
+	 * Return a post matching th supplied id and published
 	 * 
 	 * @param integer $id
 	 * 
 	 * @return \BlogEcrivain\Domain\Post|throw an exception if no matching post is found
 	 */
-	public function recoverPost($id) {
-		$req = "SELECT * FROM posts p INNER JOIN medias m ON m.post_id = p.id_post WHERE id_post=?";
+	public function recoverPostPublished($id) {
+		$req = "SELECT * FROM posts p INNER JOIN medias m ON m.post_id = p.id_post WHERE id_post=? AND publish=1";
 		$row = $this->getDb()->fetchAssoc($req, array($id));
 		if($row)
 			return $this->buildDomainObject($row);
@@ -52,11 +52,27 @@ class PostDAO extends DAO {
 	}
 	
 	/**
+	 * Return a post matching th supplied id for editing
+	 *
+	 * @param integer $id
+	 *
+	 * @return \BlogEcrivain\Domain\Post|throw an exception if no matching post is found
+	 */
+	public function recoverPostEdit($id) {
+		$req = "SELECT * FROM posts p INNER JOIN medias m ON m.post_id = p.id_post WHERE id_post=?";
+		$row = $this->getDb()->fetchAssoc($req, array($id));
+		if($row)
+			return $this->buildDomainObject($row);
+			else
+				throw new \Exception("Aucun billet ne correspond a l'id: " . $id);
+	}
+	
+	/**
 	 * Returns the list of posts that are published
 	 *
 	 * @return array A list of all posts
 	 */
-	public function recoverPostPublished() {
+	public function recoverAllPostPublished() {
 		$req = "SELECT * FROM posts p INNER JOIN medias m ON m.post_id = p.id_post WHERE publish=1 ORDER BY id_post DESC";
 		$response = $this->getDb()->fetchAll($req);
 		
@@ -130,7 +146,6 @@ class PostDAO extends DAO {
 		$post->setTitle($row['title']);
 		$post->setDate($row['p_date']);
 		$post->setContent($row['content']);
-		$post->setPublish($row['publish']);
 		$media= array($row['file_name'], $row['url_file']);
 		$post->setMedia($media);
 		if (array_key_exists('user_id', $row)) {

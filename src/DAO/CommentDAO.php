@@ -38,7 +38,7 @@ class CommentDAO extends DAO {
 	 */
 	public function  recoverAllCommentByPost($postId) {
 		// The associated post is retrieved only once
-		$post = $this->postDAO->recoverPost($postId);
+		$post = $this->postDAO->recoverPostPublished($postId);
 		
 		/* id_post is not selected by the SQL query.
 		 The post won't be retrieved during domain object construction.*/
@@ -161,16 +161,29 @@ class CommentDAO extends DAO {
 	 * @param integer $id
 	 */
 	public function removeComment($id) {
+		//var_dump($id);
 		$req = "SELECT * FROM comments WHERE id_comment=?";
 		$response = $this->getDb()->fetchAssoc($req,array($id));
+		//var_dump($response);
+		
 		if ($response['parent_id'] == 0){
 			//recuperate all comment by post_id
 			$comments = $this->recoverAllCommentByPost($response['post_id']);
 			
 			// Get the list of the ids of the comment to delete and it is children
 			$ids = $this->getChildrenIds($comments[$response['id_comment']]);
+		}/*else {
+			//recuperate all comment by post_id
+			$comments = $this->recoverAllCommentByPost($response['post_id']);
+			var_dump($comments[$response['parent_id']]);
+			
+			// Get the list of the ids of the comment to delete and it is children
+			$ids = $this->getChildrenIds($comments[]->$response['id_comment']);
+			var_dump($ids);
+			die();
 		}
 		$ids[] = $response['id_comment'];
+		var_dump($ids);*/
 		
 		// Delete the comment and he's reply
 		$this->getDb()->exec('DELETE FROM comments WHERE id_comment IN (' . implode(',', $ids) . ')');
@@ -232,7 +245,7 @@ class CommentDAO extends DAO {
 		if (array_key_exists('post_id', $row)) {
 			// Find and set the associated post
 			$postId = $row['post_id'];
-			$post = $this->postDAO->recoverPost($postId);
+			$post = $this->postDAO->recoverPostPublished($postId);
 			$comment->setPost($post);
 		}
 		if (array_key_exists('user_id', $row)) {

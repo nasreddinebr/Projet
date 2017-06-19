@@ -21,7 +21,7 @@
   				<li><a href="{{ path('logout') }}">Déconnexion</a></li>
 			</ul>
         	<ul id="dropdown2" class="dropdown-content">
-  				<li><a href="{{ path('signin') }}">Se connecter</a></li>
+  				<li><a href="{{ path('login') }}">Se connecter</a></li>
   				<li class="divider"></li>
   				<li><a href="{{ path('user_add') }}">Iscription</a></li>
 			</ul>
@@ -29,7 +29,7 @@
   				<li><a href="{{ path('logout') }}">Déconnexion</a></li>
 			</ul>
         	<ul id="dropdown4" class="dropdown-content">
-  				<li><a href="{{ path('signin') }}">Se connecter</a></li>
+  				<li><a href="{{ path('login') }}">Se connecter</a></li>
   				<li class="divider"></li>
   				<li><a href="{{ path('user_add') }}">Iscription</a></li>
 			</ul>
@@ -37,9 +37,13 @@
                 	<div class="nav-wrapper container">
                 		<a id="logo-container" href="{{ path('home') }}" class="brand-logo">Jean Forteroche</a>
                 		<ul class="right hide-on-med-and-down">
-                			{% if app.user and (is_granted('ROLE_ADMIN') or is_granted('ROLE_AUTHOR')) %}
+                			{% if app.user and (is_granted('ROLE_ADMIN')) %}
                 				<li class="{% if adminMenu is defined %}active{% endif %}">
                 					<a href="{{ path('admin') }}"><i class="material-icons">settings</i></a>
+                				</li>
+                			{% elseif app.user and (is_granted('ROLE_AUTHOR'))%}
+                				<li class="{% if adminMenu is defined %}active{% endif %}">
+                					<a href="{{ path('author') }}"><i class="material-icons">settings</i></a>
                 				</li>
                 			{% elseif app.user and is_granted('ROLE_MODERATOR') %}
                 				<li class="{% if adminMenu is defined %}active{% endif %}">

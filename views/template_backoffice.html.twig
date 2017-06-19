@@ -18,12 +18,12 @@
     <body>
         <header>
         	<ul id="dropdown1" class="dropdown-content">
-  				<li><a href="{{ path('signin') }}">Se connecter</a></li>
+  				<li><a href="{{ path('login') }}">Se connecter</a></li>
   				<li class="divider"></li>
   				<li><a href="#!">Iscription</a></li>
 			</ul>
         	<ul id="dropdown4" class="dropdown-content">
-  				<li><a href="{{ path('signin') }}">Se connecter</a></li>
+  				<li><a href="{{ path('login') }}">Se connecter</a></li>
   				<li class="divider"></li>
   				<li><a href="#!">Iscription</a></li>
 			</ul>
@@ -58,7 +58,7 @@
                 					<a href="{{ path('admin_article_add') }}"><i class="material-icons" title="Ajouter un article">library_add</i></a>
                 				</li>
                 				<li class="{% if adminMenu is defined %}active{% endif %} light-blue">
-                					<a href="{{ path('admin') }}"><i class="material-icons" title="Gestion des articles">view_quilt</i></a>
+                					<a href="{{ path('author') }}"><i class="material-icons" title="Gestion des articles">view_quilt</i></a>
                 				</li>
                 				
                 			{% elseif app.user and is_granted('ROLE_MODERATOR') %}
