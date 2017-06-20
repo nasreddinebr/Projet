@@ -7,7 +7,7 @@
             
             <div class="right-align">
                 {% if commentForm %}
-                    {% if (comment.depth < 3) %}
+                    {% if (comment.depth < 2) %}
                     	<button class="waves-effect waves-teal btn-flat reply" data-id="{{ comment.id }}" data-name="{{ comment.depth }}">Répondre</button>
                     {% endif %}
                     <a href="{{ path('report_comment',{'postid': comment.post.id, 'id': comment.id}) }}" class="waves-effect waves-teal btn-flat" id="{{ comment.id }}">Signaler</a>

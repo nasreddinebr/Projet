@@ -164,32 +164,53 @@ class CommentDAO extends DAO {
 		//var_dump($id);
 		$req = "SELECT * FROM comments WHERE id_comment=?";
 		$response = $this->getDb()->fetchAssoc($req,array($id));
-		//var_dump($response);
 		
+		//recuperate all comment by post_id
+		$comments = $this->recoverAllCommentByPost($response['post_id']);
+		
+		// Delete a comment parrent with it's children
 		if ($response['parent_id'] == 0){
-			//recuperate all comment by post_id
-			$comments = $this->recoverAllCommentByPost($response['post_id']);
 			
 			// Get the list of the ids of the comment to delete and it is children
 			$ids = $this->getChildrenIds($comments[$response['id_comment']]);
-		}/*else {
-			//recuperate all comment by post_id
-			$comments = $this->recoverAllCommentByPost($response['post_id']);
-			var_dump($comments[$response['parent_id']]);
 			
-			// Get the list of the ids of the comment to delete and it is children
-			$ids = $this->getChildrenIds($comments[]->$response['id_comment']);
-			var_dump($ids);
-			die();
+		}else {
+
+			// Recuperate the array child and it's children
+			$comments = $this->getChild($comments, $response['id_comment']);
+			if ($comments) {
+		
+				// Get the list of the ids of the comment children to delete and it is children
+				$ids = $this->getChildrenIds($comments[$response['id_comment']]);
+			}
 		}
 		$ids[] = $response['id_comment'];
-		var_dump($ids);*/
 		
 		// Delete the comment and he's reply
 		$this->getDb()->exec('DELETE FROM comments WHERE id_comment IN (' . implode(',', $ids) . ')');
 	}
 	
-	// Obtain a table that will contain the id list of any child comment
+	/**
+	 * Search a child comment in a parent array and retrieve it with it's children
+	 * 
+	 * @param array $comments array of comments parent 
+	 * @param integer $commentId id of comment to delete
+	 * @return array $coms array of comment child with it's children
+	 */
+	public function getChild($comments, $commentId){
+		$coms=[];
+		foreach ($comments as $comment) {
+			if (isset($comment->children)){
+				foreach ($comment->children as $child){
+					if ($child->id == $commentId)
+						$coms[$child->id] = $child;
+				}
+			}
+		}
+		return $coms;
+	}
+	
+	// Get a table that will contain the id list of any child comment
 	public function getChildrenIds($comments){
 		if (isset($comments->children)){
 			$ids=[];
