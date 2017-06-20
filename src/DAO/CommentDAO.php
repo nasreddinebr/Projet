@@ -7,11 +7,6 @@ use Doctrine\DBAL\Driver\SQLSrv\LastInsertId;
 class CommentDAO extends DAO {
 	
 	/**
-	 * @param array of object
-	 */
-	//private $comment_by_id;
-	
-	/**
 	 * @var \BlogEcrivain\DAO\PostDAO
 	 */
 	private $postDAO;
@@ -71,7 +66,6 @@ class CommentDAO extends DAO {
 			}
 			
 			//Initializes comment_by_id to use it later.
-			//$this->comment_by_id = $comments;
 			return $comments;
 		}		 					
 	}
@@ -212,8 +206,9 @@ class CommentDAO extends DAO {
 	
 	// Get a table that will contain the id list of any child comment
 	public function getChildrenIds($comments){
+		$ids=[];
 		if (isset($comments->children)){
-			$ids=[];
+			
 			foreach ($comments->children as $child) {
 				$ids[] = $child->id;
 				
@@ -226,8 +221,8 @@ class CommentDAO extends DAO {
 					$ids = array_merge($ids,$this->getChildrenIds($child));
 				}
 			}
-			return $ids;
 		}	
+		return $ids;
 	}
 	
 	/**
