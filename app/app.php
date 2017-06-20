@@ -43,10 +43,10 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
 		),
 		'security.access_rules' => array(
 				array('^/admin/moderator', 'ROLE_MODERATOR'),
-				//array('^/admin/comment/{id}/delete', 'ROLE_MODERATOR'),
+				array('^/admin/comment', 'ROLE_MODERATOR'),
 				array('^/admin/author', 'ROLE_AUTHOR'),
 				array('^/admin/post', 'ROLE_AUTHOR'),
-				array('^/admin/post/{id}/edit', 'ROLE_AUTHOR'),
+				//array('^/admin/post/{id}/edit', 'ROLE_AUTHOR'),
 				array('^/admin', 'ROLE_ADMIN'),
 		),		
 ));
@@ -78,7 +78,7 @@ $app['dao.media'] = function ($app) {
 };
 
 // Register error handler
-$app->error(function (\Exception $e, Request $request, $code) use ($app) {
+/*$app->error(function (\Exception $e, Request $request, $code) use ($app) {
 	switch ($code) {
 		case 403:
 			$message = 'Error: 403 Access denied.';
@@ -90,4 +90,4 @@ $app->error(function (\Exception $e, Request $request, $code) use ($app) {
 			$message = "Something went wrong.";
 	}
 	return $app['twig']->render('error.html.twig', array('message' => $message));
-});
+});*/

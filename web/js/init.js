@@ -35,11 +35,11 @@ jQuery(document).ready(function($){
 	})
 });
 
-//form.addEventListner("submit", function (event) {
-	setTimeout(function (){
-		message.style.display = "none";
-	}, 4000);
-//});
+
+setTimeout(function (){
+	message.style.display = "none";
+}, 4000);
+
 
 
    
