@@ -1,8 +1,12 @@
-# Redirect incoming URLs to index.php
-<IfModule mod_rewrite.c>
-    Options -MultiViews
+# BEGIN BlogEcrivain
 
-    RewriteEngine On
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [QSA,L]
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
 </IfModule>
+
+# END BlogEcrivain
