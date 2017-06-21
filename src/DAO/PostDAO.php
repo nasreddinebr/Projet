@@ -48,7 +48,7 @@ class PostDAO extends DAO {
 		if($row)
 			return $this->buildDomainObject($row);
 		else 
-			throw new \Exception("Aucun billet ne correspond a l'id: " . $id);
+			throw new \Exception("Aucun billet ne correspond à l'identifiant: " . $id);
 	}
 	
 	/**
@@ -64,7 +64,7 @@ class PostDAO extends DAO {
 		if($row)
 			return $this->buildDomainObject($row);
 			else
-				throw new \Exception("Aucun billet ne correspond a l'id: " . $id);
+				throw new \Exception("Aucun billet ne correspond à l'identifiant: " . $id);
 	}
 	
 	/**

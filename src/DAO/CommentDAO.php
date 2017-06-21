@@ -136,7 +136,7 @@ class CommentDAO extends DAO {
 			//The comment has been added: update it
 			$this->getDb()->update('comments', $commentData, array('id_comment' => $id));
 		}else {
-			throw new \Exception("Aucun commentaire ne correspond à l'id " . $id);
+			throw new \Exception("Aucun commentaire ne correspond à l'identifiant " . $id);
 		}
 	}
 	
@@ -151,7 +151,7 @@ class CommentDAO extends DAO {
 		if ($id) {
 			$this->getDb()->update('comments', $commentReport, array('id_comment' => $id));
 		} else {
-			throw new \Exception("Aucun commentaire ne correspond à l'id " . $id);
+			throw new \Exception("Aucun commentaire ne correspond à l'identifiant " . $id);
 		}
 	}
 	
@@ -212,8 +212,8 @@ class CommentDAO extends DAO {
 	
 	// Get a table that will contain the id list of any child comment
 	public function getChildrenIds($comments){
+		$ids=[];
 		if (isset($comments->children)){
-			$ids=[];
 			foreach ($comments->children as $child) {
 				$ids[] = $child->id;
 				
@@ -226,8 +226,8 @@ class CommentDAO extends DAO {
 					$ids = array_merge($ids,$this->getChildrenIds($child));
 				}
 			}
-			return $ids;
-		}	
+		}
+		return $ids;
 	}
 	
 	/**

@@ -12,6 +12,10 @@ body {
 	flex-direction: column;
 }
 
+.align{
+	text-align: justify;
+}
+
 #errorMessage {
 	padding-top: 30px;
 	padding-bottom: 10px;
