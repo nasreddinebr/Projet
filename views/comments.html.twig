@@ -1,6 +1,6 @@
 {% extends "template_backoffice.html.twig" %}
 {% set adminMenu = true %}
-{% block title %}List des Commentaire non lue{% endblock %}
+{% block title %}Liste des Commentaires non lus{% endblock %}
 {% block content %}	
 	
 	<div class="container">
@@ -20,7 +20,7 @@
                 <tr>
                 <th>Billets</th>
                 <th>Auteur</th>
-                <th>Contenue</th>
+                <th>Contenu</th>
                 <th>Actions</th>
                 </tr>
                 </thead>
@@ -63,7 +63,7 @@
                             {% endfor %}    	
                         {% else %}
                             <tr>
-                            	<td colspan="4" class="title">Tout les commentaires en été lu.</td>
+                            	<td colspan="4" class="title">Tous les commentaires ont été lus.</td>
                             </tr>
                         {% endif %}
                     </tbody>

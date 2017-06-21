@@ -43,7 +43,7 @@ $app->match('/post/{id}', function ($id, Request $req) use ($app){
 		 */
 		if ($commentForm->isSubmitted() && $commentForm->isValid()) {
 			$app['dao.comment']->addComment($comment);
-			$app['session']->getFlashBag()->add('success', 'Votre commentaire et enregistrer.');
+			$app['session']->getFlashBag()->add('success', 'Votre commentaire a été enregistré avec succès.');
 		}
 		$commentFormView = $commentForm->createView();
 	}
@@ -154,7 +154,7 @@ $app->match('/admin/post/add', function (Request $request) use ($app) {
 				// Add media to the DataBase
 				$app['dao.media']->addMedia($media);
 				
-				$app['session']->getFlashBag()->add('success','Le billet et enregistrer.');
+				$app['session']->getFlashBag()->add('success','Le billet a été enregistré avec succès.');
 			}else {
 				$app['session']->getFlashBag()->add('error','L\'extension du fichier est invalide veuillez sélectionner une image valide.');
 			}
@@ -192,7 +192,7 @@ $app->get('/admin/post/{id}/delete', function ($id, Request $request) use ($app)
 	
 	// Delete the post
 	$app['dao.post']->deletPost($id);
-	$app['session']->getFlashBag()->add('success', 'Le billet a été suprimer avec succès.');
+	$app['session']->getFlashBag()->add('success', 'Le billet a été suprimé avec succès.');
 	
 	//Redirecte to admin home page
 	return $app->redirect($app['url_generator']->generate('admin'));
@@ -219,7 +219,7 @@ $app->get('/post/{postid}/comment/{id}', function ($postid, $id, Request $reques
 
 	//Report a comment
 	$app['dao.comment']->reportComment($id);
-	$app['session']->getFlashBag()->add('success', 'Le commentaire à bien été signaler');
+	$app['session']->getFlashBag()->add('success', 'Le commentaire à bien été signalé');
 	return $app->redirect($app['url_generator']->generate('post', array('id' => $postid)));
 })->bind('report_comment');
 
@@ -259,14 +259,14 @@ $app->match('/admin/user/add', function (Request $request) use ($app) {
 		$userExist = $app['dao.user']->userExists($user);
 		$userExist = array_merge($userExist, $app['dao.user']->emailExists($user)) ;
 		if ($userExist['username_exist']) {
-			$app['session']->getFlashBag()->add('error', 'Le nom d\'utilisateur choisie exist déja, veuillez choisire un autre');
+			$app['session']->getFlashBag()->add('error', 'Le nom d\'utilisateur choisit existe déja, veuillez le modifier');
 		}else {
 			if ($userExist['email_exist']) {
-				$app['session']->getFlashBag()->add('error', 'Cette adresse E-mail exist déja, veuillez saisire une autre');
+				$app['session']->getFlashBag()->add('error', 'Cette adresse E-mail existe déja, veuillez en saisir une autre');
 			}else {
 				// Save the user if the username or the email did not already exist
 				$app['dao.user']->addUser($user);
-				$app['session']->getFlashBag()->add('success', 'l\'utilisateur à bien été enregistrer.');
+				$app['session']->getFlashBag()->add('success', 'l\'utilisateur à bien été enregistré.');
 			}
 		}		
 	}
@@ -306,7 +306,7 @@ $app->match('admin/user/{id}/delete', function ($id, Request $request) use ($app
 	$app['dao.post']->deletAllPostByUser($id);	
 	// Delete a user
 	$app['dao.user']->removeUser($id);
-	$app['session']->getFlashBag()->add('success', 'L\'utilisateur a été éliminé avec succès.');
+	$app['session']->getFlashBag()->add('success', 'L\'utilisateur a été supprimé avec succès.');
 	
 	// Redirect to admin home page
 	return $app->redirect($app['url_generator']->generate('user'));
@@ -336,10 +336,10 @@ $app->match('/signup/user', function (Request $request) use ($app) {
 		$userExist = $app['dao.user']->userExists($user);
 		$userExist = array_merge($userExist, $app['dao.user']->emailExists($user)) ;
 		if ($userExist['username_exist']) {
-			$app['session']->getFlashBag()->add('error', 'Le nom d\'utilisateur choisie exist déja, veuillez choisire un autre');
+			$app['session']->getFlashBag()->add('error', 'Le nom d\'utilisateur choisit existe déja, veuillez le modifier');
 		}else {
 			if ($userExist['email_exist']) {
-				$app['session']->getFlashBag()->add('error', 'Cette adresse E-mail exist déja, veuillez saisire une autre');
+				$app['session']->getFlashBag()->add('error', 'Cette adresse E-mail existe déja, veuillez en saisir une autre');
 			}else {
 				//Save the user if the username or the email did not already exist
 				$app['dao.user']->addUser($user);

@@ -7,6 +7,11 @@ use Doctrine\DBAL\Driver\SQLSrv\LastInsertId;
 class CommentDAO extends DAO {
 	
 	/**
+	 * @param array of object
+	 */
+	//private $comment_by_id;
+	
+	/**
 	 * @var \BlogEcrivain\DAO\PostDAO
 	 */
 	private $postDAO;
@@ -66,6 +71,7 @@ class CommentDAO extends DAO {
 			}
 			
 			//Initializes comment_by_id to use it later.
+			//$this->comment_by_id = $comments;
 			return $comments;
 		}		 					
 	}
@@ -130,7 +136,7 @@ class CommentDAO extends DAO {
 			//The comment has been added: update it
 			$this->getDb()->update('comments', $commentData, array('id_comment' => $id));
 		}else {
-			throw new \Exception("Aucun commentaire ne correspond à l'id " . $id);
+			throw new \Exception("Aucun commentaire ne correspond à l'identifiant " . $id);
 		}
 	}
 	
@@ -145,7 +151,7 @@ class CommentDAO extends DAO {
 		if ($id) {
 			$this->getDb()->update('comments', $commentReport, array('id_comment' => $id));
 		} else {
-			throw new \Exception("Aucun commentaire ne correspond à l'id " . $id);
+			throw new \Exception("Aucun commentaire ne correspond à l'identifiant " . $id);
 		}
 	}
 	
@@ -208,7 +214,6 @@ class CommentDAO extends DAO {
 	public function getChildrenIds($comments){
 		$ids=[];
 		if (isset($comments->children)){
-			
 			foreach ($comments->children as $child) {
 				$ids[] = $child->id;
 				
@@ -221,7 +226,7 @@ class CommentDAO extends DAO {
 					$ids = array_merge($ids,$this->getChildrenIds($child));
 				}
 			}
-		}	
+		}
 		return $ids;
 	}
 	

@@ -1,6 +1,6 @@
 {% extends "template_backoffice.html.twig" %}
 {% set adminMenu = true %}
-{% block title %}List des utilsateurs{% endblock %}
+{% block title %}Liste des utilisateurs{% endblock %}
 {% block content %}	
 	
 	<div class="container">
@@ -18,7 +18,7 @@
         		<h4>{{ block('title') }}</h4>
         	</div>
         	<div class="col s2 right-align">
-                <a href="{{ path('admin_user_add') }}" class="waves-effect waves-light btn light-blue"><i class="material-icons right">add</i>Nouveau utilsateur</a>
+                <a href="{{ path('admin_user_add') }}" class="waves-effect waves-light btn light-blue"><i class="material-icons right">add</i>Nouvel utilisateur</a>
             </div>
         	
             <table class="highlight">
@@ -62,7 +62,7 @@
                             {% endfor %}    	
                         {% else %}
                             <tr>
-                            	<td colspan="4" class="title">Aucun utilisateur trouver</td>
+                            	<td colspan="4" class="title">Aucun utilisateur trouvé</td>
                             </tr>
                         {% endif %}
                     </tbody>

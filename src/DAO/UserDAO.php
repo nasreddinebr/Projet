@@ -22,7 +22,7 @@ class UserDAO extends DAO implements UserProviderInterface {
 		if ($row)
 			return $this->buildDomainObject($row);
 		else
-			throw new \Exception("Aucun identifiant correspondant à l'id utilisateur" . $id);
+			throw new \Exception("Aucun utilisateur correspondant à l'identifiant: " . $id);
 	
 	}
 	
@@ -35,7 +35,7 @@ class UserDAO extends DAO implements UserProviderInterface {
 		if ($row){
 			return $this->buildDomainObject($row);
 		}else {
-			throw new UsernameNotFoundException(sprintf('Uilisateur "%s" non trouver.', $username));
+			throw new UsernameNotFoundException(sprintf('Uilisateur "%s" non trouvé.', $username));
 		}
 	}
 	
