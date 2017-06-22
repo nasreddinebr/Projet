@@ -2,8 +2,8 @@
 namespace BlogEcrivain\bin;
 
 class StopReturn {
-	
-	public function stopRepetitiveReturn() {
+	public function __construct(){
+	//public function stopRepetitiveReturn() {
 		
 		/**
 		* Stop the repetitive return of a form

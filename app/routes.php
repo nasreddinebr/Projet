@@ -49,7 +49,7 @@ $app->match('/post/{id}', function ($id, Request $req) use ($app){
 			
 			// Stop the repetitive return of a form
 			$stopReturn = new StopReturn();
-			$stopReturn->stopRepetitiveReturn();
+			
 		}
 		$commentFormView = $commentForm->createView();
 	}
@@ -164,7 +164,6 @@ $app->match('/admin/post/add', function (Request $request) use ($app) {
 				
 				// Stop the repetitive return of a form
 				$stopReturn = new StopReturn();
-				$stopReturn->stopRepetitiveReturn();
 				
 			}else {
 				$app['session']->getFlashBag()->add('error','L\'extension du fichier est invalide veuillez sélectionner une image valide.');
@@ -282,7 +281,6 @@ $app->match('/admin/user/add', function (Request $request) use ($app) {
 				
 				// Stop the repetitive return of a form
 				$stopReturn = new StopReturn();
-				$stopReturn->stopRepetitiveReturn();
 			}
 		}
 	}
