@@ -8,6 +8,8 @@ use BlogEcrivain\Form\Type\CommentWrite;
 use BlogEcrivain\Form\Type\PostWrite;
 use BlogEcrivain\Form\Type\UserAdminWrite;
 use BlogEcrivain\Form\Type\UserSignUp;
+use BlogEcrivain\bin\StopReturn;
+
 
 /**************************************************************************************/
 /**									  Front-Office				                 	 **/
@@ -45,15 +47,9 @@ $app->match('/post/{id}', function ($id, Request $req) use ($app){
 			$app['dao.comment']->addComment($comment);
 			$app['session']->getFlashBag()->add('success', 'Votre commentaire a été enregistré avec succès.');
 			
-			/**
-			 * Stop the repetitive return of a form
-			 */
-			// Recuperate the current URL
-			$curentURL = $_SERVER['REQUEST_URI'] ;
-			
-			// Browser redirection to url retrieved in variable $curentURL
-			header('Location: ' . $curentURL);
-			exit; //Finished the current script
+			// Stop the repetitive return of a form
+			$stopReturn = new StopReturn();
+			$stopReturn->stopRepetitiveReturn();
 		}
 		$commentFormView = $commentForm->createView();
 	}
@@ -166,19 +162,14 @@ $app->match('/admin/post/add', function (Request $request) use ($app) {
 				
 				$app['session']->getFlashBag()->add('success','Le billet a été enregistré avec succès.');
 				
-				/**
-				* Stop the repetitive return of a form
-				*/
-				// Recuperate the current URL
-				$curentURL = $_SERVER['REQUEST_URI'] ;
-				
-				// Browser redirection to url retrieved in variable $curentURL
-				header('Location: ' . $curentURL);
-				exit; //Finished the current script
+				// Stop the repetitive return of a form
+				$stopReturn = new StopReturn();
+				$stopReturn->stopRepetitiveReturn();
 				
 			}else {
 				$app['session']->getFlashBag()->add('error','L\'extension du fichier est invalide veuillez sélectionner une image valide.');
 			}
+			
 		}
 	}
 	return $app['twig']->render('post_form.html.twig', array(
@@ -278,18 +269,22 @@ $app->match('/admin/user/add', function (Request $request) use ($app) {
 		
 		//Check the existence of username and email
 		$userExist = $app['dao.user']->userExists($user);
-		$userExist = array_merge($userExist, $app['dao.user']->emailExists($user)) ;
+		$emailExist = array_merge($userExist, $app['dao.user']->emailExists($user)) ;
 		if ($userExist['username_exist']) {
 			$app['session']->getFlashBag()->add('error', 'Le nom d\'utilisateur choisit existe déja, veuillez le modifier');
 		}else {
-			if ($userExist['email_exist']) {
+			if ($emailExist['email_exist']) {
 				$app['session']->getFlashBag()->add('error', 'Cette adresse E-mail existe déja, veuillez en saisir une autre');
 			}else {
 				// Save the user if the username or the email did not already exist
 				$app['dao.user']->addUser($user);
 				$app['session']->getFlashBag()->add('success', 'l\'utilisateur à bien été enregistré.');
+				
+				// Stop the repetitive return of a form
+				$stopReturn = new StopReturn();
+				$stopReturn->stopRepetitiveReturn();
 			}
-		}		
+		}
 	}
 	return $app['twig']->render('user_admin_form.html.twig', array(
 			'title'		=> 'Nouveau utilisateur',
