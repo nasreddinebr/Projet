@@ -46,7 +46,6 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
 				array('^/admin/comment', 'ROLE_MODERATOR'),
 				array('^/admin/author', 'ROLE_AUTHOR'),
 				array('^/admin/post', 'ROLE_AUTHOR'),
-				//array('^/admin/post/{id}/edit', 'ROLE_AUTHOR'),
 				array('^/admin', 'ROLE_ADMIN'),
 		),		
 ));

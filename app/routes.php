@@ -44,6 +44,16 @@ $app->match('/post/{id}', function ($id, Request $req) use ($app){
 		if ($commentForm->isSubmitted() && $commentForm->isValid()) {
 			$app['dao.comment']->addComment($comment);
 			$app['session']->getFlashBag()->add('success', 'Votre commentaire a été enregistré avec succès.');
+			
+			/**
+			 * Stop the repetitive return of a form
+			 */
+			// Recuperate the current URL
+			$curentURL = $_SERVER['REQUEST_URI'] ;
+			
+			// Browser redirection to url retrieved in variable $curentURL
+			header('Location: ' . $curentURL);
+			exit; //Finished the current script
 		}
 		$commentFormView = $commentForm->createView();
 	}
@@ -155,6 +165,17 @@ $app->match('/admin/post/add', function (Request $request) use ($app) {
 				$app['dao.media']->addMedia($media);
 				
 				$app['session']->getFlashBag()->add('success','Le billet a été enregistré avec succès.');
+				
+				/**
+				* Stop the repetitive return of a form
+				*/
+				// Recuperate the current URL
+				$curentURL = $_SERVER['REQUEST_URI'] ;
+				
+				// Browser redirection to url retrieved in variable $curentURL
+				header('Location: ' . $curentURL);
+				exit; //Finished the current script
+				
 			}else {
 				$app['session']->getFlashBag()->add('error','L\'extension du fichier est invalide veuillez sélectionner une image valide.');
 			}
